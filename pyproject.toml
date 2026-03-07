@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["collatz*"]
+
+[project]
+name = "collatz"
+version = "0.1.0"
+description = "Computational exploration of the Collatz conjecture"
+requires-python = ">=3.11"
+dependencies = [
+    "gmpy2",
+    "numpy",
+    "matplotlib",
+    "scipy",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov",
+    "jupyter",
+]
+
+[tool.coverage.run]
+omit = [
+    "*/analysis/*",
+    "*/collatz/visualize.py",
+]

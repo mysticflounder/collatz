@@ -1,0 +1,271 @@
+{
+  "description": "Extended cycle search for modular Collatz map S(j)=(3j+1)/2^v mod 2^k",
+  "numba": true,
+  "k_range": [
+    25,
+    36
+  ],
+  "exceptional_set": [
+    35
+  ],
+  "results": [
+    {
+      "k": 25,
+      "mod": 33554432,
+      "n_residues": 16777216,
+      "regime": "A (stored)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 0.9,
+      "time_search_s": 5.97,
+      "time_total_s": 6.88,
+      "mem_gb": 0.09,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 26,
+      "mod": 67108864,
+      "n_residues": 33554432,
+      "regime": "A (stored)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 1.89,
+      "time_search_s": 11.25,
+      "time_total_s": 13.16,
+      "mem_gb": 0.19,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 27,
+      "mod": 134217728,
+      "n_residues": 67108864,
+      "regime": "A (stored)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 3.66,
+      "time_search_s": 22.95,
+      "time_total_s": 26.63,
+      "mem_gb": 0.38,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 28,
+      "mod": 268435456,
+      "n_residues": 134217728,
+      "regime": "A (stored)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 7.88,
+      "time_search_s": 45.81,
+      "time_total_s": 53.73,
+      "mem_gb": 0.75,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 29,
+      "mod": 536870912,
+      "n_residues": 268435456,
+      "regime": "A (stored)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 15.2,
+      "time_search_s": 92.07,
+      "time_total_s": 107.36,
+      "mem_gb": 1.5,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 30,
+      "mod": 1073741824,
+      "n_residues": 536870912,
+      "regime": "A (stored)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 30.23,
+      "time_search_s": 187.99,
+      "time_total_s": 218.42,
+      "mem_gb": 3.0,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 31,
+      "mod": 2147483648,
+      "n_residues": 1073741824,
+      "regime": "A (stored)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 60.62,
+      "time_search_s": 372.42,
+      "time_total_s": 433.4,
+      "mem_gb": 6.0,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 32,
+      "mod": 4294967296,
+      "n_residues": 2147483648,
+      "regime": "A (stored)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 119.82,
+      "time_search_s": 739.26,
+      "time_total_s": 859.85,
+      "mem_gb": 12.0,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 33,
+      "mod": 8589934592,
+      "n_residues": 4294967296,
+      "regime": "B (on-the-fly)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 0.0,
+      "time_search_s": 6637.79,
+      "time_total_s": 6638.24,
+      "mem_gb": 0.5,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 34,
+      "mod": 17179869184,
+      "n_residues": 8589934592,
+      "regime": "B (on-the-fly)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 0.0,
+      "time_search_s": 12871.26,
+      "time_total_s": 12871.35,
+      "mem_gb": 1.0,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    },
+    {
+      "k": 35,
+      "mod": 34359738368,
+      "n_residues": 17179869184,
+      "regime": "B (on-the-fly)",
+      "n_cycles": 2,
+      "rho": 0.43527528164806206,
+      "is_exceptional": true,
+      "time_build_s": 0.0,
+      "time_search_s": 25432.49,
+      "time_total_s": 25432.67,
+      "mem_gb": 2.0,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        },
+        {
+          "length": 5,
+          "mean_v": 1.2,
+          "rho": 0.43527528164806206,
+          "min_residue": 12285046119
+        }
+      ]
+    },
+    {
+      "k": 36,
+      "mod": 68719476736,
+      "n_residues": 34359738368,
+      "regime": "B (on-the-fly)",
+      "n_cycles": 1,
+      "rho": 0.25,
+      "is_exceptional": false,
+      "time_build_s": 0.0,
+      "time_search_s": 51361.49,
+      "time_total_s": 51361.89,
+      "mem_gb": 4.0,
+      "cycles": [
+        {
+          "length": 1,
+          "mean_v": 2.0,
+          "rho": 0.25,
+          "min_residue": 1
+        }
+      ]
+    }
+  ]
+}
