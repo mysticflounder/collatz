@@ -309,9 +309,9 @@ def section_3():
     print()
 
     k = 7  # 64x64 matrix
-    x_odd = list(range(1, 30, 2))
+    x_odd = [1, 3, 5, 7, 9, 11, 15, 21, 29]
 
-    fig, axes = plt.subplots(3, 5, figsize=(20, 12))
+    fig, axes = plt.subplots(3, 3, figsize=(14, 14))
     axes = axes.flatten()
 
     all_zeros = {}
@@ -334,25 +334,29 @@ def section_3():
 
         ax = axes[ax_idx]
         theta = np.linspace(0, 2 * np.pi, 100)
-        ax.plot(np.cos(theta), np.sin(theta), "k--", alpha=0.3)
+        ax.plot(np.cos(theta), np.sin(theta), "k-", alpha=0.4, linewidth=1.5)
         if len(zeros) > 0:
-            ax.scatter(zeros.real, zeros.imag, c="red", s=15, alpha=0.7)
-        ax.set_title(f"x={x}", fontsize=10)
+            ax.scatter(zeros.real, zeros.imag, c="#e41a1c", s=30, alpha=0.8,
+                       edgecolors="none", zorder=3)
+        title_weight = "bold" if x == 3 else "normal"
+        title_color = "#e41a1c" if x == 3 else "black"
+        ax.set_title(f"$x = {x}$", fontsize=13, fontweight=title_weight,
+                      color=title_color)
         ax.set_aspect("equal")
         ax.set_xlim(-5, 5)
         ax.set_ylim(-5, 5)
         ax.grid(True, alpha=0.2)
-        if ax_idx >= 10:
-            ax.set_xlabel("Re(z)")
-        if ax_idx % 5 == 0:
-            ax.set_ylabel("Im(z)")
+        ax.set_xlabel("Re$(z)$", fontsize=10)
+        ax.set_ylabel("Im$(z)$", fontsize=10)
+        if x == 3:
+            ax.patch.set_facecolor("#fff0f0")
 
     plt.suptitle(
-        f"Fredholm Zeros of det(I - zP(x)) for odd x (k={k})\n"
-        "All zeros outside unit circle => convergent dynamics",
-        fontsize=13,
+        r"Fredholm zeros of $\det(I - zP_k(x,1))$ for odd $x$ ($k = 7$)"
+        "\nAll zeros outside unit circle $\\Rightarrow$ convergent dynamics",
+        fontsize=14,
     )
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
     outpath = os.path.join(PLOT_DIR, "fredholm_zeros_flow.png")
     plt.savefig(outpath, dpi=150, bbox_inches="tight")
     plt.close()

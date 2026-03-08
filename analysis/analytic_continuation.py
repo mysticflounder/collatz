@@ -121,6 +121,45 @@ def v_sequence_general(n, x, y, max_steps=1000):
     return vs
 
 
+def find_cycles_general(x, y, max_start=5000, max_steps=5000):
+    """Find all cycles for the (x, y) Syracuse map."""
+    all_cycles = []
+    cycle_members = set()
+    for start in range(1, max_start, 2):
+        if start in cycle_members:
+            continue
+        n = start
+        visited = {}
+        for step in range(max_steps):
+            if n in visited:
+                cycle = []
+                m = n
+                while True:
+                    next_m, v = syracuse_general(m, x, y)
+                    if next_m is None:
+                        break
+                    cycle.append((m, v))
+                    m = next_m
+                    if m == n:
+                        break
+                if cycle:
+                    cycle_set = frozenset(e[0] for e in cycle)
+                    if cycle_set not in [
+                        frozenset(e[0] for e in c) for c in all_cycles
+                    ]:
+                        all_cycles.append(cycle)
+                        cycle_members.update(e[0] for e in cycle)
+                break
+            visited[n] = step
+            next_n, v = syracuse_general(n, x, y)
+            if next_n is None:
+                break
+            if next_n == 1 and x <= 3:
+                break
+            n = next_n
+    return all_cycles
+
+
 def autocorrelation(seq, max_lag=20):
     """Normalised autocorrelation for lags 1..max_lag."""
     x = np.array(seq, dtype=np.float64)
@@ -202,12 +241,15 @@ def section_2():
     print("=" * 72)
     print()
 
-    x_values = [1, 3, 5, 7, 9, 11, 13, 15]
-    k_values = [4, 5, 6, 7, 8]
+    x_values = list(range(1, 22, 2))  # odd x: 1,3,...,21
+    k_values = [4, 6, 8, 10, 12]
 
-    fig, ax = plt.subplots(figsize=(12, 7))
+    markers = ["o", "s", "D", "^", "v"]
+    colors = ["#377eb8", "#4daf4a", "#e41a1c", "#984ea3", "#ff7f00"]
 
-    for k in k_values:
+    fig, ax = plt.subplots(figsize=(12, 6))
+
+    for ki, k in enumerate(k_values):
         mod = 2**k
         odd_residues = list(range(1, mod, 2))
         n_states = len(odd_residues)
@@ -232,15 +274,25 @@ def section_2():
             eigenvalues = eig(mat, right=False)
             rho_list.append(np.max(np.abs(eigenvalues)))
 
-        ax.plot(x_values, rho_list, "o-", label=f"k={k}", markersize=6)
+        ax.scatter(
+            x_values, rho_list, marker=markers[ki], color=colors[ki],
+            s=40, zorder=3, label=f"$k = {k}$", edgecolors="none",
+        )
 
-    ax.axvline(x=4, color="gray", linestyle="--", alpha=0.5, label="Phase transition x=4")
-    ax.axhline(y=1, color="red", linestyle=":", alpha=0.5, label="ρ = 1")
-    ax.set_xlabel("x (multiplier)", fontsize=13)
-    ax.set_ylabel("Spectral radius ρ(x)", fontsize=13)
-    ax.set_title("Transfer Matrix Spectral Radius vs x (mod 2^k)", fontsize=14)
-    ax.legend(fontsize=10)
-    ax.grid(True, alpha=0.3)
+    ax.axvline(x=4, color="gray", linestyle="--", linewidth=1.5, alpha=0.6,
+               label="Phase transition $x = 4$")
+    ax.axhline(y=0.5, color="black", linestyle=":", linewidth=1, alpha=0.4,
+               label=r"$\rho = 1/2$")
+    ax.set_xlabel("Multiplier $x$", fontsize=12)
+    ax.set_ylabel(r"Spectral radius $\rho_k(x, 1)$", fontsize=12)
+    ax.set_title(
+        r"Spectral radius of $P_k(x, 1)$ for odd $x$", fontsize=13
+    )
+    ax.legend(fontsize=9, ncol=2, loc="upper left")
+    ax.set_xlim(0, 22)
+    ax.set_ylim(0, 0.55)
+    ax.set_xticks(x_values)
+    ax.grid(True, alpha=0.2)
 
     outpath = os.path.join(PLOT_DIR, "spectral_radius_vs_x.png")
     plt.tight_layout()
@@ -1037,6 +1089,84 @@ def section_9(vm_grid=None, growth_grid=None, pathlen_grid=None):
     print()
 
 
+def phase_diagram():
+    """Publication-quality phase diagram: convergence rate and cycle count."""
+    print("=" * 72)
+    print("PHASE DIAGRAM: Convergence in (x, y) parameter space")
+    print("=" * 72)
+    print()
+
+    x_vals = list(range(1, 22, 2))  # odd x: 1,3,...,21
+    y_vals = list(range(-9, 12, 2))  # odd y: -9,-7,...,11
+
+    conv_grid = np.zeros((len(x_vals), len(y_vals)))
+    cycle_grid = np.zeros((len(x_vals), len(y_vals)))
+
+    for ix, x in enumerate(x_vals):
+        for iy, y in enumerate(y_vals):
+            outcomes = Counter()
+            for n in range(3, 500, 2):
+                if x * n + y <= 0:
+                    outcomes["non-positive"] += 1
+                    continue
+                _, _, outcome = trajectory_general(n, x, y, max_steps=500)
+                outcomes[outcome] += 1
+            total = sum(outcomes.values())
+            if total > 0:
+                conv_grid[ix, iy] = (
+                    outcomes.get("converged", 0) + outcomes.get("cycle", 0)
+                ) / total
+                cycles = find_cycles_general(x, y, max_start=1000, max_steps=1000)
+                cycle_grid[ix, iy] = len(cycles)
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+
+    # Convergence heatmap
+    im1 = ax1.imshow(
+        conv_grid, aspect="auto", origin="lower", cmap="RdYlGn", vmin=0, vmax=1,
+    )
+    ax1.set_xticks(range(len(y_vals)))
+    ax1.set_xticklabels([f"${y:+d}$" for y in y_vals], fontsize=7)
+    ax1.set_yticks(range(len(x_vals)))
+    ax1.set_yticklabels([f"${x}$" for x in x_vals], fontsize=9)
+    ax1.set_xlabel("Offset $y$", fontsize=11)
+    ax1.set_ylabel("Multiplier $x$", fontsize=11)
+    ax1.set_title("Convergence fraction", fontsize=12)
+    # Highlight x=3 row (index 1)
+    ax1.axhline(y=1, color="white", linewidth=2.5, linestyle="--", alpha=0.9)
+    # Phase transition between x=3 (idx=1) and x=5 (idx=2)
+    ax1.axhline(y=1.5, color="cyan", linewidth=1.5, linestyle=":", alpha=0.7,
+                label="$x = 4$ boundary")
+    ax1.legend(fontsize=8, loc="upper right")
+    plt.colorbar(im1, ax=ax1, label="Fraction", shrink=0.85)
+
+    # Cycle count heatmap
+    im2 = ax2.imshow(
+        cycle_grid, aspect="auto", origin="lower", cmap="hot_r", vmin=0,
+    )
+    ax2.set_xticks(range(len(y_vals)))
+    ax2.set_xticklabels([f"${y:+d}$" for y in y_vals], fontsize=7)
+    ax2.set_yticks(range(len(x_vals)))
+    ax2.set_yticklabels([f"${x}$" for x in x_vals], fontsize=9)
+    ax2.set_xlabel("Offset $y$", fontsize=11)
+    ax2.set_ylabel("Multiplier $x$", fontsize=11)
+    ax2.set_title("Number of distinct cycles", fontsize=12)
+    ax2.axhline(y=1, color="cyan", linewidth=2.5, linestyle="--", alpha=0.9)
+    ax2.axhline(y=1.5, color="cyan", linewidth=1.5, linestyle=":", alpha=0.7)
+    plt.colorbar(im2, ax=ax2, label="Count", shrink=0.85)
+
+    plt.suptitle(
+        r"Phase diagram of $T(n) = (xn+y)/2^{v_2(xn+y)}$ for odd $(x, y)$",
+        fontsize=13,
+    )
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    outpath = os.path.join(PLOT_DIR, "phase_diagram.png")
+    plt.savefig(outpath, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"  Saved: {outpath}")
+    print()
+
+
 # ===================================================================
 # MAIN
 # ===================================================================
@@ -1050,6 +1180,7 @@ if __name__ == "__main__":
     section_7()
     growth_grid, pathlen_grid = section_8()
     section_9(vm_grid=vm_grid, growth_grid=growth_grid, pathlen_grid=pathlen_grid)
+    phase_diagram()
     print("=" * 72)
-    print("ANALYSIS COMPLETE — All 9 sections finished")
+    print("ANALYSIS COMPLETE — All sections finished")
     print("=" * 72)

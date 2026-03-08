@@ -681,14 +681,14 @@ def enumerate_ghost_types(l_max=8):
     return ghost_types
 
 
-def scan_e_membership_full():
-    """Determine E membership for k=3..200, collecting ALL ghosts per k.
+def scan_e_membership_full(k_max=200):
+    """Determine E membership for k=3..k_max, collecting ALL ghosts per k.
 
     Unlike scan_e_membership() which breaks early, this collects every
     ghost type found at each k for use in timeline and scatter plots.
     """
     print("=" * 60)
-    print("FULL SCAN: E membership with all ghost types, k=3..200")
+    print(f"FULL SCAN: E membership with all ghost types, k=3..{k_max}")
     print("=" * 60)
 
     from itertools import product as iter_product
@@ -710,7 +710,7 @@ def scan_e_membership_full():
 
     e_details = {}  # k -> list of (L, V, D, pat, rho)
 
-    for k in range(3, 201):
+    for k in range(3, k_max + 1):
         ghosts_at_k = []
         for (big_l, big_v), pats in lv_patterns.items():
             if big_v >= k:
@@ -725,11 +725,14 @@ def scan_e_membership_full():
             e_details[k] = ghosts_at_k
 
     e_members = sorted(e_details.keys())
-    print(f"  E ∩ [3,200] (L<=8) = {e_members}")
-    print(f"  |E ∩ [3,200]| = {len(e_members)}")
+    print(f"  E ∩ [3,{k_max}] (L<=8) = {e_members}")
+    print(f"  |E ∩ [3,{k_max}]| = {len(e_members)}")
     if e_members:
-        density = len([k for k in e_members if k >= 37]) / 164
-        print(f"  Density in [37,200] = {density:.3f}")
+        low = max(37, min(e_members))
+        high = k_max
+        count_ge37 = len([k for k in e_members if k >= 37])
+        span = high - 37 + 1
+        print(f"  Density in [37,{k_max}] = {count_ge37}/{span} = {count_ge37/span:.3f}")
         for k in e_members[:10]:
             n_ghosts = len(e_details[k])
             best = min(e_details[k], key=lambda x: -x[4])
@@ -744,8 +747,9 @@ def scan_e_membership_full():
 def compute_density_bounds(ghost_types):
     """Compute δ(E) = 1 - ∏(1 - r/p) from known ghost types.
 
-    Deduplicates by D value: cyclic rotations of the same orbit appear at
-    the same k values, so each distinct D contributes once to density.
+    Deduplicates by D value: different v-pattern classes with the same D
+    may appear at different k values, so r is the union of residue classes
+    across all rotation classes per D.
 
     Args:
         ghost_types: list of dicts from enumerate_ghost_types()
@@ -756,15 +760,24 @@ def compute_density_bounds(ghost_types):
     print("DENSITY: Exceptional set density from ghost types")
     print("=" * 60)
 
-    # Deduplicate by D: take max r across all rotation classes per D
-    d_map = {}
+    # Deduplicate by D: union residue classes across all rotation classes per D
+    d_residues = {}  # D -> set of residue classes
+    d_rep = {}  # D -> representative ghost info
     for g in ghost_types:
         if g.get("period") and g.get("r", 0) > 0:
             d_val = g["D"]
-            if d_val not in d_map or g["r"] > d_map[d_val]["r"]:
-                d_map[d_val] = g
+            if d_val not in d_residues:
+                d_residues[d_val] = set()
+                d_rep[d_val] = g
+            d_residues[d_val].update(g.get("residue_classes", []))
 
-    unique_ghosts = sorted(d_map.values(), key=lambda x: abs(x["D"]))
+    # Build unique_ghosts with corrected r from union of residue classes
+    unique_ghosts = []
+    for d_val in sorted(d_residues.keys(), key=abs):
+        g = dict(d_rep[d_val])
+        g["r"] = len(d_residues[d_val])
+        g["residue_classes"] = sorted(d_residues[d_val])
+        unique_ghosts.append(g)
 
     if not unique_ghosts:
         print("  No appearing ghost types found.\n")
@@ -818,15 +831,18 @@ def compute_density_bounds(ghost_types):
 
 
 def plot_ghost_timeline(e_data):
-    """Plot ghost timeline: which ghost types appear at each k in [3,200].
+    """Plot ghost timeline: which ghost types appear at each k.
 
     Args:
         e_data: dict from scan_e_membership_full(), k -> list of (L,V,D,pat,rho)
     """
     import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
+
+    k_max = max(e_data.keys()) if e_data else 200
 
     print("=" * 60)
-    print("PLOT: Ghost timeline (k=3..200)")
+    print(f"PLOT: Ghost timeline (k=3..{k_max})")
     print("=" * 60)
 
     # Collect all distinct D values (ghost types)
@@ -838,75 +854,102 @@ def plot_ghost_timeline(e_data):
     d_to_row = {d: i for i, d in enumerate(d_values)}
 
     colors = {
-        -601: "#e41a1c",
         -179: "#377eb8",
-        -5537: "#4daf4a",
+        -601: "#e41a1c",
         -1675: "#984ea3",
+        -1931: "#a65628",
+        -5537: "#4daf4a",
+        -6049: "#f781bf",
     }
     default_color = "#ff7f00"
 
-    fig, ax = plt.subplots(figsize=(16, max(4, len(d_values) * 0.6 + 2)))
+    fig, ax = plt.subplots(figsize=(16, max(4, len(d_values) * 0.7 + 2)))
 
     for k, ghosts in e_data.items():
         for _l, _v, d, _pat, rho in ghosts:
             row = d_to_row[d]
             c = colors.get(d, default_color)
-            ax.scatter(k, row, color=c, s=20, zorder=3, edgecolors="none")
+            ax.scatter(k, row, color=c, s=30, zorder=3, edgecolors="none")
 
     # E ∩ [3,36] exhaustive markers on a separate row
     exhaustive_e = {10, 11, 12, 20, 35}
     exhaust_row = len(d_values)
     for k in exhaustive_e:
         if k not in e_data:
-            ax.scatter(k, exhaust_row, color="gray", s=30, marker="s", zorder=3)
+            ax.scatter(k, exhaust_row, color="gray", s=40, marker="s", zorder=3)
 
-    ax.set_xlabel("k")
-    ax.set_ylabel("Ghost type (D)")
-    ax.set_title("Ghost cycle appearances by level k")
+    ax.set_xlabel("$k$ (truncation level)", fontsize=11)
+    ax.set_ylabel("Ghost type ($D = 2^V - 3^L$)", fontsize=11)
+    ax.set_title("Ghost cycle appearances by level $k$", fontsize=13)
 
-    ytick_labels = [f"D={d}" for d in d_values] + ["exhaustive E"]
+    ytick_labels = [f"$D = {d}$" for d in d_values] + ["exhaustive only"]
     ax.set_yticks(range(len(ytick_labels)))
-    ax.set_yticklabels(ytick_labels, fontsize=8)
-    ax.set_xlim(1, 202)
-    ax.grid(True, alpha=0.3)
+    ax.set_yticklabels(ytick_labels, fontsize=9)
+    ax.set_xlim(1, k_max + 2)
+    ax.grid(True, alpha=0.2)
 
-    # Period boundary vertical lines for main ghosts
-    period_info = {-601: 25, -179: 178}
+    # k=36 boundary: end of exhaustive search
+    ax.axvline(36, color="black", linestyle="--", linewidth=1.5, alpha=0.5)
+    ax.text(37, exhaust_row + 0.3, "$k = 36$ (exhaustive limit)",
+            fontsize=8, va="bottom", color="black", alpha=0.7)
+
+    # Period boundary vertical lines for ghosts with short periods
+    period_info = {-601: 25, -5537: 84, -179: 178}
     for d_val, period in period_info.items():
         if d_val in d_to_row:
-            for mult in range(1, 201 // period + 1):
+            for mult in range(1, k_max // period + 1):
                 ax.axvline(
                     mult * period, color=colors.get(d_val, "gray"),
-                    alpha=0.15, linestyle="--", linewidth=0.8
+                    alpha=0.12, linestyle="--", linewidth=0.8,
                 )
 
+    # Legend
+    legend_elements = []
+    for d_val in d_values:
+        c = colors.get(d_val, default_color)
+        legend_elements.append(
+            Line2D([0], [0], marker="o", color="w", markerfacecolor=c,
+                   markersize=7, label=f"$D = {d_val}$")
+        )
+    legend_elements.append(
+        Line2D([0], [0], marker="s", color="w", markerfacecolor="gray",
+               markersize=7, label="exhaustive only")
+    )
+    ax.legend(handles=legend_elements, fontsize=8, loc="upper right", ncol=2)
+
     plt.tight_layout()
-    plt.savefig("analysis/ghost_timeline.png", dpi=150)
+    plt.savefig("analysis/ghost_timeline.png", dpi=150, bbox_inches="tight")
     plt.close()
     print("  Saved to analysis/ghost_timeline.png\n")
 
 
 def plot_rho_scatter(e_data):
-    """Scatter plot of (k, ρ_k) for k=3..200.
+    """Scatter plot of (k, ρ_k) showing spectral radius behavior.
 
     Args:
         e_data: dict from scan_e_membership_full()
     """
     import json
     import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
+
+    k_max = max(max(e_data.keys()), 200) if e_data else 200
 
     print("=" * 60)
-    print("PLOT: Spectral radius scatter (k=3..200)")
+    print(f"PLOT: Spectral radius scatter (k=3..{k_max})")
     print("=" * 60)
 
     ks = []
     rhos = []
     color_list = []
+    ghost_labels = {}  # D -> color for legend
     color_map = {
-        -601: "#e41a1c",
         -179: "#377eb8",
-        -5537: "#4daf4a",
+        -601: "#e41a1c",
         -1675: "#984ea3",
+        -1931: "#a65628",
+        -5537: "#4daf4a",
+        -6049: "#f781bf",
     }
 
     # Try to load cycle_search_results.json for k<=36
@@ -919,7 +962,7 @@ def plot_rho_scatter(e_data):
     except (FileNotFoundError, json.JSONDecodeError):
         pass
 
-    for k in range(3, 201):
+    for k in range(3, k_max + 1):
         if k in exhaustive_rho:
             rho_k = exhaustive_rho[k]
         elif k in e_data:
@@ -932,32 +975,62 @@ def plot_rho_scatter(e_data):
 
         if k in e_data:
             best_ghost = max(e_data[k], key=lambda x: x[4])
-            color_list.append(color_map.get(best_ghost[2], "#ff7f00"))
+            d_val = best_ghost[2]
+            c = color_map.get(d_val, "#ff7f00")
+            color_list.append(c)
+            ghost_labels[d_val] = c
         elif rho_k > 0.25:
             color_list.append("#ff7f00")
         else:
-            color_list.append("#999999")
+            color_list.append("#cccccc")
 
     fig, ax = plt.subplots(figsize=(14, 6))
-    ax.scatter(ks, rhos, c=color_list, s=12, zorder=3, edgecolors="none")
+    ax.scatter(ks, rhos, c=color_list, s=18, zorder=3, edgecolors="none")
 
     # Reference lines
-    ax.axhline(0.25, color="black", linestyle="--", linewidth=1, alpha=0.5, label="1/4")
-    rho_601 = 2 ** (-7 / 6)
+    ax.axhline(0.25, color="black", linestyle="--", linewidth=1, alpha=0.4,
+               label=r"$\rho = 1/4$ (trivial)")
+    rho_6049 = 2 ** (-9 / 8)
     ax.axhline(
-        rho_601, color="#e41a1c", linestyle=":", linewidth=1, alpha=0.5,
-        label=f"$2^{{-7/6}}$ = {rho_601:.4f}"
+        rho_6049, color="#f781bf", linestyle=":", linewidth=1.2, alpha=0.5,
+        label=rf"$2^{{-9/8}} \approx {rho_6049:.4f}$"
     )
+    ax.axhline(0.5, color="gray", linestyle="-.", linewidth=1, alpha=0.3,
+               label=r"$\rho = 1/2$")
 
-    ax.set_xlabel("k")
-    ax.set_ylabel("ρ_k (spectral radius)")
-    ax.set_title("Spectral radius of transfer matrix P_k")
-    ax.legend(fontsize=9)
-    ax.set_xlim(1, 202)
-    ax.grid(True, alpha=0.3)
+    # k=36 boundary
+    ax.axvline(36, color="black", linestyle="--", linewidth=1, alpha=0.3)
+    ax.text(37, 0.48, "$k = 36$", fontsize=8, alpha=0.5)
+
+    ax.set_xlabel("$k$ (truncation level)", fontsize=11)
+    ax.set_ylabel(r"$\rho_k$ (spectral radius of $P_k$)", fontsize=11)
+    ax.set_title(r"Spectral radius of transfer matrix $P_k(3, 1)$", fontsize=13)
+    ax.set_xlim(1, k_max + 2)
+    ax.set_ylim(0.22, 0.52)
+    ax.grid(True, alpha=0.2)
+
+    # Ghost type legend
+    legend_elements = [
+        ax.get_legend_handles_labels()[0][i]
+        for i in range(len(ax.get_legend_handles_labels()[0]))
+    ]
+    legend_labels = ax.get_legend_handles_labels()[1]
+    for d_val in sorted(ghost_labels.keys(), key=abs):
+        legend_elements.append(
+            Line2D([0], [0], marker="o", color="w",
+                   markerfacecolor=ghost_labels[d_val], markersize=7,
+                   label=f"$D = {d_val}$")
+        )
+        legend_labels.append(f"$D = {d_val}$")
+    legend_elements.append(
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="#cccccc",
+               markersize=7, label=r"$\rho_k = 1/4$")
+    )
+    legend_labels.append(r"$\rho_k = 1/4$")
+    ax.legend(handles=legend_elements, fontsize=8, loc="upper right", ncol=2)
 
     plt.tight_layout()
-    plt.savefig("analysis/rho_scatter.png", dpi=150)
+    plt.savefig("analysis/rho_scatter.png", dpi=150, bbox_inches="tight")
     plt.close()
     print("  Saved to analysis/rho_scatter.png\n")
 
@@ -1080,7 +1153,7 @@ if __name__ == "__main__":
     ghost_types = enumerate_ghost_types(l_max=8)
     classify_all_known_ghosts()
     density = compute_density_bounds(ghost_types)
-    e_full = scan_e_membership_full()
+    e_full = scan_e_membership_full(k_max=300)
     plot_ghost_timeline(e_full)
     plot_rho_scatter(e_full)
 

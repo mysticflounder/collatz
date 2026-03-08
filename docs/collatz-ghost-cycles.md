@@ -16,9 +16,10 @@ abstract: |
   modular pattern exactly, and case (b), where they do not. Case-(a) ghosts reappear at
   arithmetic progressions $k \equiv k_0 \pmod{\mathrm{ord}_2(|D|)}$, making $E$ infinite
   with natural density $\geq 4\%$. This falsifies our earlier conjecture that $E$ has
-  density zero and $\rho_k \to 1/4$. We identify four case-(a) ghost types with short cycles ($L \leq 8$) through
-  $k = 200$ and propose replacement conjectures for the density of $E$ and the spectral
-  behavior of the transfer matrices. All computations are reproducible from the
+  density zero and $\rho_k \to 1/4$. We identify six case-(a) ghost types with short
+  cycles ($L \leq 8$) through $k = 200$, including a $V = L + 1$ family whose spectral
+  radii approach $1/2$, and propose replacement conjectures for the density of $E$ and
+  the spectral behavior of the transfer matrices. All computations are reproducible from the
   accompanying open-source repository.
 documentclass: article
 fontsize: 11pt
@@ -281,16 +282,21 @@ modular cycle exists only at levels $k$ where the extra bits are not yet visible
 |-----|-----|-----|-------------|---------------|------|-----|---------|
 | $-179$ | 5 | 6 | $(2,1,1,1,1)$ | $-341/179$ | $178$ | $3$ | $0.4353$ |
 | $-601$ | 6 | 7 | $(1,1,1,1,1,2)$ | $-665/601$ | $25$ | $1$ | $0.4454$ |
+| $-1675$ | 7 | 9 | $(1,1,1,1,1,1,3)$ | $-2059/1675$ | $660$ | $9$ | $0.4102$ |
+| $-1931$ | 7 | 8 | $(1,1,1,1,1,1,2)$ | $-2059/1931$ | $1930$ | $5$ | $0.4529$ |
 | $-5537$ | 8 | 10 | $(1,1,1,1,1,1,1,3)$ | $-6305/5537$ | $84$ | $2$ | $0.4204$ |
-| $-1675$ | 7 | 9 | $(1,1,1,1,1,1,3)$ | $-2059/1675$ | $660$ | $3$ | $0.4102$ |
+| $-6049$ | 8 | 9 | $(1,1,1,1,1,1,1,2)$ | $-6305/6049$ | $1441$ | $10$ | $0.4585$ |
 
-: Known case-(a) ghost types. $v$-patterns are listed up to cyclic rotation. Period
-$p = \mathrm{ord}_2(|D|)$ and $r$ is the number of residue classes mod $p$ at which
-the ghost appears. All $v$-patterns have the form $(1, \ldots, 1, V-L+1)$: the
-"excess valuation" $V - L + 1$ concentrates in a single step.
+: Known case-(a) ghost types. $v$-patterns are listed up to cyclic rotation, sorted by
+$|D|$. Period $p = \mathrm{ord}_2(|D|)$ and $r$ is the number of residue classes mod $p$
+at which the ghost appears. All $v$-patterns have the form $(1, \ldots, 1, V-L+1)$: the
+"excess valuation" $V - L + 1$ concentrates in a single step. The four ghosts with
+$V = L + 1$ (marked by $V - L + 1 = 2$) form the $V = L + 1$ family, whose spectral
+radii $\rho = 2^{-(L+1)/L} \to 1/2$ as $L \to \infty$.
 
-The $D = -601$ ghost ($L = 6$, $V = 7$) has $\rho = 2^{-7/6} \approx 0.4454$ and
-reappears at every $k \equiv 12 \pmod{25}$: verified at $k = 12, 37, 62, 87, \ldots, 187$.
+The $D = -6049$ ghost ($L = 8$, $V = 9$) has $\rho = 2^{-9/8} \approx 0.4585$, the
+largest known spectral radius. The $D = -601$ ghost ($L = 6$, $V = 7$) reappears at
+every $k \equiv 12 \pmod{25}$: verified at $k = 12, 37, 62, 87, \ldots, 187$.
 All orbit elements are negative rationals (e.g., $\tilde{n}_1 = -665/601 \approx -1.107$).
 
 ### Baker--Wüstholz Bounds
@@ -340,22 +346,22 @@ The $D = -601$ ghost (case (a), $L = 6$, $V = 7$) reappears at every
 $k \equiv 12 \pmod{25}$, contributing $\rho \geq 2^{-7/6} \approx 0.445$ at
 infinitely many levels. This alone gives $\delta(E) \geq 1/25 = 4\%$.
 
-Empirically, $|E \cap [37, 200]| / 164 \approx 12\%$, with at least four distinct
-case-(a) ghost types contributing. The "growing gaps" pattern observed in $[3, 36]$ was
-an artifact of the short search range: beyond $k = 36$, ghost reappearances fill in
-the gaps.
+Empirically, $|E \cap [3, 200]| = 24$ and $|E \cap [37, 200]| / 164 \approx 12\%$,
+with six distinct case-(a) ghost types contributing. The "growing gaps" pattern
+observed in $[3, 36]$ was an artifact of the short search range: beyond $k = 36$,
+ghost reappearances fill in the gaps.
 
 The Borel--Cantelli heuristic $P(k \in E) \sim k^2 \cdot 2^{-k}$ was wrong because it
 treated ghost appearances as independent events. Case-(a) ghosts are deterministic:
 once identified, their reappearance pattern is exactly periodic.
 
 Figure~\ref{fig:ghost_timeline} shows the ghost reappearance pattern across $k = 3$
-to $200$. Beyond the exhaustive search boundary ($k = 36$), the four known ghost types
-account for 17 of the 20 exceptional levels in $[3, 200]$. The remaining three
-($k = 10, 11, 20$, all within the exhaustive search range)
-are case-(a) ghosts with long cycles ($L = 26, 25, 22$ respectively) and very large
-denominators ($|D| > 10^{10}$), giving periods $p = \mathrm{ord}_2(|D|) > 10^5$; they
-reappear too rarely to be observed in the range $k \leq 200$.
+to $200$. The six known ghost types account for 21 of the 24 exceptional levels in
+$[3, 200]$. The remaining three ($k = 10, 11, 20$, all within the exhaustive search
+range) are case-(a) ghosts with long cycles ($L = 26, 25, 22$ respectively) and very
+large denominators ($|D| > 10^{10}$), giving periods
+$p = \mathrm{ord}_2(|D|) > 10^5$; they reappear too rarely to be observed in the range
+$k \leq 200$.
 
 \begin{figure}[ht]
 \centering
@@ -383,19 +389,28 @@ $\mathcal{G}$ appears. If two ghost types have periods sharing a common factor,
 an inclusion-exclusion correction is needed.
 \end{conjecture}
 
-From the four known ghost types, the formula gives
-$\delta(E) \geq 1 - (24/25)(175/178)(82/84)(657/660) \approx 8.3\%$.
-We note that $\gcd(p_{-601}, p_{-1675}) = \gcd(25, 660) = 5$, so the coprime
-assumption is not exactly satisfied; the $8.3\%$ figure is therefore approximate,
-though the qualitative conclusion ($\delta(E) > 0$) is unaffected --- the
-$D = -601$ ghost alone gives $\delta(E) \geq 1/25 = 4\%$ unconditionally.
-The empirical density $\approx 12\%$ suggests additional ghost types exist.
+From the six known ghost types (Table~3), the formula gives
+$\delta(E) \geq 1 - \frac{24}{25} \cdot \frac{175}{178} \cdot \frac{651}{660} \cdot
+\frac{1925}{1930} \cdot \frac{82}{84} \cdot \frac{1431}{1441} \approx 10.0\%$.
+Here $r_{-1675} = 9$ counts the total residue classes across all $v$-pattern
+types with $D = -1675$ (three distinct non-rotation composition families each
+contributing three residue classes).
+We note that several period pairs share common factors (e.g.,
+$\gcd(25, 660) = 5$), so the coprime assumption is not exactly satisfied; the
+$10.0\%$ figure is therefore approximate, though the qualitative conclusion
+($\delta(E) > 0$) is unaffected --- the $D = -601$ ghost alone gives
+$\delta(E) \geq 1/25 = 4\%$ unconditionally.
+The $V = L + 1$ family produces additional ghost types at larger $L$
+(Section~4.4), suggesting further contributions to $\delta(E)$.
 
 \begin{conjecture}[Spectral Radius]
 The spectral radius of the transfer matrices satisfies
 $$\limsup_{k \to \infty} \rho_k = \max\left(\frac{1}{4}, \; \sup_{\mathcal{G}} 2^{-V_{\mathcal{G}}/L_{\mathcal{G}}}\right),$$
 where the supremum is over all case-(a) ghost types. The maximum with $1/4$ accounts
-for the fixed point $\{1\}$. From the known ghosts, $\limsup \rho_k \geq 2^{-7/6} \approx 0.4454$.
+for the fixed point $\{1\}$. From the known ghosts, $\limsup \rho_k \geq 2^{-9/8} \approx 0.4585$
+(from $D = -6049$). The $V = L + 1$ ghost family gives $\rho = 2^{-(L+1)/L} \to 1/2$
+as $L \to \infty$; computational evidence (ghosts appearing at $L = 6, 7, 8, 10, 12,
+13, 14, 15$) suggests $\limsup \rho_k = 1/2$.
 \end{conjecture}
 
 \begin{conjecture}[Negative Rationality]

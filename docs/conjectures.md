@@ -49,7 +49,7 @@ The ghost at k=12 (L=6, V=7, D=-601) is case (a) of the persistence theorem: a t
 | 112 | L=6, V=7 | -601 | 0.4454 |
 | ... | ... | ... | ... |
 
-Similarly, D=-179 (L=5, V=6) reappears at k=35, 71, 142 (all 5 cyclic rotations). D=-5537 (L=8, V=10) reappears at k=42, 85, 126, 169. D=-1675 (L=7, V=9) at k=95, 106, 165, 180.
+Similarly, D=-179 (L=5, V=6) reappears at k=35, 71, 142 (period 178, r=3). D=-5537 (L=8, V=10) reappears at k=42, 85, 126, 169 (period 84, r=2). D=-1675 (L=7, V=9) at k=12, 95, 106, 165, 189, 200, 448, 542, 661 (period 660, r=9 across 3 composition families). D=-1931 (L=7, V=8) at k=275 (period 1930, r=5). D=-6049 (L=8, V=9) at k=180 (period 1441, r=10).
 
 Complete scan of E ∩ [37,200] (checking L≤8 ghost types) finds 19 members. Density ≈ 12%.
 
