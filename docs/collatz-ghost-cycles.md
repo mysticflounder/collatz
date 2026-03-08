@@ -533,7 +533,7 @@ paper use dense computation only.
 ## Verification
 
 All results for $k = 3, \ldots, 24$ are verified against a separate implementation
-(99 unit tests checking cycle counts, lengths, and spectral radii). Ghost cycle
+(113 unit tests checking cycle counts, lengths, and spectral radii). Ghost cycle
 persistence is verified algebraically: for each known ghost type, the rational orbit
 $\tilde{n}_1 = R/D$ is computed exactly and the case-(a) valuation conditions are
 checked. Arithmetic progression reappearance is confirmed through $k = 200$.
