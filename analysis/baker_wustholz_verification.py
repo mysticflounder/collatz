@@ -432,6 +432,536 @@ def scan_d601_complete():
     return ghost_levels
 
 
+def v2(n):
+    """2-adic valuation of integer n (number of times 2 divides n)."""
+    if n == 0:
+        return float("inf")
+    count = 0
+    while n % 2 == 0:
+        n //= 2
+        count += 1
+    return count
+
+
+def classify_ghost(v_pattern):
+    """Classify a ghost cycle as case (a) or case (b).
+
+    Case (a): v₂(3ñ_i + 1) = v_i for all orbit elements (persistent ghost).
+    Case (b): some v₂(3ñ_i + 1) ≠ v_i (transient ghost).
+
+    Returns dict with 'classification', 'details', 'D', 'rational_orbit'.
+    """
+    pat = list(v_pattern)
+    big_l = len(pat)
+    big_v = sum(pat)
+    d = 2**big_v - 3**big_l
+
+    if d == 0:
+        return {"classification": "degenerate", "D": 0, "details": "D=0"}
+
+    # Compute R_i values: the rational orbit numerators
+    # n_tilde_1 = R / D where R = sum_{i=0}^{L-1} 3^{L-1-i} * 2^{S_i}
+    # and S_i = v_1 + ... + v_i, S_0 = 0
+    # Then n_tilde_{i+1} = (3*n_tilde_i + 1) / 2^{v_i}
+    r_total = 0
+    s_i = 0
+    for i in range(big_l):
+        r_total += (3 ** (big_l - 1 - i)) * (2**s_i)
+        s_i += pat[i]
+
+    # Rational orbit: n_tilde_i = R_i / D
+    # Start: R_1 = r_total (so n_tilde_1 = r_total / D)
+    # Step: n_tilde_{i+1} = (3*n_tilde_i + 1) / 2^{v_i}
+    #   = (3*R_i/D + 1) / 2^{v_i} = (3*R_i + D) / (D * 2^{v_i})
+    # So R_{i+1} = (3*R_i + D) / 2^{v_i}  (this must be integer since D is odd)
+
+    orbit_r = [r_total]
+    r_cur = r_total
+    mismatches = []
+    for i in range(big_l):
+        numerator = 3 * r_cur + d
+        actual_v = v2(numerator)
+        if actual_v != pat[i]:
+            mismatches.append(
+                {"i": i, "expected_v": pat[i], "actual_v": actual_v}
+            )
+        r_cur = numerator >> pat[i]
+        if i < big_l - 1:
+            orbit_r.append(r_cur)
+
+    classification = "case-a" if len(mismatches) == 0 else "case-b"
+    rho = 2 ** (-big_v / big_l)
+
+    return {
+        "classification": classification,
+        "D": d,
+        "L": big_l,
+        "V": big_v,
+        "rho": rho,
+        "v_pattern": tuple(pat),
+        "mismatches": mismatches,
+        "n_tilde_1": f"{r_total}/{d}",
+    }
+
+
+def classify_all_known_ghosts():
+    """Run classification on all known ghost (L,V) pairs and print summary.
+
+    Groups by (L,V,D) to avoid repeating cyclic rotations.
+    Note: all compositions are algebraically case-(a) because the cycle
+    equation construction guarantees v₂(3R_i + D) = v_i.
+    """
+    print("=" * 60)
+    print("CLASSIFICATION: Ghost cycle case (a)/(b) for L<=8")
+    print("=" * 60)
+
+    from itertools import product as iter_product
+
+    total = 0
+    d_seen = {}  # D -> (L, V, classification, period)
+    for big_l in range(2, 9):
+        for big_v in range(big_l + 1, 2 * big_l):
+            d = 2**big_v - 3**big_l
+            for combo in iter_product(range(1, big_v), repeat=big_l):
+                if sum(combo) != big_v:
+                    continue
+                total += 1
+                if d not in d_seen:
+                    info = classify_ghost(combo)
+                    period = ord_2_mod(abs(d)) if d != 0 else None
+                    d_seen[d] = {
+                        "L": big_l, "V": big_v,
+                        "classification": info["classification"],
+                        "rho": info["rho"], "period": period,
+                    }
+
+    case_a = [v for v in d_seen.values() if v["classification"] == "case-a"]
+    case_b = [v for v in d_seen.values() if v["classification"] == "case-b"]
+    print(f"  Total v-patterns examined: {total}")
+    print(f"  Distinct D values: {len(d_seen)}")
+    print(f"  Case (a) [all v₂ match]: {len(case_a)}")
+    print(f"  Case (b) [v₂ mismatch]: {len(case_b)}")
+    print()
+
+    print("  Per-D classification:")
+    for d_val in sorted(d_seen.keys(), key=abs):
+        info = d_seen[d_val]
+        print(
+            f"    D={d_val:>8d} (L={info['L']}, V={info['V']}): "
+            f"rho={info['rho']:.4f}, period={info['period']}, "
+            f"{info['classification']}"
+        )
+
+    print()
+    return list(d_seen.values())
+
+
+def _canonical_rotation(pat):
+    """Return the lexicographically smallest cyclic rotation of a tuple."""
+    n = len(pat)
+    doubled = pat + pat
+    best = pat
+    for i in range(1, n):
+        candidate = doubled[i : i + n]
+        if candidate < best:
+            best = candidate
+    return best
+
+
+def enumerate_ghost_types(l_max=8):
+    """Systematic enumeration of all ghost types for L <= l_max.
+
+    For each (L,V) with L+1 <= V <= 2L-1 (so rho > 1/4):
+      - Generate all compositions of V into L parts (each >= 1)
+      - Group by cyclic rotation class (rotations = same orbit)
+      - For one representative per class: classify and search for appearances
+      - Report per (L,V,D) grouping
+
+    Returns list of dicts with full ghost type info (one per rotation class).
+    """
+    print("=" * 60)
+    print(f"ENUMERATION: All ghost types for L <= {l_max}")
+    print("=" * 60)
+
+    from itertools import product as iter_product
+
+    ghost_types = []
+
+    for big_l in range(2, l_max + 1):
+        for big_v in range(big_l + 1, 2 * big_l):
+            d = 2**big_v - 3**big_l
+            compositions = [
+                combo
+                for combo in iter_product(range(1, big_v), repeat=big_l)
+                if sum(combo) == big_v
+            ]
+
+            # Group by cyclic rotation class
+            seen_canonical = set()
+            rotation_classes = []
+            for pat in compositions:
+                canon = _canonical_rotation(pat)
+                if canon not in seen_canonical:
+                    seen_canonical.add(canon)
+                    rotation_classes.append(pat)
+
+            period = ord_2_mod(abs(d))
+
+            for pat in rotation_classes:
+                info = classify_ghost(pat)
+                info["period"] = period
+
+                # Search for appearances: one representative suffices
+                first_k = None
+                r_count = 0
+                residue_classes = []
+                search_limit = min(period, 2000) if period else 500
+                for k in range(3, search_limit + 3):
+                    exists, _n1, _el = check_ghost_cycle(k, pat)
+                    if exists:
+                        r_count += 1
+                        residue_classes.append(k % period if period else k)
+                        if first_k is None:
+                            first_k = k
+
+                info["first_k"] = first_k
+                info["r"] = r_count
+                info["residue_classes"] = residue_classes
+                ghost_types.append(info)
+
+    # Summary per D value
+    d_groups = {}
+    for g in ghost_types:
+        key = g["D"]
+        if key not in d_groups:
+            d_groups[key] = []
+        d_groups[key].append(g)
+
+    total_classes = len(ghost_types)
+    appearing = [g for g in ghost_types if g.get("r", 0) > 0]
+
+    print(f"\n  Total rotation classes: {total_classes}")
+    print(f"  Distinct D values: {len(d_groups)}")
+    print(f"  Rotation classes with r > 0 (appearing): {len(appearing)}")
+    print()
+
+    # Per-D summary
+    print("  Ghost types by D value (one row per distinct D):")
+    print(
+        f"  {'D':>8s} {'L':>2s} {'V':>2s} {'rho':>7s} "
+        f"{'period':>7s} {'r':>3s} {'first_k':>7s} {'#classes':>8s} {'appears':>7s}"
+    )
+    print("  " + "-" * 65)
+    for d_val in sorted(d_groups.keys(), key=abs):
+        group = d_groups[d_val]
+        rep = group[0]
+        max_r = max(g.get("r", 0) for g in group)
+        best_first = None
+        for g in group:
+            if g.get("first_k") is not None:
+                if best_first is None or g["first_k"] < best_first:
+                    best_first = g["first_k"]
+        appears = "YES" if max_r > 0 else "no"
+        print(
+            f"  {d_val:>8d} {rep['L']:>2d} {rep['V']:>2d} {rep['rho']:>7.4f} "
+            f"{rep['period'] or 'N/A':>7} {max_r:>3d} "
+            f"{best_first or 'N/A':>7} {len(group):>8d} {appears:>7s}"
+        )
+
+    # Show appearing ghost types with details
+    if appearing:
+        print("\n  Appearing ghost types (r > 0):")
+        for g in appearing:
+            print(
+                f"    v={g['v_pattern']}, D={g['D']}, rho={g['rho']:.4f}, "
+                f"p={g['period']}, r={g['r']}, first_k={g['first_k']}"
+            )
+
+    print()
+    return ghost_types
+
+
+def scan_e_membership_full():
+    """Determine E membership for k=3..200, collecting ALL ghosts per k.
+
+    Unlike scan_e_membership() which breaks early, this collects every
+    ghost type found at each k for use in timeline and scatter plots.
+    """
+    print("=" * 60)
+    print("FULL SCAN: E membership with all ghost types, k=3..200")
+    print("=" * 60)
+
+    from itertools import product as iter_product
+
+    lv_pairs = []
+    for big_l in range(2, 9):
+        for big_v in range(big_l + 1, 2 * big_l):
+            lv_pairs.append((big_l, big_v))
+
+    lv_patterns = {}
+    for big_l, big_v in lv_pairs:
+        pats = [
+            combo
+            for combo in iter_product(range(1, big_v), repeat=big_l)
+            if sum(combo) == big_v
+        ]
+        if pats:
+            lv_patterns[(big_l, big_v)] = pats
+
+    e_details = {}  # k -> list of (L, V, D, pat, rho)
+
+    for k in range(3, 201):
+        ghosts_at_k = []
+        for (big_l, big_v), pats in lv_patterns.items():
+            if big_v >= k:
+                continue
+            d = 2**big_v - 3**big_l
+            for pat in pats:
+                exists, n1, _el = check_ghost_cycle(k, pat)
+                if exists:
+                    rho = 2 ** (-big_v / big_l)
+                    ghosts_at_k.append((big_l, big_v, d, pat, rho))
+        if ghosts_at_k:
+            e_details[k] = ghosts_at_k
+
+    e_members = sorted(e_details.keys())
+    print(f"  E ∩ [3,200] (L<=8) = {e_members}")
+    print(f"  |E ∩ [3,200]| = {len(e_members)}")
+    if e_members:
+        density = len([k for k in e_members if k >= 37]) / 164
+        print(f"  Density in [37,200] = {density:.3f}")
+        for k in e_members[:10]:
+            n_ghosts = len(e_details[k])
+            best = min(e_details[k], key=lambda x: -x[4])
+            print(
+                f"    k={k:3d}: {n_ghosts} ghost(s), "
+                f"max rho={best[4]:.4f} (D={best[2]})"
+            )
+    print()
+    return e_details
+
+
+def compute_density_bounds(ghost_types):
+    """Compute δ(E) = 1 - ∏(1 - r/p) from known ghost types.
+
+    Deduplicates by D value: cyclic rotations of the same orbit appear at
+    the same k values, so each distinct D contributes once to density.
+
+    Args:
+        ghost_types: list of dicts from enumerate_ghost_types()
+
+    Returns dict with density estimates.
+    """
+    print("=" * 60)
+    print("DENSITY: Exceptional set density from ghost types")
+    print("=" * 60)
+
+    # Deduplicate by D: take max r across all rotation classes per D
+    d_map = {}
+    for g in ghost_types:
+        if g.get("period") and g.get("r", 0) > 0:
+            d_val = g["D"]
+            if d_val not in d_map or g["r"] > d_map[d_val]["r"]:
+                d_map[d_val] = g
+
+    unique_ghosts = sorted(d_map.values(), key=lambda x: abs(x["D"]))
+
+    if not unique_ghosts:
+        print("  No appearing ghost types found.\n")
+        return {"naive": 0, "ghosts": [], "case_a_count": 0}
+
+    print(f"  Found {len(unique_ghosts)} distinct D value(s) with ghosts:\n")
+
+    ghost_data = []
+    product_term = 1.0
+    for g in unique_ghosts:
+        p = g["period"]
+        r = g["r"]
+        contrib = r / p
+        product_term *= 1 - contrib
+        ghost_data.append(
+            {"D": g["D"], "L": g["L"], "V": g["V"], "p": p, "r": r, "contrib": contrib}
+        )
+        print(
+            f"    D={g['D']:>8d} (L={g['L']}, V={g['V']}), "
+            f"p={p}, r={r}, r/p={contrib:.6f}"
+        )
+
+    naive_density = 1 - product_term
+
+    print(f"\n  Naive density (independence): delta = {naive_density:.6f}")
+
+    # Unconditional lower bound from single largest contributor
+    best = max(ghost_data, key=lambda x: x["contrib"])
+    print(
+        f"  Unconditional lower bound (D={best['D']} alone): "
+        f">= {best['contrib']:.4f} = {best['r']}/{best['p']}"
+    )
+
+    # Check for period overlaps
+    if len(ghost_data) >= 2:
+        print("\n  Period overlap check (gcd):")
+        for i in range(len(ghost_data)):
+            for j in range(i + 1, len(ghost_data)):
+                g = math.gcd(ghost_data[i]["p"], ghost_data[j]["p"])
+                print(
+                    f"    gcd({ghost_data[i]['p']}, {ghost_data[j]['p']}) = {g}"
+                    + (" (overlap possible)" if g > 1 else " (independent)")
+                )
+
+    print()
+    return {
+        "naive": naive_density,
+        "ghosts": ghost_data,
+        "case_a_count": len(unique_ghosts),
+    }
+
+
+def plot_ghost_timeline(e_data):
+    """Plot ghost timeline: which ghost types appear at each k in [3,200].
+
+    Args:
+        e_data: dict from scan_e_membership_full(), k -> list of (L,V,D,pat,rho)
+    """
+    import matplotlib.pyplot as plt
+
+    print("=" * 60)
+    print("PLOT: Ghost timeline (k=3..200)")
+    print("=" * 60)
+
+    # Collect all distinct D values (ghost types)
+    all_d_values = set()
+    for k, ghosts in e_data.items():
+        for _l, _v, d, _pat, _rho in ghosts:
+            all_d_values.add(d)
+    d_values = sorted(all_d_values)
+    d_to_row = {d: i for i, d in enumerate(d_values)}
+
+    colors = {
+        -601: "#e41a1c",
+        -179: "#377eb8",
+        -5537: "#4daf4a",
+        -1675: "#984ea3",
+    }
+    default_color = "#ff7f00"
+
+    fig, ax = plt.subplots(figsize=(16, max(4, len(d_values) * 0.6 + 2)))
+
+    for k, ghosts in e_data.items():
+        for _l, _v, d, _pat, rho in ghosts:
+            row = d_to_row[d]
+            c = colors.get(d, default_color)
+            ax.scatter(k, row, color=c, s=20, zorder=3, edgecolors="none")
+
+    # E ∩ [3,36] exhaustive markers on a separate row
+    exhaustive_e = {10, 11, 12, 20, 35}
+    exhaust_row = len(d_values)
+    for k in exhaustive_e:
+        if k not in e_data:
+            ax.scatter(k, exhaust_row, color="gray", s=30, marker="s", zorder=3)
+
+    ax.set_xlabel("k")
+    ax.set_ylabel("Ghost type (D)")
+    ax.set_title("Ghost cycle appearances by level k")
+
+    ytick_labels = [f"D={d}" for d in d_values] + ["exhaustive E"]
+    ax.set_yticks(range(len(ytick_labels)))
+    ax.set_yticklabels(ytick_labels, fontsize=8)
+    ax.set_xlim(1, 202)
+    ax.grid(True, alpha=0.3)
+
+    # Period boundary vertical lines for main ghosts
+    period_info = {-601: 25, -179: 178}
+    for d_val, period in period_info.items():
+        if d_val in d_to_row:
+            for mult in range(1, 201 // period + 1):
+                ax.axvline(
+                    mult * period, color=colors.get(d_val, "gray"),
+                    alpha=0.15, linestyle="--", linewidth=0.8
+                )
+
+    plt.tight_layout()
+    plt.savefig("analysis/ghost_timeline.png", dpi=150)
+    plt.close()
+    print("  Saved to analysis/ghost_timeline.png\n")
+
+
+def plot_rho_scatter(e_data):
+    """Scatter plot of (k, ρ_k) for k=3..200.
+
+    Args:
+        e_data: dict from scan_e_membership_full()
+    """
+    import json
+    import matplotlib.pyplot as plt
+
+    print("=" * 60)
+    print("PLOT: Spectral radius scatter (k=3..200)")
+    print("=" * 60)
+
+    ks = []
+    rhos = []
+    color_list = []
+    color_map = {
+        -601: "#e41a1c",
+        -179: "#377eb8",
+        -5537: "#4daf4a",
+        -1675: "#984ea3",
+    }
+
+    # Try to load cycle_search_results.json for k<=36
+    exhaustive_rho = {}
+    try:
+        with open("analysis/cycle_search_results.json") as f:
+            data = json.load(f)
+        for entry in data.get("results", []):
+            exhaustive_rho[entry["k"]] = entry["rho"]
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
+
+    for k in range(3, 201):
+        if k in exhaustive_rho:
+            rho_k = exhaustive_rho[k]
+        elif k in e_data:
+            rho_k = max(rho for _l, _v, _d, _pat, rho in e_data[k])
+        else:
+            rho_k = 0.25
+
+        ks.append(k)
+        rhos.append(rho_k)
+
+        if k in e_data:
+            best_ghost = max(e_data[k], key=lambda x: x[4])
+            color_list.append(color_map.get(best_ghost[2], "#ff7f00"))
+        elif rho_k > 0.25:
+            color_list.append("#ff7f00")
+        else:
+            color_list.append("#999999")
+
+    fig, ax = plt.subplots(figsize=(14, 6))
+    ax.scatter(ks, rhos, c=color_list, s=12, zorder=3, edgecolors="none")
+
+    # Reference lines
+    ax.axhline(0.25, color="black", linestyle="--", linewidth=1, alpha=0.5, label="1/4")
+    rho_601 = 2 ** (-7 / 6)
+    ax.axhline(
+        rho_601, color="#e41a1c", linestyle=":", linewidth=1, alpha=0.5,
+        label=f"$2^{{-7/6}}$ = {rho_601:.4f}"
+    )
+
+    ax.set_xlabel("k")
+    ax.set_ylabel("ρ_k (spectral radius)")
+    ax.set_title("Spectral radius of transfer matrix P_k")
+    ax.legend(fontsize=9)
+    ax.set_xlim(1, 202)
+    ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig("analysis/rho_scatter.png", dpi=150)
+    plt.close()
+    print("  Saved to analysis/rho_scatter.png\n")
+
+
 def scan_e_membership():
     """Determine E membership for k=37..200 using known ghost (L,V) pairs.
 
@@ -546,6 +1076,14 @@ if __name__ == "__main__":
     d601_levels = scan_d601_complete()
     e_members = scan_e_membership()
 
+    # --- Paper 3 reproducibility ---
+    ghost_types = enumerate_ghost_types(l_max=8)
+    classify_all_known_ghosts()
+    density = compute_density_bounds(ghost_types)
+    e_full = scan_e_membership_full()
+    plot_ghost_timeline(e_full)
+    plot_rho_scatter(e_full)
+
     print("=" * 60)
     print("FINAL SUMMARY")
     print("=" * 60)
@@ -556,5 +1094,10 @@ if __name__ == "__main__":
     else:
         print("  Ghost reappearance: None found in k=37..178")
     print(f"  D=-601 ghost levels (k=3..150): {sorted(d601_levels.keys())}")
-    print(f"  E ∩ [37,100] = {e_members}")
+    print(f"  E ∩ [37,200] = {e_members}")
+    case_a_count = density.get("case_a_count", 0)
+    naive_d = density.get("naive", 0)
+    print(f"  Ghost types (case-a): {case_a_count}")
+    print(f"  Density estimate: {naive_d:.4f}")
+    print(f"  E members from full scan: {sorted(e_full.keys())}")
     print()
