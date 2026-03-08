@@ -2,7 +2,6 @@
 title: "Ghost Cycles as 2-Adic Periodic Orbits: Spectral Theory of the Syracuse Transfer Operator"
 author:
   - "Adam McKenna (adam@mysticflounder.ai, [LinkedIn](https://www.linkedin.com/in/admckenna/))"
-  - Claude (Anthropic)
 date: "March 2026"
 abstract: |
   We study the Syracuse map $S(n) = (3n+1)/2^{v_2(3n+1)}$ on odd integers through its
@@ -544,6 +543,10 @@ The complete codebase, including analysis scripts, test suite, and figure genera
 is available at \url{https://github.com/mysticflounder/collatz}. All computations use
 Python 3 with numpy and optional Numba acceleration.
 
+
+# Acknowledgments {-}
+
+The author acknowledges substantial use of Claude (Anthropic) for code development, computational exploration, and manuscript drafting. All computational claims are verified by an automated test suite (113 tests) and reproducible from the open-source repository.
 
 # References {-}
 

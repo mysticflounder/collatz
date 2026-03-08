@@ -2,7 +2,6 @@
 title: "2-Adic Local Constancy of Transfer Matrices for Generalized Collatz Maps"
 author:
   - "Adam McKenna (adam@mysticflounder.ai, [LinkedIn](https://www.linkedin.com/in/admckenna/))"
-  - Claude (Anthropic)
 date: "March 2026"
 abstract: |
   We study the parametric family of Syracuse-type maps $S(n) = (xn + y)/2^{v_2(xn+y)}$
@@ -239,6 +238,10 @@ requires knowing approximately $2k$ bits of the multiplier. This is not merely a
 of the proof --- the minimality argument shows that $M - 1$ bits genuinely do not suffice.
 \end{remark}
 
+
+# Acknowledgments {-}
+
+The author acknowledges substantial use of Claude (Anthropic) for code development, computational exploration, and manuscript drafting. All computational claims are verified by an automated test suite and reproducible from the open-source repository.
 
 # References {-}
 

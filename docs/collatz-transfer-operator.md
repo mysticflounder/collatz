@@ -2,7 +2,6 @@
 title: "Transfer Operators for the Syracuse Map on 2-Adic Integers: Spectral Properties and the Lasota--Yorke Obstruction"
 author:
   - "Adam McKenna (adam@mysticflounder.ai, [LinkedIn](https://www.linkedin.com/in/admckenna/))"
-  - Claude (Anthropic)
 date: "March 2026"
 abstract: |
   We study the transfer operator $L$ of the Syracuse map $S(n) = (3n+1)/2^{v_2(3n+1)}$
@@ -375,6 +374,10 @@ finite persistence) but not case-(a) ghosts. See companion paper for details.
 alternative routes to spectral gap, working with the natural return map rather than
 the global transfer operator.
 
+
+# Acknowledgments {-}
+
+The author acknowledges substantial use of Claude (Anthropic) for code development, computational exploration, and manuscript drafting. All computational claims are verified by an automated test suite and reproducible from the open-source repository.
 
 # References {-}
 
