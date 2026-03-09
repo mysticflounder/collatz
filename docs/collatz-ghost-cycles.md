@@ -190,6 +190,8 @@ Ghost cycles are not transient artifacts of modular reduction. They are the modu
 projections of true periodic orbits of $S$ on the 2-adic integers
 $\mathbb{Z}_2^{\mathrm{odd}}$.
 
+![Chord diagrams of the Syracuse successor map at four resolutions. Odd residues mod $2^k$ are arranged around a circle; each arc connects a residue to its successor. At $k = 9$ and $k = 13$ (non-exceptional), only the fixed point $\{1\}$ (gold) forms a cycle. At $k = 10$, a 26-node ghost cycle appears (cyan). At $k = 12$, two ghost cycles coexist (cyan: $L = 7$, orange: $L = 6$).](analysis/ghost_contrast.png){width=100%}
+
 ### The Cycle Equation
 
 \setcounter{theorem}{0}
@@ -229,6 +231,8 @@ iterating $S$ on $\tilde{n}_1$ produces $\tilde{n}_2, \ldots, \tilde{n}_L, \tild
 limit has ``extra'' 2-adic cancellation; the orbit exists at only finitely many levels $k$.
 \end{itemize}
 \end{definition}
+
+![2-adic digit stabilization for the $D = -601$ ghost ($L = 6$, $V = 7$). Each column shows the binary digits of $n_1 = R \cdot D^{-1} \bmod 2^k$. Digits stabilize from the least significant bit upward: once bit position $b$ is determined at resolution $k = b + 1$, it never changes. The dashed line marks $k = 12$, where the ghost first materializes as a modular cycle.](analysis/digit_stabilization.png){width=90%}
 
 \begin{theorem}[Persistence of case-(a) ghosts]
 \label{thm:persistence}
@@ -330,6 +334,50 @@ Propositions~\ref{prop:baker} and~\ref{prop:exclusion} are unconditional, but th
 prove $E$ is finite: that would require bounding cycle length $L$ as a function of level
 $k$, which no known result from transcendence theory achieves.
 \end{remark}
+
+
+## The $V = L+1$ Family
+
+Among all ghost types with cycle length $L$, those with minimal valuation excess
+$V = L + 1$ have the largest spectral radius $\rho = 2^{-(L+1)/L}$, which approaches
+$1/2$ as $L \to \infty$. A systematic search for $V = L+1$ ghosts with the canonical
+$v$-pattern $(1, 1, \ldots, 1, 2)$ yields appearing ghosts at 9 of 11 fully or partially
+searched cycle lengths.
+
+| $L$ | $|D| = 3^L - 2^{L+1}$ | $p = \mathrm{ord}_2(|D|)$ | $p/2^L$ | $r$ | First $k$ | $\rho$ |
+|-----|------------------------|---------------------------|---------|-----|-----------|--------|
+| 5   | 179                    | 178                       | 5.6     | 3   | 35        | 0.4353 |
+| 6   | 601                    | 25                        | 0.39    | 1   | 12        | 0.4454 |
+| 7   | 1,931                  | 1,930                     | 15      | 5   | 275       | 0.4529 |
+| 8   | 6,049                  | 1,441                     | 5.6     | 10  | 180       | 0.4585 |
+| 9   | 18,659                 | 1,012                     | 2.0     | 0   | ---       | 0.4629 |
+| 10  | 57,281                 | 5,736                     | 5.6     | 6   | 1,147     | 0.4665 |
+| 11  | 173,051                | 780                       | 0.38    | 0   | ---       | 0.4695 |
+| 12  | 524,929                | 14,065                    | 3.4     | 4   | 1,334     | 0.4719 |
+| 13  | 1,586,131              | 58,140                    | 7.1     | 12  | 4,472     | 0.4740 |
+| 14  | 4,782,223              | 294,712                   | 18      | $\geq 4$ | 8,087 | 0.4759 |
+| 15  | 14,394,367             | 1,187,496                 | 36      | $\geq 2$ | 29,459| 0.4774 |
+
+: The $V = L+1$ ghost family for $L = 5, \ldots, 15$. All $v$-patterns are algebraically
+case-(a). Entries $L = 5$--$13$ are from complete period searches; $L = 14$--$15$ are
+partial ($r$ is a lower bound). The $\rho$ column shows $2^{-(L+1)/L}$ for each $L$,
+regardless of whether the ghost materializes.
+
+The ghosts at $L = 9$ and $L = 11$ do not materialize at any level within their full
+period, despite being algebraically case-(a). A heuristic explains this: materialization
+requires $L$ simultaneous binary valuation conditions on the modular reduction
+$R \cdot D^{-1} \bmod 2^k$, giving a target density of approximately $2^{-L}$ per
+period. The ratio $p/2^L$ thus predicts the expected number of materializations $r$.
+For $L = 11$, $p/2^L \approx 0.38$, predicting $r \approx 0$; for $L = 9$,
+$p/2^L \approx 2$, making $r = 0$ plausible by fluctuation. No clean algebraic
+criterion distinguishing appearing from non-appearing cases has been found; the
+phenomenon appears governed by the equidistribution of powers of 2 modulo
+$|D| = 3^L - 2^{L+1}$.
+
+The nine appearing ghosts ($L = 5, 6, 7, 8, 10, 12, 13, 14, 15$) establish a proved
+lower bound $\limsup \rho_k \geq 2^{-16/15} \approx 0.4774$. That the family produces
+appearing ghosts at the large majority of tested cycle lengths, with no systematic
+obstruction, supports Conjecture~2: $\limsup \rho_k = 1/2$.
 
 
 # Falsification of Conjecture 1

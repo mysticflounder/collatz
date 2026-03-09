@@ -482,9 +482,7 @@ def classify_ghost(v_pattern):
         numerator = 3 * r_cur + d
         actual_v = v2(numerator)
         if actual_v != pat[i]:
-            mismatches.append(
-                {"i": i, "expected_v": pat[i], "actual_v": actual_v}
-            )
+            mismatches.append({"i": i, "expected_v": pat[i], "actual_v": actual_v})
         r_cur = numerator >> pat[i]
         if i < big_l - 1:
             orbit_r.append(r_cur)
@@ -530,9 +528,11 @@ def classify_all_known_ghosts():
                     info = classify_ghost(combo)
                     period = ord_2_mod(abs(d)) if d != 0 else None
                     d_seen[d] = {
-                        "L": big_l, "V": big_v,
+                        "L": big_l,
+                        "V": big_v,
                         "classification": info["classification"],
-                        "rho": info["rho"], "period": period,
+                        "rho": info["rho"],
+                        "period": period,
                     }
 
     case_a = [v for v in d_seen.values() if v["classification"] == "case-a"]
@@ -658,9 +658,8 @@ def enumerate_ghost_types(l_max=8):
         max_r = max(g.get("r", 0) for g in group)
         best_first = None
         for g in group:
-            if g.get("first_k") is not None:
-                if best_first is None or g["first_k"] < best_first:
-                    best_first = g["first_k"]
+            if g.get("first_k") is not None and (best_first is None or g["first_k"] < best_first):
+                best_first = g["first_k"]
         appears = "YES" if max_r > 0 else "no"
         print(
             f"  {d_val:>8d} {rep['L']:>2d} {rep['V']:>2d} {rep['rho']:>7.4f} "
@@ -701,9 +700,7 @@ def scan_e_membership_full(k_max=200):
     lv_patterns = {}
     for big_l, big_v in lv_pairs:
         pats = [
-            combo
-            for combo in iter_product(range(1, big_v), repeat=big_l)
-            if sum(combo) == big_v
+            combo for combo in iter_product(range(1, big_v), repeat=big_l) if sum(combo) == big_v
         ]
         if pats:
             lv_patterns[(big_l, big_v)] = pats
@@ -728,18 +725,14 @@ def scan_e_membership_full(k_max=200):
     print(f"  E ∩ [3,{k_max}] (L<=8) = {e_members}")
     print(f"  |E ∩ [3,{k_max}]| = {len(e_members)}")
     if e_members:
-        low = max(37, min(e_members))
         high = k_max
         count_ge37 = len([k for k in e_members if k >= 37])
         span = high - 37 + 1
-        print(f"  Density in [37,{k_max}] = {count_ge37}/{span} = {count_ge37/span:.3f}")
+        print(f"  Density in [37,{k_max}] = {count_ge37}/{span} = {count_ge37 / span:.3f}")
         for k in e_members[:10]:
             n_ghosts = len(e_details[k])
             best = min(e_details[k], key=lambda x: -x[4])
-            print(
-                f"    k={k:3d}: {n_ghosts} ghost(s), "
-                f"max rho={best[4]:.4f} (D={best[2]})"
-            )
+            print(f"    k={k:3d}: {n_ghosts} ghost(s), max rho={best[4]:.4f} (D={best[2]})")
     print()
     return e_details
 
@@ -795,10 +788,7 @@ def compute_density_bounds(ghost_types):
         ghost_data.append(
             {"D": g["D"], "L": g["L"], "V": g["V"], "p": p, "r": r, "contrib": contrib}
         )
-        print(
-            f"    D={g['D']:>8d} (L={g['L']}, V={g['V']}), "
-            f"p={p}, r={r}, r/p={contrib:.6f}"
-        )
+        print(f"    D={g['D']:>8d} (L={g['L']}, V={g['V']}), p={p}, r={r}, r/p={contrib:.6f}")
 
     naive_density = 1 - product_term
 
@@ -847,7 +837,7 @@ def plot_ghost_timeline(e_data):
 
     # Collect all distinct D values (ghost types)
     all_d_values = set()
-    for k, ghosts in e_data.items():
+    for _k, ghosts in e_data.items():
         for _l, _v, d, _pat, _rho in ghosts:
             all_d_values.add(d)
     d_values = sorted(all_d_values)
@@ -866,7 +856,7 @@ def plot_ghost_timeline(e_data):
     fig, ax = plt.subplots(figsize=(16, max(4, len(d_values) * 0.7 + 2)))
 
     for k, ghosts in e_data.items():
-        for _l, _v, d, _pat, rho in ghosts:
+        for _l, _v, d, _pat, _rho in ghosts:
             row = d_to_row[d]
             c = colors.get(d, default_color)
             ax.scatter(k, row, color=c, s=30, zorder=3, edgecolors="none")
@@ -890,8 +880,15 @@ def plot_ghost_timeline(e_data):
 
     # k=36 boundary: end of exhaustive search
     ax.axvline(36, color="black", linestyle="--", linewidth=1.5, alpha=0.5)
-    ax.text(37, exhaust_row + 0.3, "$k = 36$ (exhaustive limit)",
-            fontsize=8, va="bottom", color="black", alpha=0.7)
+    ax.text(
+        37,
+        exhaust_row + 0.3,
+        "$k = 36$ (exhaustive limit)",
+        fontsize=8,
+        va="bottom",
+        color="black",
+        alpha=0.7,
+    )
 
     # Period boundary vertical lines for ghosts with short periods
     period_info = {-601: 25, -5537: 84, -179: 178}
@@ -899,8 +896,11 @@ def plot_ghost_timeline(e_data):
         if d_val in d_to_row:
             for mult in range(1, k_max // period + 1):
                 ax.axvline(
-                    mult * period, color=colors.get(d_val, "gray"),
-                    alpha=0.12, linestyle="--", linewidth=0.8,
+                    mult * period,
+                    color=colors.get(d_val, "gray"),
+                    alpha=0.12,
+                    linestyle="--",
+                    linewidth=0.8,
                 )
 
     # Legend
@@ -908,12 +908,26 @@ def plot_ghost_timeline(e_data):
     for d_val in d_values:
         c = colors.get(d_val, default_color)
         legend_elements.append(
-            Line2D([0], [0], marker="o", color="w", markerfacecolor=c,
-                   markersize=7, label=f"$D = {d_val}$")
+            Line2D(
+                [0],
+                [0],
+                marker="o",
+                color="w",
+                markerfacecolor=c,
+                markersize=7,
+                label=f"$D = {d_val}$",
+            )
         )
     legend_elements.append(
-        Line2D([0], [0], marker="s", color="w", markerfacecolor="gray",
-               markersize=7, label="exhaustive only")
+        Line2D(
+            [0],
+            [0],
+            marker="s",
+            color="w",
+            markerfacecolor="gray",
+            markersize=7,
+            label="exhaustive only",
+        )
     )
     ax.legend(handles=legend_elements, fontsize=8, loc="upper right", ncol=2)
 
@@ -930,6 +944,7 @@ def plot_rho_scatter(e_data):
         e_data: dict from scan_e_membership_full()
     """
     import json
+
     import matplotlib.pyplot as plt
     from matplotlib.lines import Line2D
 
@@ -988,15 +1003,19 @@ def plot_rho_scatter(e_data):
     ax.scatter(ks, rhos, c=color_list, s=18, zorder=3, edgecolors="none")
 
     # Reference lines
-    ax.axhline(0.25, color="black", linestyle="--", linewidth=1, alpha=0.4,
-               label=r"$\rho = 1/4$ (trivial)")
+    ax.axhline(
+        0.25, color="black", linestyle="--", linewidth=1, alpha=0.4, label=r"$\rho = 1/4$ (trivial)"
+    )
     rho_6049 = 2 ** (-9 / 8)
     ax.axhline(
-        rho_6049, color="#f781bf", linestyle=":", linewidth=1.2, alpha=0.5,
-        label=rf"$2^{{-9/8}} \approx {rho_6049:.4f}$"
+        rho_6049,
+        color="#f781bf",
+        linestyle=":",
+        linewidth=1.2,
+        alpha=0.5,
+        label=rf"$2^{{-9/8}} \approx {rho_6049:.4f}$",
     )
-    ax.axhline(0.5, color="gray", linestyle="-.", linewidth=1, alpha=0.3,
-               label=r"$\rho = 1/2$")
+    ax.axhline(0.5, color="gray", linestyle="-.", linewidth=1, alpha=0.3, label=r"$\rho = 1/2$")
 
     # k=36 boundary
     ax.axvline(36, color="black", linestyle="--", linewidth=1, alpha=0.3)
@@ -1011,20 +1030,32 @@ def plot_rho_scatter(e_data):
 
     # Ghost type legend
     legend_elements = [
-        ax.get_legend_handles_labels()[0][i]
-        for i in range(len(ax.get_legend_handles_labels()[0]))
+        ax.get_legend_handles_labels()[0][i] for i in range(len(ax.get_legend_handles_labels()[0]))
     ]
     legend_labels = ax.get_legend_handles_labels()[1]
     for d_val in sorted(ghost_labels.keys(), key=abs):
         legend_elements.append(
-            Line2D([0], [0], marker="o", color="w",
-                   markerfacecolor=ghost_labels[d_val], markersize=7,
-                   label=f"$D = {d_val}$")
+            Line2D(
+                [0],
+                [0],
+                marker="o",
+                color="w",
+                markerfacecolor=ghost_labels[d_val],
+                markersize=7,
+                label=f"$D = {d_val}$",
+            )
         )
         legend_labels.append(f"$D = {d_val}$")
     legend_elements.append(
-        Line2D([0], [0], marker="o", color="w", markerfacecolor="#cccccc",
-               markersize=7, label=r"$\rho_k = 1/4$")
+        Line2D(
+            [0],
+            [0],
+            marker="o",
+            color="w",
+            markerfacecolor="#cccccc",
+            markersize=7,
+            label=r"$\rho_k = 1/4$",
+        )
     )
     legend_labels.append(r"$\rho_k = 1/4$")
     ax.legend(handles=legend_elements, fontsize=8, loc="upper right", ncol=2)
