@@ -297,13 +297,14 @@ modular cycle exists only at levels $k$ where the extra bits are not yet visible
 | $-515057$ | 12 | 14 | 2 | $(1,1,1,1,1,1,1,1,1,1,1,3)$ | $10700$ | $2$ | $0.4454$ |
 | $-523249$ | 12 | 13 | 1 | $(1,1,1,1,1,1,1,1,1,1,1,2)$ | $14065$ | $3$ | $0.4719$ |
 
-: Materializing case-(a) ghost types, sorted by $|D|$. The excess $e = V - L$ determines
-the $v$-pattern $(1, \ldots, 1, e+1)$, listed up to cyclic rotation. Period
-$p = \mathrm{ord}_2(|D|)$ and $r$ is the number of residue classes mod $p$ at which the
-ghost appears. All materializing ghosts have the concentrated pattern: the excess
-valuation concentrates in a single step. Ghost types organize into families by excess $e$:
-the $e = 1$ family ($V = L+1$) has $\rho = 2^{-(L+1)/L} \to 1/2$; the $e = 2$ and
-$e = 3$ families also have $\rho = 2^{-(L+e)/L} \to 1/2$ as $L \to \infty$ for fixed $e$.
+: Materializing case-(a) ghost types with the concentrated $v$-pattern
+$(1, \ldots, 1, e+1)$, sorted by $|D|$. Period $p = \mathrm{ord}_2(|D|)$ and $r$ is the
+number of residue classes mod $p$ at which this pattern appears. Non-concentrated
+compositions of the same $(L, V)$ also materialize (see Section~4.5); the table lists
+concentrated patterns as canonical representatives. Ghost types organize into families by
+excess $e = V - L$: the $e = 1$ family ($V = L+1$) has $\rho = 2^{-(L+1)/L} \to 1/2$;
+the $e = 2$ and $e = 3$ families also have $\rho = 2^{-(L+e)/L} \to 1/2$ as
+$L \to \infty$ for fixed $e$.
 
 The $D = -523249$ ghost ($L = 12$, $V = 13$) has $\rho = 2^{-13/12} \approx 0.4719$, the
 largest materialized spectral radius. The $D = -601$ ghost ($L = 6$, $V = 7$) reappears at
@@ -424,18 +425,21 @@ An extended ghost census through $L = 12$ across all $(L, V)$ pairs with
 $V < 2L$ (i.e., $\rho > 1/4$) reveals the following:
 
 - **157,909** canonical case-(a) ghost types found across 66 $(L, V)$ pairs.
-- **13** types materialize (appear at accessible $k$ values); the remaining
-  $\sim 99.99\%$ are algebraically valid 2-adic orbits that never appear in the
-  finite transfer matrices $P_k$.
-- All 13 materializing types have the \emph{concentrated} $v$-pattern
-  $(1, \ldots, 1, e+1)$ (up to cyclic rotation), despite concentrated
-  patterns comprising only 66 of the 157,909 canonical types.
+- For the 13 $(L, V, D)$ triples with materializing concentrated patterns
+  (Table~3), spot checks confirm that non-concentrated compositions of the same
+  $(L, V)$ also materialize. For example, at $(L, V) = (9, 11)$, $D = -17635$:
+  the non-concentrated pattern $(1,2,1,1,1,1,1,1,2)$ materializes at $r = 7$
+  residue classes (compared to $r = 5$ for the concentrated pattern), and
+  rotations of the concentrated pattern such as $(3,1,1,1,1,1,1,1,1)$ materialize
+  at the same $k$ values. Two of seven tested non-concentrated patterns have
+  $r = 0$, indicating that materialization depends on the specific $v$-pattern,
+  not merely on $(L, V)$.
 
-The dominance of concentrated patterns among materializing ghosts remains an open
-question. The heuristic expected number of materializations is $r \approx p/2^V$,
-which depends only on the $(L, V)$ pair and not on the distribution of $v_i$
-values. A complete explanation would require analyzing the 2-adic alignment
-properties of the $R$ values produced by different compositions.
+The heuristic expected number of materializations is $r \approx p/2^V$,
+which depends only on the $(L, V)$ pair. The variation of $r$ across patterns
+with the same $(L, V)$ reflects the 2-adic alignment properties of the $R$
+values: different compositions produce different $R$, and hence different
+binary structure in $R \cdot D^{-1} \bmod 2^k$.
 
 
 # Falsification of Conjecture 1
@@ -570,10 +574,11 @@ ghost types with $\rho > 1/4$.
 
 This conjecture has been verified exhaustively for all 91 $(L, V)$ pairs with
 $L = 2, \ldots, 15$, covering every composition (up to $\sim 800{,}000$ per pair
-for $L \leq 12$; $10^6$ random samples per pair for $L = 13$--$15$). Zero failures
-were found. The conjecture eliminates case-(b) from the spectral-radius-relevant
-range entirely, and implies that the density formula (Conjecture~1) applies to all
-ghost types with $\rho > 1/4$ without case-(b) corrections.
+for $L \leq 12$; $10^6$ random samples per pair for $L = 13$--$15$). An extended
+survey through $L = 20$ ($10^6$ samples per pair, 85 million total) finds zero
+failures. Moreover, the case-(a) property holds even for $V \geq 2L$ (where
+$D > 0$), tested exhaustively through $L = 12$ at $V = 2L$ and $V = 2L + 1$:
+the sign of $D$ does not affect the universal case-(a) property.
 
 
 # Eigenvalue Spectra
