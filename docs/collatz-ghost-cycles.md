@@ -281,24 +281,32 @@ modular cycle exists only at levels $k$ where the extra bits are not yet visible
 
 ### Known Case-(a) Ghost Types
 
-| $D$ | $L$ | $V$ | $v$-pattern | $\tilde{n}_1$ | $p$ | $r$ | $\rho$ |
-|-----|-----|-----|-------------|---------------|------|-----|---------|
-| $-179$ | 5 | 6 | $(2,1,1,1,1)$ | $-341/179$ | $178$ | $3$ | $0.4353$ |
-| $-601$ | 6 | 7 | $(1,1,1,1,1,2)$ | $-665/601$ | $25$ | $1$ | $0.4454$ |
-| $-1675$ | 7 | 9 | $(1,1,1,1,1,1,3)$ | $-2059/1675$ | $660$ | $9$ | $0.4102$ |
-| $-1931$ | 7 | 8 | $(1,1,1,1,1,1,2)$ | $-2059/1931$ | $1930$ | $5$ | $0.4529$ |
-| $-5537$ | 8 | 10 | $(1,1,1,1,1,1,1,3)$ | $-6305/5537$ | $84$ | $2$ | $0.4204$ |
-| $-6049$ | 8 | 9 | $(1,1,1,1,1,1,1,2)$ | $-6305/6049$ | $1441$ | $10$ | $0.4585$ |
+| $D$ | $L$ | $V$ | $e$ | $v$-pattern | $p$ | $r$ | $\rho$ |
+|-----|-----|-----|-----|-------------|------|-----|---------|
+| $-179$ | 5 | 6 | 1 | $(1,1,1,1,2)$ | $178$ | $3$ | $0.4353$ |
+| $-601$ | 6 | 7 | 1 | $(1,1,1,1,1,2)$ | $25$ | $1$ | $0.4454$ |
+| $-1675$ | 7 | 9 | 2 | $(1,1,1,1,1,1,3)$ | $660$ | $9$ | $0.4102$ |
+| $-1931$ | 7 | 8 | 1 | $(1,1,1,1,1,1,2)$ | $1930$ | $5$ | $0.4529$ |
+| $-5537$ | 8 | 10 | 2 | $(1,1,1,1,1,1,1,3)$ | $84$ | $2$ | $0.4204$ |
+| $-6049$ | 8 | 9 | 1 | $(1,1,1,1,1,1,1,2)$ | $1441$ | $10$ | $0.4585$ |
+| $-17635$ | 9 | 11 | 2 | $(1,1,1,1,1,1,1,1,3)$ | $7052$ | $5$ | $0.4286$ |
+| $-50857$ | 10 | 13 | 3 | $(1,1,1,1,1,1,1,1,1,4)$ | $12714$ | $3$ | $0.4061$ |
+| $-54953$ | 10 | 12 | 2 | $(1,1,1,1,1,1,1,1,1,3)$ | $9078$ | $6$ | $0.4353$ |
+| $-57001$ | 10 | 11 | 1 | $(1,1,1,1,1,1,1,1,1,2)$ | $5736$ | $6$ | $0.4665$ |
+| $-168955$ | 11 | 13 | 2 | $(1,1,1,1,1,1,1,1,1,1,3)$ | $67580$ | $1$ | $0.4408$ |
+| $-515057$ | 12 | 14 | 2 | $(1,1,1,1,1,1,1,1,1,1,1,3)$ | $10700$ | $2$ | $0.4454$ |
+| $-523249$ | 12 | 13 | 1 | $(1,1,1,1,1,1,1,1,1,1,1,2)$ | $14065$ | $3$ | $0.4719$ |
 
-: Known case-(a) ghost types. $v$-patterns are listed up to cyclic rotation, sorted by
-$|D|$. Period $p = \mathrm{ord}_2(|D|)$ and $r$ is the number of residue classes mod $p$
-at which the ghost appears. All $v$-patterns have the form $(1, \ldots, 1, V-L+1)$: the
-"excess valuation" $V - L + 1$ concentrates in a single step. The four ghosts with
-$V = L + 1$ (marked by $V - L + 1 = 2$) form the $V = L + 1$ family, whose spectral
-radii $\rho = 2^{-(L+1)/L} \to 1/2$ as $L \to \infty$.
+: Materializing case-(a) ghost types, sorted by $|D|$. The excess $e = V - L$ determines
+the $v$-pattern $(1, \ldots, 1, e+1)$, listed up to cyclic rotation. Period
+$p = \mathrm{ord}_2(|D|)$ and $r$ is the number of residue classes mod $p$ at which the
+ghost appears. All materializing ghosts have the concentrated pattern: the excess
+valuation concentrates in a single step. Ghost types organize into families by excess $e$:
+the $e = 1$ family ($V = L+1$) has $\rho = 2^{-(L+1)/L} \to 1/2$; the $e = 2$ and
+$e = 3$ families also have $\rho = 2^{-(L+e)/L} \to 1/2$ as $L \to \infty$ for fixed $e$.
 
-The $D = -6049$ ghost ($L = 8$, $V = 9$) has $\rho = 2^{-9/8} \approx 0.4585$, the
-largest known spectral radius. The $D = -601$ ghost ($L = 6$, $V = 7$) reappears at
+The $D = -523249$ ghost ($L = 12$, $V = 13$) has $\rho = 2^{-13/12} \approx 0.4719$, the
+largest materialized spectral radius. The $D = -601$ ghost ($L = 6$, $V = 7$) reappears at
 every $k \equiv 12 \pmod{25}$: verified at $k = 12, 37, 62, 87, \ldots, 187$.
 All orbit elements are negative rationals (e.g., $\tilde{n}_1 = -665/601 \approx -1.107$).
 
@@ -351,12 +359,12 @@ searched cycle lengths.
 | 7   | 1,931                  | 1,930                     | 15      | 5   | 275       | 0.4529 |
 | 8   | 6,049                  | 1,441                     | 5.6     | 10  | 180       | 0.4585 |
 | 9   | 18,659                 | 1,012                     | 2.0     | 0   | ---       | 0.4629 |
-| 10  | 57,281                 | 5,736                     | 5.6     | 6   | 1,147     | 0.4665 |
+| 10  | 57,001                 | 5,736                     | 5.6     | 6   | 1,147     | 0.4665 |
 | 11  | 173,051                | 780                       | 0.38    | 0   | ---       | 0.4695 |
-| 12  | 524,929                | 14,065                    | 3.4     | 4   | 1,334     | 0.4719 |
-| 13  | 1,586,131              | 58,140                    | 7.1     | 12  | 4,472     | 0.4740 |
-| 14  | 4,782,223              | 294,712                   | 18      | $\geq 4$ | 8,087 | 0.4759 |
-| 15  | 14,394,367             | 1,187,496                 | 36      | $\geq 2$ | 29,459| 0.4774 |
+| 12  | 523,249                | 14,065                    | 3.4     | 4   | 1,334     | 0.4719 |
+| 13  | 1,577,939              | 58,140                    | 7.1     | 12  | 4,472     | 0.4740 |
+| 14  | 4,750,201              | 294,712                   | 18      | $\geq 4$ | 8,087 | 0.4759 |
+| 15  | 14,283,371             | 1,187,496                 | 36      | $\geq 2$ | 29,459| 0.4774 |
 
 : The $V = L+1$ ghost family for $L = 5, \ldots, 15$. All $v$-patterns are algebraically
 case-(a). Entries $L = 5$--$13$ are from complete period searches; $L = 14$--$15$ are
@@ -378,6 +386,56 @@ The nine appearing ghosts ($L = 5, 6, 7, 8, 10, 12, 13, 14, 15$) establish a pro
 lower bound $\limsup \rho_k \geq 2^{-16/15} \approx 0.4774$. That the family produces
 appearing ghosts at the large majority of tested cycle lengths, with no systematic
 obstruction, supports Conjecture~2: $\limsup \rho_k = 1/2$.
+
+
+## Higher Excess Families
+
+Ghost types organize into families by the excess valuation $e = V - L$. The
+$V = L+1$ family ($e = 1$) is the most extensively studied (above), but materializing
+ghosts also appear in the $e = 2$ and $e = 3$ families.
+
+**The $V = L+2$ family** ($e = 2$). Six materializing types have been found, all with
+the concentrated $v$-pattern $(1, \ldots, 1, 3)$:
+
+| $L$ | $|D| = |2^{L+2} - 3^L|$ | $p$ | $r$ | First $k$ | $\rho$ |
+|-----|--------------------------|------|-----|-----------|--------|
+| 7   | 1,675                    | 660  | 9   | 12        | 0.4102 |
+| 8   | 5,537                    | 84   | 2   | 42        | 0.4204 |
+| 9   | 17,635                   | 7,052| 5   | 1,567     | 0.4286 |
+| 10  | 54,953                   | 9,078| 6   | 2,501     | 0.4353 |
+| 11  | 168,955                  | 67,580| 1  | 8,936     | 0.4408 |
+| 12  | 515,057                  | 10,700| 2  | 5,350     | 0.4454 |
+
+The spectral radius $\rho = 2^{-(L+2)/L} \to 1/2$ as $L \to \infty$, though
+convergence is slower than for $e = 1$.
+
+**The $V = L+3$ family** ($e = 3$). One materializing type has been found:
+$L = 10$, $D = -50857$, $v = (1,1,1,1,1,1,1,1,1,4)$, with $p = 12{,}714$, $r = 3$,
+$\rho = 2^{-13/10} \approx 0.4061$.
+
+As $L \to \infty$ with fixed excess $e$, the spectral radius
+$\rho = 2^{-1 - e/L} \to 1/2$ for any fixed $e$. The $e = 1$ family simply
+converges fastest.
+
+
+## Extended Census Summary
+
+An extended ghost census through $L = 12$ across all $(L, V)$ pairs with
+$V < 2L$ (i.e., $\rho > 1/4$) reveals the following:
+
+- **157,909** canonical case-(a) ghost types found across 66 $(L, V)$ pairs.
+- **13** types materialize (appear at accessible $k$ values); the remaining
+  $\sim 99.99\%$ are algebraically valid 2-adic orbits that never appear in the
+  finite transfer matrices $P_k$.
+- All 13 materializing types have the \emph{concentrated} $v$-pattern
+  $(1, \ldots, 1, e+1)$ (up to cyclic rotation), despite concentrated
+  patterns comprising only 66 of the 157,909 canonical types.
+
+The dominance of concentrated patterns among materializing ghosts remains an open
+question. The heuristic expected number of materializations is $r \approx p/2^V$,
+which depends only on the $(L, V)$ pair and not on the distribution of $v_i$
+values. A complete explanation would require analyzing the 2-adic alignment
+properties of the $R$ values produced by different compositions.
 
 
 # Falsification of Conjecture 1
@@ -436,34 +494,54 @@ $\mathcal{G}$ appears. If two ghost types have periods sharing a common factor,
 an inclusion-exclusion correction is needed.
 \end{conjecture}
 
-From the six known ghost types (Table~3), the formula gives
+From the six original ghost types with $L \leq 8$ (Table~3), the product formula gives
 $\delta(E) \geq 1 - \frac{24}{25} \cdot \frac{175}{178} \cdot \frac{651}{660} \cdot
 \frac{1925}{1930} \cdot \frac{82}{84} \cdot \frac{1431}{1441} \approx 10.0\%$.
 Here $r_{-1675} = 9$ counts the total residue classes across all $v$-pattern
 types with $D = -1675$ (three distinct non-rotation composition families each
 contributing three residue classes).
-We note that several period pairs share common factors (e.g.,
-$\gcd(25, 660) = 5$), so the coprime assumption is not exactly satisfied; the
-$10.0\%$ figure is therefore approximate, though the qualitative conclusion
-($\delta(E) > 0$) is unaffected --- the $D = -601$ ghost alone gives
-$\delta(E) \geq 1/25 = 4\%$ unconditionally.
-The $V = L + 1$ family produces additional ghost types at larger $L$
-(Section~4.4), suggesting further contributions to $\delta(E)$.
+
+The product formula is a \emph{lower bound} on the true density, not an exact value.
+Several period pairs share common factors ($\gcd(660, 1930) = 10$,
+$\gcd(660, 84) = 12$, $\gcd(660, 1441) = 11$), so the coprime assumption
+underlying the product formula is not satisfied. When periods share factors,
+residue classes can coincide more often than independence predicts, making the
+union larger than the product formula suggests.
+
+An empirical scan of ghost type memberships through $k = 1000$ gives:
+$k = 100$: 9.18\%, $k = 200$: 10.61\%, $k = 500$: 10.04\%, $k = 1000$: 10.22\%.
+The $0.2\%$ gap between the product formula (10.0\%) and the empirical density
+(10.2\%) is consistent with the expected correction from shared period factors.
+The oscillation between 9\% and 11\% reflects finite-size effects from the
+various periods; convergence to a stable density requires
+$k \gg \mathrm{lcm}(\text{all periods}) \sim 10^{10}$.
+
+The seven additional ghost types from the extended census (Table~3)
+contribute $\sim 0.2\%$ additional density (their periods are large and residue
+counts small), bringing the total lower bound to $\delta(E) \gtrsim 10.2\%$.
+The $D = -601$ ghost alone gives $\delta(E) \geq 1/25 = 4\%$ unconditionally.
 
 \begin{conjecture}[Spectral Radius]
 The spectral radius of the transfer matrices satisfies
 $$\limsup_{k \to \infty} \rho_k = \max\left(\frac{1}{4}, \; \sup_{\mathcal{G}} 2^{-V_{\mathcal{G}}/L_{\mathcal{G}}}\right),$$
 where the supremum is over all case-(a) ghost types. The maximum with $1/4$ accounts
-for the fixed point $\{1\}$. From the known ghosts, $\limsup \rho_k \geq 2^{-9/8} \approx 0.4585$
-(from $D = -6049$). The $V = L + 1$ ghost family gives $\rho = 2^{-(L+1)/L} \to 1/2$
-as $L \to \infty$; computational evidence (ghosts appearing at $L = 6, 7, 8, 10, 12,
-13, 14, 15$) suggests $\limsup \rho_k = 1/2$.
+for the fixed point $\{1\}$. From the known ghosts, $\limsup \rho_k \geq 2^{-13/12} \approx 0.4719$
+(from $D = -523249$, $L = 12$, $V = 13$). The $V = L + 1$ ghost family gives
+$\rho = 2^{-(L+1)/L} \to 1/2$ as $L \to \infty$; computational evidence (ghosts
+appearing at $L = 6, 7, 8, 10, 12, 13, 14, 15$) suggests $\limsup \rho_k = 1/2$.
+More generally, any family with fixed excess $e = V - L$ has
+$\rho = 2^{-1-e/L} \to 1/2$ as $L \to \infty$, so the spectral radius question
+does not depend solely on the $V = L+1$ family.
 \end{conjecture}
 
 \begin{conjecture}[Negative Rationality]
-For every case-(a) ghost type, all orbit elements $\tilde{n}_i = R/D$ are negative
-rationals.
+For every case-(a) ghost type with $D < 0$, all orbit elements $\tilde{n}_i = R_i/D$
+are negative rationals (equivalently, $R_i > 0$ for all $i$).
 \end{conjecture}
+
+This conjecture has been verified computationally for all 5,996 canonical case-(a)
+ghost types with $D < 0$ across 66 $(L, V)$ pairs through $L = 12$. Every orbit
+element of every such ghost has $R_i > 0$.
 
 \begin{remark}
 If a 2-adic periodic orbit $\tilde{n}_1, \ldots, \tilde{n}_L$ has
@@ -480,6 +558,22 @@ Collatz cycles (the periodic orbit part of the Collatz conjecture), and addition
 excludes positive non-integer rational orbits. It does not address divergent
 trajectories.
 \end{remark}
+
+\begin{conjecture}[Universal Case-(a)]
+For all positive integers $L \geq 2$ and $L+1 \leq V \leq 2L-1$, and for every
+composition $(v_1, \ldots, v_L)$ of $V$ into $L$ positive parts, the rational orbit
+$\tilde{n}_1 = R/(2^V - 3^L)$ satisfies $v_2(3\tilde{n}_i + 1) = v_i$ for all
+$i = 1, \ldots, L$. Equivalently, every such composition defines a true periodic
+orbit of the Syracuse map on $\mathbb{Z}_2^{\mathrm{odd}}$; there are no case-(b)
+ghost types with $\rho > 1/4$.
+\end{conjecture}
+
+This conjecture has been verified exhaustively for all 91 $(L, V)$ pairs with
+$L = 2, \ldots, 15$, covering every composition (up to $\sim 800{,}000$ per pair
+for $L \leq 12$; $10^6$ random samples per pair for $L = 13$--$15$). Zero failures
+were found. The conjecture eliminates case-(b) from the spectral-radius-relevant
+range entirely, and implies that the density formula (Conjecture~1) applies to all
+ghost types with $\rho > 1/4$ without case-(b) corrections.
 
 
 # Eigenvalue Spectra

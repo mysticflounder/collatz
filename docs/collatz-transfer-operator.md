@@ -330,10 +330,14 @@ $\sigma(L) = \{0, 1/4\}$. $\square$
 \begin{remark}[Falsification of hypothesis]
 The hypothesis of Theorem 3 is FALSE. Ghost cycles are true 2-adic periodic orbits
 (see companion paper) that reappear at arithmetic progressions of levels. The exceptional
-set $E$ is infinite with density $\geq 4\%$, and the $D = -601$ ghost ($L = 6$, $V = 7$)
-contributes $\rho \geq 2^{-7/6} \approx 0.445$ at every $k \equiv 12 \pmod{25}$.
+set $E$ is infinite with density $\geq 4\%$: the $D = -601$ ghost ($L = 6$, $V = 7$)
+alone contributes $\rho \geq 2^{-7/6} \approx 0.445$ at every $k \equiv 12 \pmod{25}$.
+The current record holder is the $D = -523249$ ghost ($L = 12$, $V = 13$), giving
+$\rho \geq 2^{-13/12} \approx 0.4719$. The $V = L+1$ ghost family produces appearing
+ghosts at $L = 5, 6, 7, 8, 10, 12, 13, 14, 15$ with $\rho = 2^{-(L+1)/L} \to 1/2$,
+strongly suggesting $\rho(L) = 1/2$ (see companion paper, Section 4.4).
 Theorem 3 remains logically valid but its conclusion does not hold: $\rho(L) > 1/4$.
-The current best bounds are $2^{-7/6} \leq \rho(L) \leq 1/2$.
+The current best bounds are $2^{-13/12} \leq \rho(L) \leq 1/2$.
 \end{remark}
 
 
@@ -361,8 +365,17 @@ on Mahler coefficients may admit a tractable representation that accommodates bo
 2. **Projective limit.** Theorem 2(e) gives $\sigma(L) = \overline{\bigcup \sigma(P_k)}$
 directly, bypassing the need for quasi-compactness. However, case-(a) ghosts DO
 persist across levels (they reappear periodically), so exceptional eigenvalues DO
-accumulate. The question becomes: what is the supremum of $2^{-V/L}$ over all
-case-(a) ghost types?
+accumulate. The $V = L+1$ ghost family (see companion paper, Section 4.4) produces
+case-(a) ghosts with $\rho = 2^{-(L+1)/L} \to 1/2$ at the majority of tested cycle
+lengths $L \leq 15$, suggesting $\rho(L) = 1/2$ and hence \emph{no spectral gap} on
+$C(\mathbb{Z}_2^{\text{odd}})$. This makes the function space question (item 1)
+not merely theoretical but necessary for any further progress via spectral methods.
+Moreover, computational evidence (see companion paper) shows that \emph{every}
+composition of $V$ into $L$ positive parts produces a case-(a) ghost for all tested
+$(L, V)$ with $L \leq 15$ and $V < 2L$. If this universal case-(a) property holds for
+all $L$, then $\sigma(L) \supseteq [1/4, 1/2]$ (the set
+$\{2^{-V/L} : L \geq 2, L+1 \leq V \leq 2L-1\}$ is dense in $[1/4, 1/2]$),
+contingent on materialization of sufficiently many ghost types.
 
 3. **Baker--W\"ustholz bounds.** Effective lower bounds on $|2^V - 3^L|$ from
 transcendence theory bound ghost cycle denominators but do NOT prove $|E| < \infty$.

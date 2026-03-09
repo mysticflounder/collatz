@@ -1,3 +1,4 @@
 # Build artifacts
 docs/*.pdf
 docs/archive/*.pdf
+analysis/__pycache__/
