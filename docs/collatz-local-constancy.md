@@ -42,7 +42,9 @@ to $x = 3$, $y = 1$.
 At resolution $k \geq 2$, the map $S$ acts on the $N = 2^{k-1}$ odd residue classes
 modulo $2^k$, encoded in a transfer matrix $P_k(x,y)$ whose spectral radius $\rho_k(x,y)$
 measures the worst-case contraction rate over all modular cycles. A natural question is:
-how does $P_k$ depend on the multiplier $x$? One might hope for polynomial dependence,
+how does $P_k$ depend on the multiplier $x$? This is motivated by the discovery that the
+exceptional set $E$ --- levels where additional modular cycles appear --- is infinite with
+positive density (see companion paper). One might hope for polynomial dependence in $x$,
 enabling analytic continuation techniques. Our main result shows the dependence is
 fundamentally different: $P_k$ is a step function that jumps at 2-adic boundaries.
 
@@ -241,7 +243,7 @@ of the proof --- the minimality argument shows that $M - 1$ bits genuinely do no
 
 # Acknowledgments {-}
 
-The author acknowledges substantial use of Claude (Anthropic) for code development, computational exploration, and manuscript drafting. All computational claims are verified by an automated test suite and reproducible from the open-source repository.
+The author acknowledges use of Claude (Anthropic) for code development and computational exploration. All results are verified by an automated test suite and reproducible from the open-source repository.
 
 # References {-}
 

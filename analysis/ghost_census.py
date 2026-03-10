@@ -5,6 +5,7 @@ For each case-(a) ghost found, records orbit elements, signs,
 materialization schedule, and structural properties.
 """
 
+import random
 from fractions import Fraction
 from itertools import combinations
 
@@ -194,8 +195,13 @@ def census():
             flush=True,
         )
 
-    # Detailed ghost table — only concentrated patterns with D < 0 get materialization check
-    print("\n\nDetailed Ghost Catalog (concentrated patterns, D < 0)", flush=True)
+    # Detailed ghost table — check ALL canonical patterns with D < 0
+    max_patterns_per_lv = 200  # sample limit for large (L,V) pairs
+    print(
+        f"\n\nDetailed Ghost Catalog (all canonical patterns, D < 0, "
+        f"sample limit {max_patterns_per_lv}/pair)",
+        flush=True,
+    )
     print("=" * 90, flush=True)
 
     # Compute ord_2 for unique |D| values (only negative D)
@@ -224,41 +230,63 @@ def census():
             else:
                 non_concentrated.append((row["l"], row["v"], ghost["pattern"]))
 
-            # Only check materialization for concentrated patterns with D < 0
-            if ghost["concentrated"] and row["d"] < 0:
-                abs_d = abs(row["d"])
-                p = d_periods.get(abs_d, -1)
-                r_val = compute_r(ghost["pattern"])
-                materializations = []
-                search_limit = min(p, 10000) if p > 0 else 10000
-                for k in range(row["l"] + 2, search_limit + 1):
-                    if check_materialization(ghost["pattern"], row["d"], r_val, k):
-                        materializations.append(k)
+    # Check materialization for all canonical D < 0 patterns
+    for row in summary_rows:
+        if row["d"] >= 0:
+            continue
+        abs_d = abs(row["d"])
+        p = d_periods.get(abs_d, -1)
+        search_limit = min(p, 10000) if p > 0 else 10000
 
-                r_count = len(materializations)
-                first_k = materializations[0] if materializations else "---"
+        # Sample if too many canonical ghosts
+        ghosts_to_check = row["canonical_ghosts"]
+        sampled = False
+        if len(ghosts_to_check) > max_patterns_per_lv:
+            random.seed(row["d"])  # deterministic per (L,V)
+            ghosts_to_check = random.sample(ghosts_to_check, max_patterns_per_lv)
+            sampled = True
 
-                pat_str = str(ghost["pattern"])
-                print(
-                    f"  L={row['l']}, V={row['v']}, D={row['d']:>8}, "
-                    f"v={pat_str:<25} rho={row['rho']:.4f}, "
-                    f"p={p:>8}, r={r_count:>3}, first_k={str(first_k):>6}",
-                    flush=True,
+        for ghost in ghosts_to_check:
+            r_val = compute_r(ghost["pattern"])
+            materializations = []
+            for k in range(row["l"] + 2, search_limit + 1):
+                if check_materialization(ghost["pattern"], row["d"], r_val, k):
+                    materializations.append(k)
+
+            r_count = len(materializations)
+            first_k = materializations[0] if materializations else "---"
+
+            conc_flag = "CONC" if ghost["concentrated"] else "    "
+            pat_str = str(ghost["pattern"])
+            print(
+                f"  L={row['l']}, V={row['v']}, D={row['d']:>8}, "
+                f"[{conc_flag}] v={pat_str:<25} rho={row['rho']:.4f}, "
+                f"p={p:>8}, r={r_count:>3}, first_k={str(first_k):>6}",
+                flush=True,
+            )
+
+            if r_count > 0:
+                materialized_ghosts.append(
+                    {
+                        "l": row["l"],
+                        "v": row["v"],
+                        "d": row["d"],
+                        "pattern": ghost["pattern"],
+                        "rho": row["rho"],
+                        "p": p,
+                        "r": r_count,
+                        "first_k": first_k,
+                        "concentrated": ghost["concentrated"],
+                    }
                 )
 
-                if r_count > 0:
-                    materialized_ghosts.append(
-                        {
-                            "l": row["l"],
-                            "v": row["v"],
-                            "d": row["d"],
-                            "pattern": ghost["pattern"],
-                            "rho": row["rho"],
-                            "p": p,
-                            "r": r_count,
-                            "first_k": first_k,
-                        }
-                    )
+        if sampled:
+            print(
+                f"  ... sampled {max_patterns_per_lv} of "
+                f"{len(row['canonical_ghosts'])} canonical ghosts "
+                f"for L={row['l']}, V={row['v']}",
+                flush=True,
+            )
 
     # Structural summary
     print("\n\nStructural Summary", flush=True)
@@ -286,13 +314,17 @@ def census():
 
     # Materializing ghosts summary
     if materialized_ghosts:
+        conc_mat = [mg for mg in materialized_ghosts if mg["concentrated"]]
+        nonc_mat = [mg for mg in materialized_ghosts if not mg["concentrated"]]
         print(
-            f"\nMaterializing ghost types (D<0, concentrated): {len(materialized_ghosts)}",
+            f"\nMaterializing ghost types (D<0): {len(materialized_ghosts)} total "
+            f"({len(conc_mat)} concentrated, {len(nonc_mat)} non-concentrated)",
             flush=True,
         )
         for mg in materialized_ghosts:
+            conc_flag = "CONC" if mg["concentrated"] else "    "
             print(
-                f"  D={mg['d']}, L={mg['l']}, V={mg['v']}, "
+                f"  [{conc_flag}] D={mg['d']}, L={mg['l']}, V={mg['v']}, "
                 f"rho={mg['rho']:.4f}, p={mg['p']}, r={mg['r']}, "
                 f"first_k={mg['first_k']}",
                 flush=True,
