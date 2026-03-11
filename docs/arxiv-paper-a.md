@@ -553,7 +553,7 @@ Ghost cycles are not transient artifacts of modular reduction. They are the modu
 projections of true periodic orbits of $S$ on the 2-adic integers
 $\mathbb{Z}_2^{\mathrm{odd}}$.
 
-![Chord diagrams of the Syracuse successor map at four resolutions. Odd residues mod $2^k$ are arranged around a circle; each arc connects a residue to its successor. At $k = 9$ and $k = 13$ (non-exceptional), only the fixed point $\{1\}$ (gold) forms a cycle. At $k = 10$, a 26-node ghost cycle appears (cyan). At $k = 12$, two ghost cycles coexist (cyan: $L = 7$, orange: $L = 6$).](analysis/figures/ghost_contrast.png){width=100%}
+![Chord diagrams of the Syracuse successor map at four resolutions. Odd residues mod $2^k$ are arranged around a circle; each arc connects a residue to its successor. At $k = 9$ and $k = 13$ (non-exceptional), only the fixed point $\{1\}$ (gold) forms a cycle. At $k = 10$, a 26-node ghost cycle appears (cyan). At $k = 12$, two ghost cycles coexist (cyan: $L = 7$, orange: $L = 6$).](analysis/ghost_contrast.png){width=100%}
 
 
 # Ghost Cycles as 2-Adic Periodic Orbits
@@ -606,7 +606,7 @@ limit has ``extra'' 2-adic cancellation; the orbit exists at only finitely many 
 \end{itemize}
 \end{definition}
 
-![2-adic digit stabilization for the $D = -601$ ghost ($L = 6$, $V = 7$). Each column shows the binary digits of $n_1 = R \cdot D^{-1} \bmod 2^k$. Digits stabilize from the least significant bit upward: once bit position $b$ is determined at resolution $k = b + 1$, it never changes. The dashed line marks $k = 12$, where the ghost first materializes as a modular cycle.](analysis/figures/digit_stabilization.png){width=90%}
+![2-adic digit stabilization for the $D = -601$ ghost ($L = 6$, $V = 7$). Each column shows the binary digits of $n_1 = R \cdot D^{-1} \bmod 2^k$. Digits stabilize from the least significant bit upward: once bit position $b$ is determined at resolution $k = b + 1$, it never changes. The dashed line marks $k = 12$, where the ghost first materializes as a modular cycle.](analysis/digit_stabilization.png){width=90%}
 
 \setcounter{conjecture}{0}
 \begin{conjecture}[Universal case-(a)]
@@ -625,6 +625,16 @@ survey through $L = 20$ ($10^6$ samples per pair, 85 million total) finds zero
 failures. Moreover, the case-(a) property holds even for $V \geq 2L$ (where
 $D > 0$), tested exhaustively through $L = 12$ at $V = 2L$ and $V = 2L + 1$:
 the sign of $D$ does not affect the universal case-(a) property.
+
+\begin{remark}[Towards a proof]
+A proof would need to show that $v_2(3R_i + D) = v_i$ for all $i$ and all compositions,
+where the $R_i$ satisfy the orbit recurrence $R_{i+1} = (3R_i + D)/2^{v_i}$.
+The case-(a) condition is equivalent to each such quotient being odd;
+proving this uniformly across all compositions appears to require fine control on
+$R_i \pmod{2^{v_i+1}}$ that Baker-type bounds do not directly supply.
+The concentrated-pattern restriction (Section~9) gives explicit closed forms for the
+$R_i$, and may provide the additional leverage needed for those families.
+\end{remark}
 
 ## Persistence of Case-(a) Ghosts
 
@@ -876,7 +886,7 @@ once identified, their reappearance pattern is exactly periodic
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{analysis/figures/ghost_timeline.png}
+\includegraphics[width=\textwidth]{analysis/ghost_timeline.png}
 \caption{Ghost cycle appearances by level $k$. Each row represents a ghost type
 (identified by denominator $D$). The vertical dashed line at $k = 36$ marks the boundary
 of exhaustive search; beyond it, ghost memberships are computed algebraically from
@@ -917,6 +927,17 @@ $k \gg \mathrm{lcm}(\text{all periods}) \sim 10^{10}$.
 
 The $D = -601$ ghost alone gives $\delta(E) \geq 1/25 = 4\%$ unconditionally.
 
+\begin{remark}[Towards a proof]
+The main obstacle is converting the lower bound into an exact density.
+Two routes are available: (1) full inclusion-exclusion over all ghost types,
+requiring identification of every materializing family (currently bounded through $L = 15$);
+or (2) an equidistribution result showing that ghost memberships are asymptotically
+independent, which would make the product formula exact. The second route reduces to
+equidistribution of $2^k \pmod{|D|}$ for each ghost type --- a classical result in
+multiplicative order theory that holds individually for each $D$, but whose uniformity
+across all ghost types simultaneously remains open.
+\end{remark}
+
 ## Conjecture 3 (Spectral Radius)
 
 \begin{conjecture}[Spectral Radius]
@@ -943,7 +964,8 @@ are negative rationals (equivalently, $R_i > 0$ for all $i$).
 
 This conjecture has been verified computationally for all 5,996 canonical case-(a)
 ghost types with $D < 0$ across 66 $(L, V)$ pairs through $L = 12$. Every orbit
-element of every such ghost has $R_i > 0$.
+element of every such ghost has $R_i > 0$. A proof strategy via Baker--W\"ustholz
+bounds and the concentrated-pattern restriction is outlined in the Discussion (Section~12).
 
 \begin{remark}
 If a 2-adic periodic orbit $\tilde{n}_1, \ldots, \tilde{n}_L$ has
