@@ -11,7 +11,7 @@ the modular cycle via the Syracuse map and checks:
 import sys
 import time
 
-sys.path.insert(0, "/home/adam/pythonprojects/projects/collatz/analysis")
+import os as _os; sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__))))
 
 from ghost_census import (  # noqa: E402
     check_case_a,
