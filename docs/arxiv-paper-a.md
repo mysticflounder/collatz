@@ -553,7 +553,7 @@ Ghost cycles are not transient artifacts of modular reduction. They are the modu
 projections of true periodic orbits of $S$ on the 2-adic integers
 $\mathbb{Z}_2^{\mathrm{odd}}$.
 
-![Chord diagrams of the Syracuse successor map at four resolutions. Odd residues mod $2^k$ are arranged around a circle; each arc connects a residue to its successor. At $k = 9$ and $k = 13$ (non-exceptional), only the fixed point $\{1\}$ (gold) forms a cycle. At $k = 10$, a 26-node ghost cycle appears (cyan). At $k = 12$, two ghost cycles coexist (cyan: $L = 7$, orange: $L = 6$).](analysis/ghost_contrast.png){width=100%}
+![Chord diagrams of the Syracuse successor map at four resolutions. Odd residues mod $2^k$ are arranged around a circle; each arc connects a residue to its successor. At $k = 9$ and $k = 13$ (non-exceptional), only the fixed point $\{1\}$ (gold) forms a cycle. At $k = 10$, a 26-node ghost cycle appears (cyan). At $k = 12$, two ghost cycles coexist (cyan: $L = 7$, orange: $L = 6$).](analysis/figures/ghost_contrast.png){width=100%}
 
 
 # Ghost Cycles as 2-Adic Periodic Orbits
@@ -606,7 +606,7 @@ limit has ``extra'' 2-adic cancellation; the orbit exists at only finitely many 
 \end{itemize}
 \end{definition}
 
-![2-adic digit stabilization for the $D = -601$ ghost ($L = 6$, $V = 7$). Each column shows the binary digits of $n_1 = R \cdot D^{-1} \bmod 2^k$. Digits stabilize from the least significant bit upward: once bit position $b$ is determined at resolution $k = b + 1$, it never changes. The dashed line marks $k = 12$, where the ghost first materializes as a modular cycle.](analysis/digit_stabilization.png){width=90%}
+![2-adic digit stabilization for the $D = -601$ ghost ($L = 6$, $V = 7$). Each column shows the binary digits of $n_1 = R \cdot D^{-1} \bmod 2^k$. Digits stabilize from the least significant bit upward: once bit position $b$ is determined at resolution $k = b + 1$, it never changes. The dashed line marks $k = 12$, where the ghost first materializes as a modular cycle.](analysis/figures/digit_stabilization.png){width=90%}
 
 \setcounter{conjecture}{0}
 \begin{conjecture}[Universal case-(a)]
@@ -886,7 +886,7 @@ once identified, their reappearance pattern is exactly periodic
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{analysis/ghost_timeline.png}
+\includegraphics[width=\textwidth]{analysis/figures/ghost_timeline.png}
 \caption{Ghost cycle appearances by level $k$. Each row represents a ghost type
 (identified by denominator $D$). The vertical dashed line at $k = 36$ marks the boundary
 of exhaustive search; beyond it, ghost memberships are computed algebraically from
