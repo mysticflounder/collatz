@@ -633,8 +633,10 @@ where the $R_i$ satisfy the orbit recurrence $R_{i+1} = (3R_i + D)/2^{v_i}$.
 The case-(a) condition is equivalent to each such quotient being odd;
 proving this uniformly across all compositions appears to require fine control on
 $R_i \pmod{2^{v_i+1}}$ that Baker-type bounds do not directly supply.
-The concentrated-pattern restriction (Section~9) gives explicit closed forms for the
-$R_i$, and may provide the additional leverage needed for those families.
+For concentrated patterns $(1,\ldots,1,e+1)$, this is now established unconditionally
+by Theorem~\ref{thm:conc} (Section~9), which derives an explicit closed form for $R_i$
+and verifies the parity conditions directly. Extending this argument to non-concentrated
+compositions remains open.
 \end{remark}
 
 ## Persistence of Case-(a) Ghosts
