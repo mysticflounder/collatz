@@ -269,7 +269,7 @@ def main():
     # Dense computation is the ground truth for non-exceptional k.
 
     # Save results
-    output_path = "analysis/spectrum_results.json"
+    output_path = "analysis/data/spectrum_results.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
     print(f"Results written to {output_path}")

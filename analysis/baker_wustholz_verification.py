@@ -932,9 +932,9 @@ def plot_ghost_timeline(e_data):
     ax.legend(handles=legend_elements, fontsize=8, loc="upper right", ncol=2)
 
     plt.tight_layout()
-    plt.savefig("analysis/ghost_timeline.png", dpi=150, bbox_inches="tight")
+    plt.savefig("analysis/figures/ghost_timeline.png", dpi=150, bbox_inches="tight")
     plt.close()
-    print("  Saved to analysis/ghost_timeline.png\n")
+    print("  Saved to analysis/figures/ghost_timeline.png\n")
 
 
 def plot_rho_scatter(e_data):
@@ -970,7 +970,7 @@ def plot_rho_scatter(e_data):
     # Try to load cycle_search_results.json for k<=36
     exhaustive_rho = {}
     try:
-        with open("analysis/cycle_search_results.json") as f:
+        with open("analysis/data/cycle_search_results.json", encoding="utf-8") as f:
             data = json.load(f)
         for entry in data.get("results", []):
             exhaustive_rho[entry["k"]] = entry["rho"]

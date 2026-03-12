@@ -5,17 +5,20 @@ Verifies the closed-form formula R_i = 2^{L-i+1}(2^e-1)*3^{i-1} + (3^L - 2^{L+e}
 against the recurrence, checks positivity, orbit closure, and case-(a) for all
 concentrated patterns with L=2..15 and valid e.
 """
-import sys
+
 import os
+import sys
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import matplotlib
-matplotlib.use('Agg')
+
+matplotlib.use("Agg")
 
 
 def orbit_via_recurrence(L, e):
     """Compute R_i via the recurrence for concentrated pattern."""
-    D = 2**(L + e) - 3**L
+    D = 2 ** (L + e) - 3**L
     R = [None] * (L + 1)  # 1-indexed, R[1]..R[L]
     R[1] = 3**L - 2**L
     for i in range(1, L):
@@ -25,10 +28,10 @@ def orbit_via_recurrence(L, e):
 
 def orbit_via_formula(L, e):
     """Compute R_i via the closed-form formula."""
-    D = 2**(L + e) - 3**L
+    D = 2 ** (L + e) - 3**L
     R = [None] * (L + 1)
     for i in range(1, L + 1):
-        R[i] = 2**(L - i + 1) * (2**e - 1) * 3**(i - 1) + (3**L - 2**(L + e))
+        R[i] = 2 ** (L - i + 1) * (2**e - 1) * 3 ** (i - 1) + (3**L - 2 ** (L + e))
     return R, D
 
 
@@ -55,9 +58,9 @@ def check_case_a(R, D, L, e):
 def check_orbit_closure(R, D, L, e):
     """Check (3*R_L + D) / 2^{e+1} == R_1."""
     numerator = 3 * R[L] + D
-    if numerator % 2**(e + 1) != 0:
-        return f"  Closure FAIL: 3*R_L+D={numerator} not divisible by 2^{e+1}={2**(e+1)}"
-    result = numerator // 2**(e + 1)
+    if numerator % 2 ** (e + 1) != 0:
+        return f"  Closure FAIL: 3*R_L+D={numerator} not divisible by 2^{e + 1}={2 ** (e + 1)}"
+    result = numerator // 2 ** (e + 1)
     if result != R[1]:
         return f"  Closure FAIL: (3*R_L+D)/2^{{e+1}}={result}, R_1={R[1]}"
     return None
@@ -72,12 +75,13 @@ def main():
     total_patterns = 0
     total_failures = 0
     import math
+
     log23 = math.log2(3) - 1  # ≈ 0.585
 
     for L in range(2, 16):
         e_max = int(L * log23)  # e must satisfy D < 0, i.e., e < L*(log2(3)-1)
         for e in range(1, e_max + 1):
-            D = 2**(L + e) - 3**L
+            D = 2 ** (L + e) - 3**L
             if D >= 0:
                 continue  # skip D >= 0
 
@@ -114,8 +118,10 @@ def main():
                 for f in failures:
                     print(f)
             else:
-                print(f"  PASS L={L:2d}, e={e}, D={D:10d}, "
-                      f"min(R_i)={min(R_rec[i] for i in range(1, L+1))}")
+                print(
+                    f"  PASS L={L:2d}, e={e}, D={D:10d}, "
+                    f"min(R_i)={min(R_rec[i] for i in range(1, L + 1))}"
+                )
 
     print()
     print("=" * 70)
@@ -135,7 +141,7 @@ def main():
         print(f"\n  L={L}, e={e}, D={D}:")
         for i in range(1, L + 1):
             print(f"    R_{i} = {R[i]}")
-        print(f"    All R_i > 0: {all(R[i] > 0 for i in range(1, L+1))}")
+        print(f"    All R_i > 0: {all(R[i] > 0 for i in range(1, L + 1))}")
 
 
 if __name__ == "__main__":

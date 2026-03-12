@@ -336,12 +336,12 @@ def section_3():
         theta = np.linspace(0, 2 * np.pi, 100)
         ax.plot(np.cos(theta), np.sin(theta), "k-", alpha=0.4, linewidth=1.5)
         if len(zeros) > 0:
-            ax.scatter(zeros.real, zeros.imag, c="#e41a1c", s=30, alpha=0.8,
-                       edgecolors="none", zorder=3)
+            ax.scatter(
+                zeros.real, zeros.imag, c="#e41a1c", s=30, alpha=0.8, edgecolors="none", zorder=3
+            )
         title_weight = "bold" if x == 3 else "normal"
         title_color = "#e41a1c" if x == 3 else "black"
-        ax.set_title(f"$x = {x}$", fontsize=13, fontweight=title_weight,
-                      color=title_color)
+        ax.set_title(f"$x = {x}$", fontsize=13, fontweight=title_weight, color=title_color)
         ax.set_aspect("equal")
         ax.set_xlim(-5, 5)
         ax.set_ylim(-5, 5)

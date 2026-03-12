@@ -477,7 +477,7 @@ def run_search(k_min, k_max):
         results.append(result)
 
     # Write results
-    output_path = "analysis/cycle_search_results.json"
+    output_path = "analysis/data/cycle_search_results.json"
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(
             {
