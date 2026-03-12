@@ -24,7 +24,8 @@ abstract: |
   $L = 12$, organized into families by excess $e = V - L$, with record spectral radius
   $\rho \geq 2^{-16/15} \approx 0.4774$. We propose four replacement conjectures.
   Conjecture 4 (negative rationality) asserts that all orbit elements of $D < 0$ ghost
-  types are negative rationals --- verified through $L = 12$ for 5,996 cases ---
+  types are negative rationals --- verified through $L = 12$ for 5,996 cases and proved
+  unconditionally for all concentrated patterns via an explicit closed-form formula ---
   establishing that the entire high-spectral-radius regime ($\rho > 1/3$, equivalently
   $D < 0$) consists of purely negative 2-adic orbits with no positive-integer elements.
   All computations are reproducible from the accompanying open-source repository.
@@ -963,9 +964,41 @@ are negative rationals (equivalently, $R_i > 0$ for all $i$).
 \end{conjecture}
 
 This conjecture has been verified computationally for all 5,996 canonical case-(a)
-ghost types with $D < 0$ across 66 $(L, V)$ pairs through $L = 12$. Every orbit
-element of every such ghost has $R_i > 0$. A proof strategy via Baker--W\"ustholz
-bounds and the concentrated-pattern restriction is outlined in the Discussion (Section~12).
+ghost types with $D < 0$ across 66 $(L, V)$ pairs through $L = 12$. For concentrated
+patterns it is now a theorem:
+
+\begin{theorem}[Negative Rationality for Concentrated Patterns]
+\label{thm:conc}
+Let $L \geq 2$, $e \geq 1$, and $D = 2^{L+e} - 3^L < 0$. For the concentrated
+ghost type $(L, V, (1,\ldots,1,e+1))$ with $V = L+e$, the orbit numerators are
+given by the closed form
+$$R_i = 2^{L-i+1}(2^e - 1)\cdot 3^{i-1} + (3^L - 2^{L+e}), \quad i = 1, \ldots, L.$$
+Both terms are strictly positive, so $R_i > 0$ for all $i$, and all orbit elements
+$\tilde{n}_i = R_i/D$ are negative rationals. As a byproduct, concentrated patterns
+are always case-(a).
+\end{theorem}
+
+\begin{proof}
+The orbit recurrence $R_{i+1} = (3R_i + D)/2$ for $i = 1,\ldots,L-1$ is a
+first-order linear recurrence. Setting $Q_i = 2^{i-1}R_i$ gives
+$Q_{i+1} = 3Q_i + 2^{i-1}D$, which has the general solution
+$Q_i = C\cdot 3^{i-1} - D\cdot 2^{i-1}$.
+With $R_1 = \sum_{j=0}^{L-1} 3^{L-1-j}2^j = 3^L - 2^L$ (geometric series),
+the initial condition gives $C = 2^L(2^e - 1)$, yielding the stated formula.
+Orbit closure $(3R_L + D)/2^{e+1} = R_1$ is verified directly.
+Positivity: the first term is positive since $e \geq 1$; the second since $D < 0$
+implies $3^L > 2^{L+e}$. Case-(a) requires $v_2(3R_i + D) = v_i$ exactly. For $i < L$: $3R_i + D = 2R_{i+1}$
+by the recurrence, so $v_2(3R_i + D) = 1 + v_2(R_{i+1})$; we need $R_{i+1}$ odd.
+For $i = L$: $3R_L + D = 2^{e+1}(3^L - 2^L)$ (verified directly), giving
+$v_2 = e+1 = v_L$. Oddness of $R_i$ for $i \leq L$: the first term has
+$v_2 = L - i + 1 \geq 1$ for $i < L$ and $v_2 = 1$ for $i = L$;
+the second term $3^L - 2^{L+e}$ is odd; so their sum is odd for $L-i+1 \geq 2$,
+and $2\cdot(\text{odd}) + \text{odd} = \text{odd}$ for $L - i + 1 = 1$.
+\end{proof}
+
+The full conjecture (all $D < 0$ ghost types, not just concentrated patterns)
+remains open for non-concentrated compositions; a proof strategy is outlined
+in the Discussion (Section~12).
 
 \begin{remark}
 If a 2-adic periodic orbit $\tilde{n}_1, \ldots, \tilde{n}_L$ has
@@ -1139,15 +1172,15 @@ exclude case-(b) ghosts (bounded-length, finite persistence) but not case-(a) gh
 which are true 2-adic periodic orbits that persist at arithmetic progressions of levels
 regardless of $|D|$.
 
-A more direct route to Conjecture 4 (Negative Rationality) may be available via the
-methods of Steiner (1977) and Simons--de Weger (2005), who bounded cycle lengths using
-Baker-type estimates on linear forms in logarithms. Their approach controls the numerators
-$R_i$ and the denominator $D = 2^V - 3^L$ jointly, excluding positive-integer cycles up
-to length 68. Extending this to all $L$ is blocked by the circularity $L \lesssim C\log(3^L)$
-in Baker's bounds. However, the concentrated-pattern restriction $(v_1, \ldots, v_L) = (1, \ldots, 1, e+1)$
-gives an explicit closed form for each $R_i$ as a function of position around the cycle,
-which may provide the additional leverage needed to prove $R_i > 0$ uniformly for all
-concentrated patterns with $D < 0$.
+Theorem~\ref{thm:conc} (Section~9) proves Conjecture 4 unconditionally for all
+concentrated patterns, with no Baker bounds required: the closed form
+$R_i = 2^{L-i+1}(2^e-1)\cdot 3^{i-1} + (3^L - 2^{L+e})$ has both terms
+strictly positive, making the result immediate. For non-concentrated patterns,
+the analogous recurrence has non-constant step sizes and the resulting expression
+for $R_i$ involves terms of potentially mixed sign. Extending Theorem~\ref{thm:conc}
+to all compositions would require new control on cancellations in these sums;
+Baker-type bounds in the spirit of Steiner (1977) and Simons--de Weger (2005)
+remain a candidate approach for that case.
 
 ## Thermodynamic Formalism
 
