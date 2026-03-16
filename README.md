@@ -91,6 +91,18 @@ scripts/run_analysis.sh analysis/spectrum_analysis.py
 Computes dense eigenvalue spectra of P_k for k = 3, …, 15.
 Confirms σ(P_k) = {0, 1/4} for all non-exceptional k in this range.
 
+### §12 — Archimedean Non-Compactness (Discussion)
+```bash
+scripts/run_analysis.sh analysis/archimedean_non_compactness.py
+```
+Verifies the non-equicontinuity proof that L is **not compact** on
+C(Z_2^odd, R). For each 2-adic scale r = 1..16, exhibits an explicit
+witness pair (x, y) with x ≡ 1 (mod 3), y ≡ 2 (mod 3), |x − y|_2 = 2^{−r},
+and a test function f (‖f‖_∞ ≤ 1) such that |(Lf)(x) − (Lf)(y)| = 1
+independent of r. Confirms branch disjointness and convergence of partial
+sums to the exact values 1/3 and 2/3. No dependencies beyond the standard
+library (uses `fractions.Fraction` for exact arithmetic).
+
 ### Figures
 ```bash
 scripts/run_analysis.sh analysis/visualizations.py

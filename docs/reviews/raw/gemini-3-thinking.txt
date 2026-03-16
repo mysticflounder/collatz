@@ -1,0 +1,63 @@
+This review evaluates the mathematical claims and rigor of the preprint "Ghost Cycles of the Syracuse Map" by Adam McKenna (2026). The work attempts to replace stochastic heuristics with an operator-theoretic framework on the 2-adic integers $\mathbb{Z}_2$, specifically identifying "ghost cycles" as true $p$-adic periodic orbits that obstruct standard spectral methods.
+
+---
+
+### **Section-by-Section Review**
+
+#### **Abstract & Introduction (Sections 1–2)**
+
+McKenna claims to "close the Mahler/Amice program" by identifying fundamental obstructions to 2-adic spectral gap methods. The introduction establishes a central thesis: "ghost cycles"—modular cycles appearing at finite resolutions—are not numerical artifacts but projections of 2-adic periodic orbits. The framing is bold, asserting that the exceptional set $E$ (levels with extra cycles) has positive density, falsifying previous "density-zero" conjectures.
+
+**Assessment:** The setup is logically sound and aligns with the modern dynamical systems view of the Collatz map. However, a referee would immediately flag the reliance on computational "verification" to justify the existence of the exceptional set. While the 2-adic extension is standard, the claim that these modular projections always correspond to 2-adic orbits requires more than the exhaustive search through $k=36$ provided here to be considered a universal property.
+
+#### **Transfer Matrix & Definitions (Section 2.1)**
+
+The section defines the transfer matrix $P_k$ on odd residues mod $2^k$, incorporating contraction weights $2^{-v_j}$. It establishes that the spectral radius $\rho_k$ is determined by the weighted cycles in the functional graph. Proposition 1 derives the mean valuation $\mathbb{E}[v]=2$, which is used to explain the heuristic $3/4$ contraction rate.
+
+**Assessment:** This section is the most mathematically robust, relying on well-known properties of the Syracuse map's valuation distribution. The matrix construction is standard for this niche. A referee might note that Proposition 1 is "folklore" (as the author admits) and adds little new theory, though it serves as a necessary foundation for the operator norm calculations that follow.
+
+#### **Spectral Theory on $\mathbb{Z}_2^{odd}$ (Section 3)**
+
+McKenna proves that the transfer operator $\mathcal{L}$ has an operator norm $||\mathcal{L}||=2/3$ and a spectral radius $\rho(\mathcal{L}) \le 1/2$. The central result is Theorem 1, which relates the spectrum of the continuous operator to the union of the spectra of finite approximations $P_k$.
+
+**Assessment:** The proof of $||\mathcal{L}||=2/3$ in Proposition 2 is a significant correction of the author's own prior work and appears correct, as it properly accounts for preimages across all residue classes mod 3. However, the "simplicity" of the eigenvalue $\lambda=1/4$ is only "verified computationally" through $k=36$. This is a major weakness; a referee would demand a theoretical proof that no other cycle with $V=2L$ can exist, as a single counterexample would invalidate the spectral gap analysis.
+
+#### **The Lasota-Yorke & 2-Adic Obstructions (Sections 4–5)**
+
+Theorem 2 proves that $\mathcal{L}$ does not preserve Lipschitz or Hölder spaces on $\mathbb{Z}_2$ due to "mod-3 oscillation" of the weight function $W(n)$. Theorem 3 further proves that $\mathcal{L}$ is unbounded on 2-adic function spaces because the weight $2^{-v}$ is 2-adically large ($|2^{-v}|_2 = 2^v$).
+
+**Assessment:** These sections provide the most original and compelling mathematics in the paper. The "arithmetic tension" identified—where branches contract archimedeanly but expand 2-adically—is a legitimate obstruction to the Lasota-Yorke approach. The proof in Theorem 2 using pairs $x_N, y_N$ to show infinite Lipschitz constant is elegant and likely correct. A referee might still ask if a different, non-metric-based space (e.g., a specific Fréchet space) could bypass these obstructions.
+
+#### **Ghost Cycles & Persistence (Sections 7.1–7.3)**
+
+Theorem 4 (the cycle equation) defines the rational limit $\tilde{n}_1 = R/D$ for any modular cycle. Theorem 5 establishes a "persistence" property: case-(a) ghosts (where the rational orbit matches the prescribed valuation pattern) reappear at arithmetic progressions of levels $k \equiv k_0 \pmod p$, where $p$ is the multiplicative order of 2 mod $D$.
+
+**Assessment:** The persistence theorem is the linchpin of the paper's claim that $E$ is infinite. The logic that $D^{-1} \pmod{2^k}$ is periodic in $k$ is sound. However, the distinction between case-(a) and case-(b) relies on the "Universal case-(a)" conjecture. If case-(b) ghosts were common, the density arguments would collapse. The author provides exhaustive verification for small $L$, but a referee will view "no failures found" as insufficient for a theorem-level conclusion.
+
+#### **Density & Spectral Radius (Section 9)**
+
+McKenna falsifies the "Density-Zero Conjecture" by showing the $D=-601$ ghost alone guarantees $\delta(E) \ge 4\%$. Conjecture 2 provides a product formula for the density of $E$ based on the periods $p$ of all materializing ghost types.
+
+**Assessment:** The shift from a $0\%$ density to a $\sim 10\%$ density is a massive claim. While the periodic reappearance of the $-601$ ghost is a concrete counterexample to density-zero, the "independence" assumption in the product formula (Conjecture 2) is highly suspect. Referee concerns will focus on the "coprime assumption" for periods; if periods of different ghosts have large common factors, the density could be significantly lower or more volatile than the predicted 10.2%.
+
+#### **Negative Rationality: Conjecture 4 & Theorem 6 (Section 9.4)**
+
+Conjecture 4 posits that all $D<0$ ghost types consist of purely negative rational orbit elements. Theorem 6 provides an unconditional proof for "concentrated" patterns $(1, \dots, 1, e+1)$, using a first-order linear recurrence to show $R_i > 0$.
+
+**Assessment:** Theorem 6 is a solid piece of algebra. The closed-form solution for $R_i$ and the subsequent parity check correctly establish the case-(a) property for this specific family. However, the leap from concentrated patterns to *all* patterns in Conjecture 4 is purely inductive. A referee would note that non-concentrated patterns involve sums with potentially mixed signs, and the author offers no proof-strategy beyond "new control on cancellations".
+
+#### **Fredholm Determinants & Eigenvalues (Section 10)**
+
+The paper reports that for non-exceptional $k$, the spectrum of $P_k$ is exactly $\{0, 1/4\}$. This leads to the claim that the Fredholm determinant is $1-z/4$ for most $k$.
+
+**Assessment:** The "nearly nilpotent" nature of the matrices (aside from the fixed point) is an interesting observation. However, the paper admits that sparse eigensolvers produce numerical artifacts. A referee might worry that the "exactly zero" eigenvalues are actually very small non-zero values that the dense solver is rounding, which would change the nature of the Fredholm determinant from a simple polynomial to a more complex power series.
+
+#### **Related Work & Discussion (Sections 1.1, 12)**
+
+McKenna situates the work alongside Siegel (2025) and Tao (2022), noting that while Tao proves "almost all" orbits are bounded, this work focuses on the "exceptional set" that eludes such probabilistic bounds.
+
+**Assessment:** The paper does a good job of differentiating itself from the "stochastic model" school. The discussion of "Archimedean Compactness" (Section 12.2) is a weak point; the author admits the compactness of $\mathcal{L}$ on $C(\mathbb{Z}_2, \mathbb{R})$ remains open. Without a proof of compactness, the spectral results remain "approximate" or reliant on the projective limit theorem (Theorem 1e), which a referee may find less than definitive.
+
+---
+
+**Next Step:** Would you like me to generate a formal **Referee Report** template summarizing these critiques, or would you prefer a **Python script** to verify the $R_i$ formula in Theorem 6 for non-concentrated patterns?

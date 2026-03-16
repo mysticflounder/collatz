@@ -1,0 +1,70 @@
+### **Referee Report**
+
+**Title:** Ghost Cycles of the Syracuse Map: 2-Adic Periodic Orbits and the Exceptional Set
+
+**Author:** Adam McKenna
+
+**Date:** March 2026
+
+---
+
+### **1. Summary of the Work**
+
+The paper investigates the Syracuse (Collatz) map $S(n)$ using a transfer operator framework acting on the space of continuous functions over the odd 2-adic integers $C(\mathbb{Z}_2^{odd})$. The author identifies "ghost cycles"—modular cycles occurring at resolution $k$—not as numerical artifacts, but as the projections of true 2-adic periodic orbits.
+
+The manuscript presents three major theoretical contributions:
+
+1. 
+**Fundamental Obstructions:** Proofs that the transfer operator $\mathcal{L}$ does not preserve Lipschitz/Hölder spaces (obstructing Lasota-Yorke methods) and is unbounded on 2-adic function spaces (closing the Mahler/Amice program).
+
+
+2. 
+**Density of the Exceptional Set:** Evidence and an unconditional lower bound ($\delta(E) \ge 4\%$) asserting that the set of levels $k$ possessing extra cycles has positive natural density, contradicting the widely held "density-zero" conjecture.
+
+
+3. 
+**Negative Rationality:** A proof (Theorem 6) that all concentrated ghost patterns represent negative rational 2-adic orbits.
+
+
+
+---
+
+### **2. General Evaluation**
+
+The paper is ambitious and identifies a critical "arithmetic tension" between 2-adic expansion and Archimedean contraction that explains why standard $p$-adic spectral methods have historically failed for the Collatz problem. The identification of ghost cycles as persistent 2-adic orbits is a significant shift from stochastic modeling.
+
+However, the work relies heavily on **Conjecture 1 (Universal case-a)** and **Conjecture 2 (Density)** to support its broader conclusions. While the computational evidence through $k=36$ is extensive, the theoretical bridge between modular observations and universal 2-adic behavior remains speculative in several key areas.
+
+---
+
+### **3. Major Criticisms and Concerns**
+
+#### **A. Reliance on Computational Verification for Spectral Simplicity**
+
+In Theorem 1(c), the author asserts that the eigenvalue $\lambda = 1/4$ is simple. This simplicity is "verified computationally" through $k=36$, but is then used as a basis for the spectral theorem. A referee must point out that without a theoretical proof that no other cycle with total valuation $V=2L$ can exist, the simplicity claim is not rigorously established.
+
+#### **B. The Independence Assumption in Density Calculations**
+
+Conjecture 2 proposes a product formula for the density of the exceptional set $E$. The author admits that several periods share common factors (e.g., $gcd(660, 1930)=10$), which violates the coprime assumption required for a simple product formula. The empirical density ($10.2\%$) vs. the formulaic lower bound ($10.0\%$) is a narrow margin that may not hold as $L \rightarrow \infty$.
+
+#### **C. Generalization of Negative Rationality**
+
+Theorem 6 is mathematically sound for "concentrated" patterns, but Conjecture 4 (Negative Rationality for all $D < 0$ ghosts) remains unproven for non-concentrated compositions. The author’s own Remark in Section 12.4 notes that non-concentrated patterns involve terms of potentially "mixed sign," suggesting that Theorem 6 might be an algebraic special case rather than a representative one.
+
+#### **D. Precision of the Fredholm Determinant**
+
+The author claims that for non-exceptional $k$, the Fredholm determinant is exactly $1 - z/4$. However, Section 11.4 notes that sparse eigensolvers produce "spurious nonzero eigenvalues". While dense computation is used to dismiss these as artifacts, the author must prove that these matrices are truly nilpotent outside of the fixed point {1} to justify the polynomial form of the determinant.
+
+---
+
+### **4. Recommendation**
+
+**Major Revision.** The paper contains high-quality original analysis regarding the failure of 2-adic regularity methods. To be suitable for publication, the author should:
+
+* Strengthen the link between modular cycles and 2-adic orbits by proving the Case-(a) property for a wider class of patterns beyond "concentrated" ones.
+* Provide a more rigorous treatment of the inclusion-exclusion correction for shared period factors in the density conjecture.
+* Clarify the simplicity of the $1/4$ eigenvalue or explicitly state it as a conditional result.
+
+---
+
+**Next Step:** Would you like me to draft a **Python script** to verify the $R_i$ numerators for non-concentrated ghost patterns as suggested in Section 12.4?

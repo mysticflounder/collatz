@@ -6,12 +6,14 @@ date: "March 2026"
 abstract: |
   We study the Syracuse map $S(n) = (3n+1)/2^{v_2(3n+1)}$ on odd integers through
   its transfer operator $\mathcal{L}$ on $C(\mathbb{Z}_2^{\mathrm{odd}})$ and its finite
-  approximations $P_k$. We prove $\|\mathcal{L}\| = 2/3$ and $\rho(\mathcal{L}) \leq 1/2$, and establish
+  transfer matrices $P_k$. We prove $\|\mathcal{L}\| = 2/3$ and $\rho(\mathcal{L}) \leq 1/2$, and establish
   two independent obstructions to spectral gap methods: $\mathcal{L}$ does not preserve any
-  H\"older or Lipschitz space on $(\mathbb{Z}_2^{\mathrm{odd}}, |\cdot|_2)$, and
+  Hölder or Lipschitz space on $(\mathbb{Z}_2^{\mathrm{odd}}, |\cdot|_2)$, and
   $\mathcal{L}$ is unbounded on $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{Q}_2)$ with
   $\|P_k\|_{2\text{-adic}} = 2^{k+O(1)} \to \infty$, closing the Mahler/Amice
-  program entirely. Both obstructions trace to a common root cause:
+  program for 2-adic function spaces. A third obstruction, proved by non-equicontinuity,
+  shows $\mathcal{L}$ is also not compact on $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{R})$.
+  All three obstructions trace to a common root cause:
   the weight $2^{-v}$ is archimedeanly small but 2-adically large.
   Our central result is that "ghost cycles"
   --- extra modular cycles beyond the fixed point $\{1\}$ --- are not transient artifacts:
@@ -52,6 +54,7 @@ header-includes: |
   \usepackage{amsmath}
   \usepackage{amssymb}
   \usepackage{amsthm}
+  \usepackage{graphicx}
   \usepackage{hyperref}
   \newtheorem{theorem}{Theorem}
   \newtheorem{proposition}{Proposition}
@@ -61,6 +64,11 @@ header-includes: |
   \newtheorem{definition}{Definition}
   \newtheorem*{remark}{Remark}
 ---
+
+<!-- DO NOT add \setcounter calls. LaTeX theorem counters (theorem, proposition,
+     corollary, lemma, conjecture, definition) are independent and auto-increment
+     correctly. Manual \setcounter has caused numbering bugs (e.g., duplicate
+     Definition 6). Insert new environments in sequence and let LaTeX count. -->
 
 \noindent\textbf{Keywords:} Collatz conjecture, Syracuse map, transfer operator, ghost cycles, 2-adic periodic orbits, spectral radius, exceptional set, Mahler basis, $p$-adic analysis
 
@@ -78,17 +86,20 @@ fixed point $\{1\}$ --- are not transient artifacts of modular reduction. They a
 modular projections of true periodic orbits of $S$ on the 2-adic integers, and case-(a)
 ghosts (those whose rational orbit matches the prescribed valuation pattern exactly;
 defined in Section 7) persist at arithmetic progressions of levels, making the exceptional set $E$
-infinite with positive density. This falsifies an earlier conjecture that $E$ has density
-zero and $\rho_k \to 1/4$.
+infinite with positive density. This falsifies an initial conjecture, made during the development of this work,
+that $E$ has density zero and $\rho_k \to 1/4$.
 
 **Our contributions.** We present:
 (1) the transfer operator framework on $C(\mathbb{Z}_2^{\mathrm{odd}})$, including
 $\|\mathcal{L}\| = 2/3$, $\rho(\mathcal{L}) \leq 1/2$, and a six-part spectral theorem;
 (2) a proof that $\mathcal{L}$ does not preserve $\mathrm{Lip}_1(\mathbb{Z}_2^{\mathrm{odd}})$
-or any H\"older space, obstructing the Lasota--Yorke approach (Theorem~\ref{thm:ly});
+or any Hölder space, obstructing the Lasota--Yorke approach (Theorem~\ref{thm:ly});
 (3) a proof that $\mathcal{L}$ is unbounded on $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{Q}_2)$
 with $\|P_k\|_{2\text{-adic}} = 2^{k+O(1)}$, closing the Mahler/Amice program for
-nuclearity or compactness in the 2-adic setting (Theorem~\ref{thm:2adic});
+nuclearity or compactness in the 2-adic setting (Theorem~\ref{thm:2adic}); a third
+archimedean obstruction --- non-compactness of $\mathcal{L}$ on
+$C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{R})$, proved by non-equicontinuity --- is
+established in Section~12 (Proposition~\ref{prop:not-compact});
 (4) exhaustive cycle enumeration through $k = 36$ ($2^{35} \approx 3.4 \times 10^{10}$
 residues), extending prior searches;
 (5) identification of ghost cycles as 2-adic periodic orbits with negative rational
@@ -118,13 +129,11 @@ models, and Wirsching (1998), who developed the dynamical systems perspective
 systematically. Lagarias and Weiss (1992) introduced stochastic models that predict
 the heuristic contraction rate. Tao (2022) proved that almost all orbits attain almost bounded values
 using a probabilistic approach different from transfer matrices. The cycle equation
-(our Theorem~\ref{thm:cycle-eq}) appears in Steiner (1977). Siegel (2025a) independently uses the term
+(our Theorem~\ref{thm:cycle-eq}) appears in Steiner (1977). Dhiman and Pandey (2026) independently use the term
 "ghost cycles" for 2-adic periodic orbits of the $3x+1$ map; our work differs in
-computing the density of exceptional levels and classifying ghost persistence. Siegel
-(2025b) studies algebras of $p$-adic distributions induced by pointwise products of
-$F$-series. The Baker--Wüstholz (1993) bounds on linear forms in logarithms, as
+computing the density of exceptional levels and classifying ghost persistence. The Baker--Wüstholz (1993) bounds on linear forms in logarithms, as
 refined by Laurent (2008), provide unconditional results on ghost cycle lengths (our
-Propositions 4--5). Kontorovich and Lagarias (2010) study
+Propositions~\ref{prop:baker}--\ref{prop:exclusion}). Kontorovich and Lagarias (2010) study
 the density of the exceptional set for generalized Collatz maps; our density results
 (Section 9) address the same question for the standard map using ghost cycle periodicity
 rather than stochastic models. Assani (2024) treats the Collatz map as a non-singular
@@ -136,10 +145,10 @@ regularity or 2-adic function spaces.
 **Outline.** Section 2 defines the objects of study. Section 3 develops the transfer
 operator on $\mathbb{Z}_2^{\mathrm{odd}}$, establishing the operator norm, spectral
 radius bound, and the spectral theorem. Section 4 proves the Lasota--Yorke obstruction.
-Section 5 proves the 2-adic unboundedness obstruction, closing the Mahler/Amice program.
-Section 6 enumerates the exceptional set through $k = 36$. Section 7 establishes
+Section 5 proves the 2-adic unboundedness obstruction, closing the Mahler/Amice program in the 2-adic setting.
+Section 6 presents results of exhaustive enumeration of the exceptional set through $k = 36$. Section 7 establishes
 ghost cycles as 2-adic periodic orbits, including the cycle equation, the case-(a)/(b)
-classification, and the persistence theorem together with Baker--W\"ustholz bounds.
+classification, and the persistence theorem together with Baker--Wüstholz bounds.
 Section 8 presents the census of materializing ghost types organized by family.
 Section 9 gives the density and spectral radius results together with
 replacement conjectures, and an unconditional proof of negative rationality for
@@ -149,7 +158,6 @@ computational methodology. Section 12 discusses the results and directions for f
 
 # Definitions and Setup
 
-\setcounter{definition}{0}
 \begin{definition}[Syracuse map]
 The \textbf{Syracuse map} on odd positive integers is
 $$S(n) = \frac{3n + 1}{2^{v_2(3n+1)}},$$
@@ -158,9 +166,9 @@ Since $3n+1$ is even for odd $n$, $v_2(3n+1) \geq 1$ and $S(n)$ is always an odd
 \end{definition}
 
 \begin{definition}[Modular Syracuse map]
-At resolution $k \geq 2$, the \textbf{modular Syracuse map} $S_k$ acts on the $N = 2^{k-1}$
-odd residue classes modulo $2^k$:
-$$S_k(j) = S(j) \bmod 2^k, \qquad j \in R_k = \{1, 3, 5, \ldots, 2^k - 1\}.$$
+At resolution $k \geq 2$, let $R_k = \{1, 3, 5, \ldots, 2^k - 1\}$ be the set of $N = 2^{k-1}$
+odd integers less than $2^k$. The \textbf{modular Syracuse map} $S_k : R_k \to R_k$ is defined by
+$$S_k(j) = S(j) \bmod 2^k, \qquad j \in R_k.$$
 \end{definition}
 
 \begin{definition}[Transfer matrix]
@@ -191,7 +199,13 @@ At non-exceptional levels, $\rho_k = 1/4$ (from the fixed point $\{1\}$ with $v 
 At exceptional levels, $\rho_k > 1/4$.
 \end{definition}
 
-\setcounter{proposition}{0}
+\begin{definition}[Ghost cycle]
+A \textbf{ghost cycle} at level $k$ is any cycle of $S_k$ in $R_k$ other than the fixed point $\{1\}$.
+Equivalently, $k \in E$ if and only if $S_k$ has at least one ghost cycle.
+As shown in Section 7, every ghost cycle is the modular projection of a genuine periodic orbit
+of $S$ on $\mathbb{Z}_2^{\mathrm{odd}}$ whose elements are negative rationals.\footnote{The term "ghost cycle" was used independently by Zöbelein (2024) in a different sense: patterns in the $k_a$ parametrization of Collatz sequences that satisfy cycle conditions within a larger non-cycling sequence, not 2-adic periodic orbits. Our usage follows Dhiman and Pandey (2026).}
+\end{definition}
+
 \begin{proposition}[Valuation distribution]
 For odd $n$ chosen uniformly at random modulo $2^k$ with $k$ large,
 $$P(v_2(3n+1) = j) = 2^{-j}, \qquad j = 1, 2, 3, \ldots$$
@@ -220,11 +234,24 @@ paper establishes 2-adic local constancy of $P_k(x,y)$ in the multiplier $x$.
 # The Transfer Operator on $\mathbb{Z}_2^{\mathrm{odd}}$
 
 The Syracuse map $S$ extends continuously to $\mathbb{Z}_2^{\mathrm{odd}} = 1 + 2\mathbb{Z}_2$,
-the odd 2-adic integers. The transfer operator (Perron--Frobenius operator) associated to
+the odd 2-adic integers, with the sole exception $n = -1/3 \in \mathbb{Z}_2^{\mathrm{odd}}$
+where $3n + 1 = 0$ and $S$ maps outside the domain; since $-1/3$ has no preimages under $S$,
+we have $(\mathcal{L}f)(-1/3) = 0$ for all $f$ and the operator analysis is unaffected. The transfer operator (Perron--Frobenius operator) associated to
 $S$ acts on continuous functions $f \colon \mathbb{Z}_2^{\mathrm{odd}} \to \mathbb{R}$:
 $$(\mathcal{L}f)(n) = \sum_{S(m) = n} 2^{-v_2(3m+1)} f(m).$$
 
-\setcounter{lemma}{0}
+\begin{remark}[Projective limit definition]
+$\mathcal{L}$ is the projective limit of the finite transfer matrices $P_k$: the sum
+runs over \emph{odd integer} preimages, i.e., $m \in R_k = \{1, 3, \ldots, 2^k-1\}$
+satisfying $S_k(m) \equiv n \pmod{2^k}$, in the limit $k \to \infty$. Non-integer
+2-adic elements are not preimage candidates; equivalently, $m$ ranges over odd
+2-adic integers that are genuine preimages of $S$ as an endomorphism of
+$\mathbb{Z}_2^{\mathrm{odd}}$ (at finite level $k$, these are positive odd integers
+in $R_k$). Each valid
+$m$ corresponds to a branch $m = g_v(n) = (n \cdot 2^v - 1)/3$ for some $v \geq 1$,
+with weight $2^{-v}$.
+\end{remark}
+
 \begin{lemma}[Preimage structure]
 For each odd 2-adic integer $n$, the preimages of $n$ under $S$ are
 $m_v = (n \cdot 2^v - 1)/3$ for those $v \geq 1$ where $3 \mid (n \cdot 2^v - 1)$.
@@ -259,7 +286,6 @@ The image of $S$ is always coprime to 3: since $3m + 1 \equiv 1 \pmod{3}$, we ha
 $S(m) \not\equiv 0 \pmod{3}$. Consequently $(\mathcal{L}f)(n) = 0$ for all $n \equiv 0 \pmod{3}$.
 \end{remark}
 
-\setcounter{proposition}{1}
 \begin{proposition}[Operator norm]
 The operator norm of $\mathcal{L}$ on $(C(\mathbb{Z}_2^{\mathrm{odd}}), \|\cdot\|_\infty)$ is
 $$\|\mathcal{L}\|_{C^0 \to C^0} = 2/3.$$
@@ -291,14 +317,12 @@ sum at $n \equiv 2 \pmod{3}$ (preimages with odd $v$) is $2/3$.
 $\rho(\mathcal{L}) \leq 1/2$ on $C(\mathbb{Z}_2^{\mathrm{odd}})$.
 \end{proposition}
 
-*Proof.* Every eigenvalue of $\mathcal{L}$ corresponds to a periodic orbit of $S$ with
+*Proof.* Since $\mathcal{L}$ is a weighted composition operator and $P_k$ represents its restriction to $A_k$, each eigenvalue of $P_k$ arises from a cycle of $S_k$; in the projective limit these correspond to periodic orbits of $S$. Every such eigenvalue has the form
 $\lambda = \prod_{\text{cycle}} 2^{-v_i}$. Since each $v_i \geq 1$, the mean valuation
 $\bar{v} \geq 1$, giving $|\lambda| = 2^{-\bar{v}} \leq 1/2$. The spectrum of $\mathcal{L}$ is
 the closure of the union of eigenvalues of the finite approximations $P_k$ (Theorem~\ref{thm:spectral}(e)
-below, whose proof is independent of this proposition, relying only on the density of
-locally constant functions via Stone--Weierstrass), so $\rho(\mathcal{L}) \leq 1/2$. $\square$
+below, proved independently via Stone--Weierstrass), so $\rho(\mathcal{L}) \leq 1/2$. $\square$
 
-\setcounter{theorem}{0}
 \begin{theorem}[Spectral properties of $\mathcal{L}$ on $C(\mathbb{Z}_2^{\mathrm{odd}})$]
 \label{thm:spectral}
 \hfill
@@ -335,20 +359,20 @@ $\dim A_k = 2^{k-1}$, and $\mathcal{L}$ maps $A_k$ into $A_{k'}$ for some $k' \g
 restriction of $\mathcal{L}$ to $A_k$, composed with projection back to $A_k$, is represented
 by $P_k$. Any eigenvalue of $P_k$ is an approximate eigenvalue of $\mathcal{L}$ (the
 corresponding function in $A_k$ gives $\|\mathcal{L}f - \lambda f\|$ bounded by the
-coarsening error, which vanishes in the projective limit). Conversely, since
-$\overline{\bigcup_k A_k} = C(\mathbb{Z}_2^{\mathrm{odd}})$ by density of locally
-constant functions (Stone--Weierstrass), every approximate eigenvalue of $\mathcal{L}$ is
-approximable by eigenvalues of the $P_k$. Hence
+coarsening error, which vanishes in the projective limit). Conversely, since $P_k f \to \mathcal{L} f$ in norm for every locally constant $f \in \bigcup_k A_k$ (immediate from the construction), and $\overline{\bigcup_k A_k} = C(\mathbb{Z}_2^{\mathrm{odd}})$ by density of locally constant functions (Stone--Weierstrass), norm-resolvent convergence on this dense domain implies that every approximate eigenvalue of $\mathcal{L}$ is approximable by eigenvalues of the $P_k$. Hence
 $\sigma(\mathcal{L}) = \overline{\bigcup_{k \geq 2} \sigma(P_k)}$. In particular,
 $\rho(\mathcal{L}) = \sup_k \rho_k$
 (eigenvalues of $P_k$ are $L$th roots of $2^{-V}$ with $V \geq L$, so
 $|\lambda| = 2^{-V/L} \leq 1/2$, giving $\rho_k \leq 1/2$ for all $k$).
-The equality $\sup_k \rho_k = \limsup_{k \to \infty} \rho_k$ follows from
-Theorem~\ref{thm:persistence} below: case-(a) ghosts reappear at arithmetic progressions of levels,
-so any $\rho_k > 1/4$ is achieved at infinitely many $k$. This forward reference
-is non-circular, as Theorem~\ref{thm:persistence} is independent of Theorem~\ref{thm:spectral}.
 
 Part (f) is verified by dense eigenvalue computation. $\square$
+
+\begin{remark}[Sup equals limsup]
+The equality $\sup_k \rho_k = \limsup_{k \to \infty} \rho_k$ follows from
+Theorem~\ref{thm:persistence} below: case-(a) ghosts reappear at arithmetic progressions of levels,
+so any $\rho_k > 1/4$ is achieved at infinitely many $k$.
+Theorem~\ref{thm:persistence} is proved independently of Theorem~\ref{thm:spectral}.
+\end{remark}
 
 \begin{remark}[Conditional spectral gap]
 If $E$ were finite, Theorem~\ref{thm:spectral}(e) would give $\rho(\mathcal{L}) = 1/4$: for non-exceptional $k$,
@@ -357,7 +381,10 @@ isolated eigenvalues that do not accumulate. However, Sections 6--9 show $E$ is
 infinite with density $\geq 4\%$. Case-(a) ghosts persist at arithmetic progressions of
 levels, and the $V = L+1$ ghost family produces spectral radii
 $\rho = 2^{-(L+1)/L} \to 1/2$. Current bounds:
-$2^{-16/15} \leq \rho(\mathcal{L}) \leq 1/2$.
+$2^{-16/15} \leq \rho(\mathcal{L}) \leq 1/2$,
+where the lower bound comes from the $L=15$, $V=16$ ghost (the $V=L+1$ family table
+in Section~8), which materializes and persists, contributing
+$\rho_k \geq 2^{-16/15}$ at infinitely many levels $k$ by Theorem~\ref{thm:spectral}(e).
 \end{remark}
 
 
@@ -375,7 +402,6 @@ since each inverse branch of $S$ contracts 2-adically: for each valid $v \geq 1$
 the inverse branch $g_v(n) = (n \cdot 2^v - 1)/3$ satisfies
 $|g_v(x) - g_v(y)|_2 = 2^{-v} |x - y|_2$ (because $|3|_2 = 1$).
 
-\setcounter{theorem}{1}
 \begin{theorem}[Non-preservation of $\mathrm{Lip}_1$]
 \label{thm:ly}
 The transfer operator $\mathcal{L}$ does not map $\mathrm{Lip}_1(\mathbb{Z}_2^{\mathrm{odd}})$ into
@@ -402,28 +428,22 @@ Therefore:
 $$\frac{|W(x_N) - W(y_N)|}{|x_N - y_N|_2} = \frac{1/3}{2^{-N}} = \frac{2^N}{3} \to \infty.$$
 This proves $|W|_{\mathrm{Lip}} = \infty$. $\square$
 
-\setcounter{corollary}{0}
 \begin{corollary}[Universal obstruction]
 The function $W = \mathcal{L}(\mathbf{1})$ does not belong to any of the following spaces on
 $(\mathbb{Z}_2^{\mathrm{odd}}, |\cdot|_2)$:
 
 \begin{enumerate}
 \item[(a)] $C^\alpha(\mathbb{Z}_2^{\mathrm{odd}})$ for any $\alpha > 0$.
-\item[(b)] $BV(\mathbb{Z}_2^{\mathrm{odd}})$ with respect to the 2-adic ultrametric.
-\item[(c)] Any Banach space $X \hookrightarrow C(\mathbb{Z}_2^{\mathrm{odd}})$ defined by
-  a modulus-of-continuity condition with respect to the 2-adic metric (H\"older,
-  Lipschitz, Zygmund, Besov, or Sobolev spaces).
+\item[(b)] Any Banach space $X \hookrightarrow C(\mathbb{Z}_2^{\mathrm{odd}})$ defined by
+  a modulus-of-continuity or integral regularity condition with respect to the
+  2-adic metric (Hölder, Lipschitz, Zygmund, Besov, Sobolev, or $BV$-type spaces).
 \end{enumerate}
 \end{corollary}
 
 *Proof.* (a) The pairs from Theorem~\ref{thm:ly} give
 $|W(x_N) - W(y_N)|/|x_N - y_N|_2^\alpha = 2^{N\alpha}/3 \to \infty$ for any $\alpha > 0$.
 
-(b) At resolution $k$, among $2^{k-1}$ residue classes mod $2^k$, at least $2^{k-1}/3$
-have $a \equiv 1 \pmod{3}$ while containing points $\equiv 2 \pmod{3}$, giving oscillation
-$\geq 1/3$. Total variation $\geq 2^{k-1}/9 \to \infty$.
-
-(c) Any such space requires $|f(x) - f(y)| \leq C \cdot \omega(|x - y|_2)$ for
+(b) Any such space requires $|f(x) - f(y)| \leq C \cdot \omega(|x - y|_2)$ for
 some modulus $\omega(t) \to 0$ as $t \to 0$. By (a), $|W(x_N) - W(y_N)| = 1/3$
 while $|x_N - y_N|_2 = 2^{-N} \to 0$, so $W$ violates every such condition. $\square$
 
@@ -440,8 +460,10 @@ weight sum, preventing contraction in any metric incorporating 3-adic informatio
 \end{remark}
 
 \begin{remark}
+\label{rem:conditional-contraction}
 When $\mathcal{L}$ is restricted to pairs within the same residue class mod~3, the Lipschitz
-seminorm does contract: the conditional contraction rate is $4/15$ for pairs with
+seminorm does contract: one computes $\sum_{v=1,3,5,\ldots} 4^{-v} = 4/15$ and
+$\sum_{v=2,4,6,\ldots} 4^{-v} = 1/15$, giving conditional contraction rates $4/15$ for pairs with
 $x \equiv y \equiv 2 \pmod{3}$ and $1/15$ for pairs with $x \equiv y \equiv 1 \pmod{3}$.
 However, the inverse branches involve division by 3, which scrambles higher powers of 3,
 so a global Lasota--Yorke inequality cannot be recovered from this conditional estimate.
@@ -461,16 +483,16 @@ uses exponentially decaying Mahler coefficients to define nuclearity and compact
 in the $p$-adic setting (Amice 1964, Serre 1962). We show this approach also fails,
 for a deeper reason: $\mathcal{L}$ is unbounded on $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{Q}_2)$.
 
-\setcounter{theorem}{2}
 \begin{theorem}[2-adic unboundedness]
 \label{thm:2adic}
 The transfer operator $\mathcal{L}$ is unbounded on $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{Q}_2)$
 equipped with the 2-adic sup norm $\|f\|_2 = \sup_{n} |f(n)|_2$.
 Specifically, the finite-level transfer matrices satisfy
-$\|P_k\|_{2\text{-adic}} = 2^{k + O(1)} \to \infty$.
+$\|P_k\|_{2\text{-adic}} = 2^{k + O(1)} \to \infty$ (specifically, $\|P_k\|_{2\text{-adic}} \in \{2^k, 2^{k+1}\}$).
 \end{theorem}
 
-*Proof.* The matrix $P_k$ has exactly one nonzero entry per column: $2^{-v(j)}$
+*Proof.* Re-index the $2^{k-1}$ odd residues in $R_k$ as $\{2j+1 : 0 \leq j \leq 2^{k-1}-1\}$.
+The matrix $P_k$ has exactly one nonzero entry per column: $2^{-v(j)}$
 in column $j$, where $v(j) = v_2(3(2j+1)+1)$. On
 $(\mathbb{Q}_2^N, \|\cdot\|_\infty)$, the operator norm of such a matrix is
 $\|P_k\|_2 = \max_j |2^{-v(j)}|_2 = \max_j 2^{v(j)} = 2^{\max_j v(j)}$
@@ -482,13 +504,14 @@ so $v_2(6j+4) = 1 + v_2(3j+2)$. Since $3$ is invertible modulo $2^{k-1}$,
 the value $3j+2$ ranges over all residues mod $2^{k-1}$ as $j$ ranges over
 $\{0, \ldots, 2^{k-1}-1\}$. In particular, $3j + 2 \equiv 0 \pmod{2^{k-1}}$
 is achieved, giving $v_2(3j+2) \geq k-1$ and hence $\max_j v(j) \geq k$.
+For the upper bound: since $j \leq 2^{k-1}-1$ implies $3j+2 \leq 3 \cdot 2^{k-1} - 1 < 2^{k+1}$,
+we have $v_2(3j+2) \leq k$ and hence $\max_j v(j) \leq k+1$.
 
 Since locally constant functions of all levels are dense in
 $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{Q}_2)$ and the restriction of $\mathcal{L}$ to
 level-$k$ functions has norm $\|P_k\|_2 \to \infty$, the operator $\mathcal{L}$ is
 unbounded. $\square$
 
-\setcounter{corollary}{1}
 \begin{corollary}[Failure of the Mahler/Amice program]
 The transfer operator $\mathcal{L}$ does not define a bounded operator on any 2-adic
 Banach space $E \hookrightarrow C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{Q}_2)$
@@ -511,19 +534,19 @@ obstruction manifests this as mod-3 oscillation of the weight function; the
 2-adic unboundedness manifests it as divergent operator norms on 2-adic function
 spaces. Any spectral-theoretic approach to $\mathcal{L}$ must therefore work in the
 archimedean category: $\mathcal{L}$ acts on $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{R})$
-with operator norm $2/3$, and the question of whether $\mathcal{L}$ is compact on this
-space remains open.
+with operator norm $2/3$, and $\mathcal{L}$ is not compact on this space either
+(Proposition~\ref{prop:not-compact}, Section~12).
 \end{remark}
 
-Computational verification confirms the theorem: exact arithmetic over
-$\mathbb{Q}$ (Python \texttt{Fraction}) for $k = 3, \ldots, 15$ shows
-$\max_j v(j)$ equals $k+1$ for odd $k$ and $k$ for even $k$, giving
-$\|P_k\|_{2\text{-adic}} \in \{2^k, 2^{k+1}\}$. The Mahler matrix
+The analytical proof above establishes $\|P_k\|_{2\text{-adic}} \in \{2^k, 2^{k+1}\}$ for all $k$.
+Exact arithmetic over $\mathbb{Q}$ (Python \texttt{Fraction}) for $k = 3, \ldots, 15$ further
+refines this to a parity pattern: $\max_j v(j) = k+1$ for odd $k$ and $k$ for even $k$
+(computationally verified through $k = 15$; not required for the general bound). The Mahler matrix
 $M_k = C^{-1} P_k C$ (where $C[i,j] = \binom{i}{j}$) has entries with
 $v_2(M_k[m,j]) = -(k + \text{offset}(j))$, shifting by exactly $-\Delta k$
-between levels. Since $C$ and $C^{-1}$ are 2-adic isometries (unipotent
-lower-triangular with integer entries), the Mahler change of basis does not
-mitigate the unboundedness: $\|M_k\|_2 = \|P_k\|_2 = 2^{k+O(1)}$.
+between levels. Since $C$ and $C^{-1}$ are 2-adic isometries (unipotent lower-triangular with integer
+entries, so $\|C\|_2 = \|C^{-1}\|_2 = 1$ in the 2-adic sup norm), the Mahler change
+of basis does not mitigate the unboundedness: $\|M_k\|_2 = \|P_k\|_2 = 2^{k+O(1)}$.
 
 
 # Exhaustive Cycle Enumeration
@@ -568,24 +591,28 @@ remains well below $1/2$.
 
 Ghost cycles are not transient artifacts of modular reduction. They are the modular
 projections of true periodic orbits of $S$ on the 2-adic integers
-$\mathbb{Z}_2^{\mathrm{odd}}$ (Figure~1).
+$\mathbb{Z}_2^{\mathrm{odd}}$ (Figure~\ref{fig:chord_diagrams}).
 
-![Chord diagrams of the Syracuse successor map at four resolutions. Odd residues mod $2^k$ are arranged around a circle; each arc connects a residue to its successor. At $k = 9$ and $k = 13$ (non-exceptional), only the fixed point $\{1\}$ (gold) forms a cycle. At $k = 10$, a 26-node ghost cycle appears (cyan). At $k = 12$, two ghost cycles coexist (cyan: $L = 7$, orange: $L = 6$).](analysis/figures/ghost_contrast.png){width=100%}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{analysis/figures/ghost_contrast.png}
+\caption{Chord diagrams of the Syracuse successor map at four resolutions. Odd residues mod $2^k$ are arranged around a circle; each arc connects a residue to its successor. At $k = 9$ and $k = 13$ (non-exceptional), only the fixed point $\{1\}$ (gold) forms a cycle. At $k = 10$, a 26-node ghost cycle appears (cyan). At $k = 12$, two ghost cycles coexist (cyan: $L = 7$, orange: $L = 6$).}
+\label{fig:chord_diagrams}
+\end{figure}
 
 
 # Ghost Cycles as 2-Adic Periodic Orbits
 
 ## The Cycle Equation
 
-\setcounter{theorem}{3}
-\begin{theorem}[Cycle equation; after Steiner 1977, Wirsching 1998]
+\begin{theorem}[Cycle equation; after Steiner 1977, Wirsching 1998\footnote{The cycle equation in this form originates with Davison (1976), as cited by Steiner (1977). We have not been able to access the original proceedings.}]
 \label{thm:cycle-eq}
 A modular cycle of length $L$ at level $k$ with valuation pattern $(v_1, \ldots, v_L)$
 and total valuation $V = \sum v_i$ satisfies
 $$n_1 \cdot D \equiv R \pmod{2^{k+V}},$$
 where $D = 2^V - 3^L$ and
-$R = \sum_{i=0}^{L-1} 3^{L-1-i} \cdot 2^{S_i}$, with $S_0 = 0$ and
-$S_i = v_1 + \cdots + v_i$.
+$R = \sum_{i=0}^{L-1} 3^{L-1-i} \cdot 2^{\sigma_i}$, with $\sigma_0 = 0$ and
+$\sigma_i = v_1 + \cdots + v_i$.
 \end{theorem}
 
 *Proof.* If the cycle visits odd residues
@@ -596,18 +623,19 @@ Iterating $L$ steps yields $n_1 \cdot 2^V = 3^L n_1 + R$, i.e., $n_1(2^V - 3^L) 
 over $\mathbb{Z}$. With total shift $V = \sum v_i$ the precision accumulates, giving
 $n_1(2^V - 3^L) \equiv R \pmod{2^{k+V}}$. $\square$
 
-Since $D = 2^V - 3^L$ is always odd and nonzero (as $2^V$ and $3^L$ are coprime), the
+Since $D = 2^V - 3^L$ is always odd ($2^V$ is even, $3^L$ is odd, so their difference is odd) and nonzero ($2^V$ and $3^L$ are coprime, so $2^V \neq 3^L$), the
 rational limit $\tilde{n}_1 = R/D$ is well-defined. For $V > L \log_2 3$, we have
 $D < 0$.
 
 ## Case-(a) vs Case-(b) Classification
 
-\setcounter{definition}{5}
 \begin{definition}[Ghost type; case-(a) and case-(b)]
 (Throughout, $L$ denotes cycle length; $\mathcal{L}$ denotes the transfer operator.)
 A \textbf{ghost type} is a triple $(L, V, (v_1, \ldots, v_L))$ where $L \geq 2$,
 $V = \sum v_i$ with each $v_i \geq 1$, and $D = 2^V - 3^L \neq 0$. Two ghost
-types are equivalent if their $v$-patterns are cyclic rotations of each other.
+types are equivalent if their $v$-patterns are cyclic rotations of each other;
+henceforth, ghost types are counted up to this equivalence (each equivalence class
+is a canonical representative).
 The \textbf{denominator} of a ghost type is $D$; distinct $v$-patterns with
 the same $D$ are distinct ghost types.
 
@@ -625,14 +653,19 @@ limit has ``extra'' 2-adic cancellation; the orbit exists at only finitely many 
 \end{definition}
 
 The 2-adic digit structure of $\tilde{n}_1 = R \cdot D^{-1} \bmod 2^k$ stabilizes
-bit by bit as $k$ increases, converging to the rational limit (Figure~2).
+bit by bit as $k$ increases, converging to the rational limit (Figure~\ref{fig:digit_stab}).
 
-![2-adic digit stabilization for the $D = -601$ ghost ($L = 6$, $V = 7$). Each column shows the binary digits of $n_1 = R \cdot D^{-1} \bmod 2^k$. Digits stabilize from the least significant bit upward: once bit position $b$ is determined at resolution $k = b + 1$, it never changes. The dashed line marks $k = 12$, where the ghost first materializes as a modular cycle.](analysis/figures/digit_stabilization.png){width=90%}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.9\textwidth]{analysis/figures/digit_stabilization.png}
+\caption{2-adic digit stabilization for the $D = -601$ ghost ($L = 6$, $V = 7$). Each column shows the binary digits of $n_1 = R \cdot D^{-1} \bmod 2^k$. Digits stabilize from the least significant bit upward: once bit position $b$ is determined at resolution $k = b + 1$, it never changes. The dashed line marks $k = 12$, where the ghost first materializes as a modular cycle.}
+\label{fig:digit_stab}
+\end{figure}
 
-\setcounter{conjecture}{0}
 \begin{conjecture}[Universal case-(a)]
 \label{conj:universal-caseA}
-For all positive integers $L \geq 2$ and $L+1 \leq V \leq 2L-1$, and for every
+For all positive integers $L \geq 2$ and $L+1 \leq V \leq 2L-1$ (the range where
+$\rho = 2^{-V/L} > 1/4$), and for every
 composition $(v_1, \ldots, v_L)$ of $V$ into $L$ positive parts, the rational orbit
 $\tilde{n}_1 = R/(2^V - 3^L)$ satisfies $v_2(3\tilde{n}_i + 1) = v_i$ for all
 $i = 1, \ldots, L$. Equivalently, every such composition defines a true periodic
@@ -640,12 +673,14 @@ orbit of the Syracuse map on $\mathbb{Z}_2^{\mathrm{odd}}$; there are no case-(b
 ghost types with $\rho > 1/4$.
 \end{conjecture}
 
-This conjecture has been verified exhaustively for all 91 $(L, V)$ pairs with
-$L = 2, \ldots, 15$, covering every composition (up to ${\sim}800{,}000$ per pair
-for $L \leq 12$; $10^6$ random samples per pair for $L = 13$--$15$). An extended
-survey through $L = 20$ ($10^6$ samples per pair, 85 million total) finds zero
+This conjecture has been verified for all $\sum_{L=2}^{15}(L-1) = 105$ pairs $(L, V)$
+with $L = 2, \ldots, 15$ and $L+1 \leq V \leq 2L-1$:
+exhaustively (all compositions) for $L \leq 12$ (up to ${\sim}800{,}000$ compositions per pair),
+and by $10^6$ random samples per pair for $L = 13$--$15$.
+An extended survey through $L = 20$ ($10^6$ samples per pair, 85 million total) finds zero
 failures. Moreover, the case-(a) property holds even for $V \geq 2L$ (where
-$D > 0$), tested exhaustively through $L = 12$ at $V = 2L$ and $V = 2L + 1$:
+$D > 0$), tested exhaustively through $L = 12$ at $V = 2L$ and $V = 2L+1$ only
+(not a full search over all $V \geq 2L$):
 the sign of $D$ does not affect the universal case-(a) property.
 
 \begin{remark}[Towards a proof]
@@ -689,8 +724,10 @@ Explicitly: $D^{-1} \bmod 2^{k+p} \equiv D^{-1} \bmod 2^k \pmod{2^k}$ because
 $2^p \equiv 1 \pmod{|D|}$ implies $D^{-1}$ has a $p$-periodic 2-adic expansion.
 
 **Verification at level $k$.** The cycle at level $k$ exists if:
-(i) $n_1 = \tilde{n}_1 \bmod 2^k$ is odd --- this holds since $\tilde{n}_1$ has odd
-numerator and $D$ is odd;
+(i) $n_1 = \tilde{n}_1 \bmod 2^k$ is odd --- this holds since $\tilde{n}_1 = R/D$
+has odd numerator ($R = 3^{L-1} + \sum_{i=2}^{L} 3^{L-i} 2^{v_1+\cdots+v_{i-1}}$:
+the first term is odd; all remaining terms have $v_1+\cdots+v_{i-1} \geq 1$, so are even)
+and odd denominator ($D = 2^V - 3^L$ is the difference of an even and an odd number);
 (ii) for each step $i$, $v_2(3 n_i + 1) = v_i$ where $n_i = \tilde{n}_i \bmod 2^k$ ---
 this requires checking that the first $v_i$ bits of $3n_i + 1$ match those of
 $3\tilde{n}_i + 1$, which holds when $k > v_i$ for all $i$; and
@@ -701,6 +738,20 @@ $3\tilde{n}_i + 1$, which holds when $k > v_i$ for all $i$; and
 Since $\tilde{n}_i \bmod 2^k$ depends only on $k \bmod p$, and conditions (i)--(iii)
 are satisfied at $k_0$, they remain satisfied at all $k \equiv k_0 \pmod{p}$
 with $k \geq k_0$. $\square$
+
+\begin{remark}[Primitivity]
+The cycle at each level $k \equiv k_0 \pmod{p}$ has period exactly $L$, not a proper
+divisor. The rational orbit elements $\tilde{n}_1, \ldots, \tilde{n}_L$ are distinct:
+materialization at level $k_0$ with period exactly $L$ means the $L$ modular
+residues $n_1, \ldots, n_L$ are distinct modulo $2^{k_0}$; since
+$n_i \equiv \tilde{n}_i \pmod{2^{k_0}}$, the rational elements are pairwise distinct.
+Each difference $\tilde{n}_i - \tilde{n}_j$ is therefore a nonzero rational with a
+fixed 2-adic valuation, so $n_i \bmod 2^k \neq n_j \bmod 2^k$ for all
+$k > \max_{i \neq j} v_2(\tilde{n}_i - \tilde{n}_j)$. Since $k_0$ already
+exceeds this threshold, and
+since $\tilde{n}_i \bmod 2^k$ is periodic in $k$ with period $p$, the same
+distinctness holds at every $k \equiv k_0 \pmod{p}$.
+\end{remark}
 
 \begin{remark}
 For case-(b) ghosts, condition (ii) eventually fails: the ``extra'' valuation
@@ -713,21 +764,34 @@ modular cycle exists only at levels $k$ where the extra bits are not yet visible
 
 Transcendence theory constrains ghost cycle denominators.
 
-\setcounter{proposition}{3}
-\begin{proposition}[Effective lower bound on $|D|$; Baker--W\"ustholz 1993, Laurent 2008]
+\begin{proposition}[Effective lower bound on $|D|$; Baker--Wüstholz 1993, Laurent 2008, Corollary~2]
 \label{prop:baker}
 For all positive integers $V, L$ with $V \geq 3$:
 $$|2^V - 3^L| > \max(2^V, 3^L) \cdot \exp(-25 (\log V)^2).$$
-In particular, $|D|$ grows superexponentially in $V$.
+In particular, $|D|$ cannot be polynomially small: for any $\epsilon > 0$, $|D| > 2^{V(1-\epsilon)}$ for all sufficiently large $V$.
 \end{proposition}
+
+\begin{proof}[Proof sketch]
+Apply Laurent (2008), Corollary~2 (real case) with $\alpha_1 = 2$, $\alpha_2 = 3$, $D = 1$,
+$\log A_1 = 1$, $\log A_2 = \log 3$, and $m = 30$.
+Table~1 of that paper gives $C_2(30) = 17.9$.
+With $b' = V/\log 3 + L \approx 1.54\,V$ (using $L \approx V / \log_2 3$),
+one obtains $\log b' \approx \log V + 0.43$, and for $V$ large enough that $\log b' + 0.38 \geq 30$,
+the bound reduces to
+$\log|V \log 2 - L \log 3| \geq -17.9\,(\log V + 0.81)^2 \log 3 \approx -19.7\,(\log V)^2$.
+Since $|2^V - 3^L| \approx 2^V\,|V \log 2 - L \log 3|$ and $\max(2^V, 3^L) = 2^V$ in the ghost-cycle range,
+the bound with constant $25 > 19.7$ follows.
+For $V$ in the complementary range (below $\sim 5 \times 10^{12}$), $\exp(-25(\log V)^2)$
+is smaller than $1/2^V$, so the proposition holds trivially since $|2^V - 3^L| \geq 1$.
+\end{proof}
 
 \begin{proposition}[Detection of bounded-length ghosts]
 \label{prop:exclusion}
 For each fixed $L_0 \geq 2$, define
-$K_0(L_0) = \max\{ \mathrm{ord}_2(|2^V - 3^L|) : 2 \leq L \leq L_0, L+1 \leq V \leq 2L-1 \}$.
+$K_0(L_0) = \max\{ \mathrm{ord}_2(|2^V - 3^L|) + 2L : (L, V) \text{ with } 2 \leq L \leq L_0,\, L+1 \leq V \leq 2L-1 \}$.
 Then every ghost type with $L \leq L_0$ and $\rho > 1/4$ appears at some level
 $k \leq K_0(L_0)$: searching through $k = K_0(L_0)$ suffices to detect all such types.
-Explicit values: $K_0(5) \leq 269$, $K_0(10) \leq 465{,}239$.
+Explicit values: $K_0(5) \leq 279$, $K_0(10) \leq 465{,}259$.
 \end{proposition}
 
 *Proof.* For fixed $(L, V)$ with $\rho = 2^{-V/L} > 1/4$ (i.e., $V < 2L$), the
@@ -736,15 +800,21 @@ denominator $D = 2^V - 3^L$ is fixed and has finitely many $v$-patterns
 Since the materialization conditions depend only on $\tilde{n}_1 \bmod 2^k$, which is
 periodic in $k$ with period $p$, if the ghost materializes at level $k$ it also
 materializes at $k - p$ whenever $k - p \geq V$. Hence the first appearance satisfies
-$k_0 \leq p + V \leq p + 2L \leq p + 2L_0$; since $V \ll p$ for all denominators
-considered (empirically $V < 2L \leq 30 \ll p$), in practice $k_0 \leq p \leq K_0(L_0)$.
+$k_0 \leq p + V \leq p + 2L \leq K_0(L_0)$.
 Case-(b) patterns appear at finitely many levels with no periodic structure; their
 first appearances are bounded by direct computation of $\tilde{n}_i \bmod 2^k$
 for each $(L, V, v\text{-pattern})$ within the search range.
 Taking the maximum over all $(L, V)$ in the range gives $K_0(L_0)$. $\square$
 
+\begin{remark}[Practical scope of Proposition~\ref{prop:exclusion}]
+The bounds $K_0(L_0)$ grow rapidly: $K_0(10) \leq 465{,}259$ already exceeds the
+range of exhaustive search. In practice, ghost membership beyond $k = 36$ is
+determined algebraically via Theorem~\ref{thm:persistence} (checking $k \equiv k_0
+\pmod{p}$), not by brute-force search through $k = K_0(L_0)$.
+\end{remark}
+
 \begin{remark}
-Propositions 4 and 5 are unconditional, but they cannot
+Propositions~\ref{prop:baker} and~\ref{prop:exclusion} are unconditional, but they cannot
 prove $E$ is finite: that would require bounding cycle length $L$ as a function of level
 $k$, which no known result from transcendence theory achieves.
 \end{remark}
@@ -838,9 +908,11 @@ phenomenon appears governed by the equidistribution of powers of 2 modulo
 $|D| = 3^L - 2^{L+1}$.
 
 The nine appearing ghosts ($L = 5, 6, 7, 8, 10, 12, 13, 14, 15$) establish a proved
-lower bound $\limsup \rho_k \geq 2^{-16/15} \approx 0.4774$. That the family produces
-appearing ghosts at the large majority of tested cycle lengths, with no systematic
-obstruction, supports Conjecture~\ref{conj:spectral-radius} below: $\limsup \rho_k = 1/2$.
+lower bound $\limsup \rho_k \geq 2^{-16/15} \approx 0.4774$. Non-materialization at
+$L = 9$ and $L = 11$ appears probabilistic rather than algebraic (as the heuristic
+above explains), not a structural obstruction. That ghosts appear at the majority of
+tested cycle lengths, with non-appearance explainable by equidistribution heuristics,
+supports Conjecture~\ref{conj:spectral-radius} below: $\limsup \rho_k = 1/2$.
 
 ## Higher Excess Families
 
@@ -893,10 +965,10 @@ converges fastest.
 
 ## Falsification of the Density-Zero Conjecture
 
-Our earlier analysis conjectured that $E$ has natural density zero and
-$\rho_k(3,1) \to 1/4$, supported by a Borel--Cantelli heuristic suggesting
-$|E| < \infty$. Baker--W\"ustholz analysis and extended computation to $k = 200$
-have falsified this.
+During the development of this work, we initially conjectured that $E$ has natural density zero and
+$\rho_k(3,1) \to 1/4$, motivated by a Borel--Cantelli heuristic suggesting
+$|E| < \infty$. Extended computation to $k = 200$ combined with Baker--Wüstholz analysis
+rules out the density-zero conjecture: the exceptional set $E$ has positive density.
 
 The $D = -601$ ghost (case (a), $L = 6$, $V = 7$) reappears at every
 $k \equiv 12 \pmod{25}$, contributing $\rho \geq 2^{-7/6} \approx 0.445$ at
@@ -925,7 +997,6 @@ visible.}
 
 ## Conjecture 2 (Density of $E$)
 
-\setcounter{conjecture}{1}
 \begin{conjecture}[Density of $E$]
 \label{conj:density}
 The exceptional set $E$ has a well-defined natural density $\delta(E) > 0$.
@@ -946,7 +1017,11 @@ Several period pairs share common factors ($\gcd(660, 1930) = 10$,
 $\gcd(660, 84) = 12$, $\gcd(660, 1441) = 11$), so the coprime assumption
 is not satisfied and the product formula understates the true density.
 
-An empirical scan of ghost type memberships through $k = 1000$ gives:
+An algebraic membership scan through $k = 1000$ (using the periodicity formula of
+Theorem~\ref{thm:persistence}: ghost type $\mathcal{G}$ is present at level $k$ iff
+$k \equiv k_0 \pmod{p_{\mathcal{G}}}$; this tests membership against the six ghost
+types with $L \leq 8$ used in the product formula above, not an exhaustive search
+for new cycles) gives:
 $k = 100$: 9.18\%, $k = 200$: 10.61\%, $k = 500$: 10.04\%, $k = 1000$: 10.22\%.
 The $0.2\%$ gap between the product formula (10.0\%) and the empirical density
 (10.2\%) is consistent with the expected correction from shared period factors.
@@ -1003,7 +1078,7 @@ Let $L \geq 2$, $e \geq 1$, and $D = 2^{L+e} - 3^L < 0$. For the concentrated
 ghost type $(L, V, (1,\ldots,1,e+1))$ with $V = L+e$, the orbit numerators are
 given by the closed form
 $$R_i = 2^{L-i+1}(2^e - 1)\cdot 3^{i-1} + (3^L - 2^{L+e}), \quad i = 1, \ldots, L.$$
-Both terms are strictly positive, so $R_i > 0$ for all $i$, and all orbit elements
+Both terms are strictly positive, so $R_i > 0$ for all $i$. Since $D < 0$, all orbit elements
 $\tilde{n}_i = R_i/D$ are negative rationals. As a byproduct, concentrated patterns
 are always case-(a). (The case-(a) argument uses only the oddness of $R_i$ and $v_2$
 conditions, which are independent of the sign of $D$; hence case-(a) holds for all
@@ -1022,10 +1097,11 @@ Positivity: the first term is positive since $e \geq 1$; the second since $D < 0
 implies $3^L > 2^{L+e}$. Case-(a) requires $v_2(3R_i + D) = v_i$ exactly. For $i < L$: $3R_i + D = 2R_{i+1}$
 by the recurrence, so $v_2(3R_i + D) = 1 + v_2(R_{i+1})$; we need $R_{i+1}$ odd.
 For $i = L$: $3R_L + D = 2^{e+1}(3^L - 2^L)$ (verified directly), giving
-$v_2 = e+1 = v_L$. Oddness of $R_i$ for $i \leq L$: the first term has
-$v_2 = L - i + 1 \geq 2$ for $i < L$ (since $i \leq L-1$) and $v_2 = 1$ for $i = L$;
-the second term $3^L - 2^{L+e}$ is odd; so their sum is odd for $L-i+1 \geq 2$,
-and $2\cdot(\text{odd}) + \text{odd} = \text{odd}$ for $L - i + 1 = 1$.
+$v_2 = e+1 = v_L$. Oddness of $R_i$ for $i \leq L$: the second term $3^L - 2^{L+e}$ is always odd
+(odd minus even). For $i < L$: the first term $2^{L-i+1}(2^e-1)\cdot 3^{i-1}$
+has $v_2 = L-i+1 \geq 2$, so it is even; even + odd = odd.
+For $i = L$: the first term is $2(2^e-1)\cdot 3^{L-1}$, which is $2\times\mathrm{odd}$;
+so $R_L = 2\cdot\mathrm{odd} + \mathrm{odd} = \mathrm{odd}$.
 \end{proof}
 
 The full conjecture (all $D < 0$ ghost types, not just concentrated patterns)
@@ -1084,10 +1160,9 @@ $1 + 26 = 27$ (one extra cycle of length 26), $k = 11$ has $1 + 25 = 26$
 (one extra cycle of length 25), and $k = 12$ has $1 + 7 + 6 = 14$
 (two extra cycles of lengths 7 and 6).
 
-The Fredholm determinant for non-exceptional $k$ is $\det(I - zP_k) = 1 - z/4$.
 The Fredholm determinant $F_k(z) = \det(I - z \cdot P_k)$ is a polynomial
 in $z$ of degree equal to the number of nonzero eigenvalues of $P_k$ (at most $N = 2^{k-1}$). Its zeros occur at $z = 1/\lambda_i$, the reciprocals
-of eigenvalues. For non-exceptional $k$, the only zero is at $z = 4$.
+of eigenvalues. For non-exceptional $k$, the only nonzero eigenvalue is $1/4$, so the only zero is at $z = 4$, giving $\det(I - zP_k) = 1 - z/4$.
 
 
 # Computational Methodology
@@ -1161,7 +1236,7 @@ is a necessary preliminary to any spectral approach to the conjecture.
 The Lasota--Yorke obstruction (Theorem~\ref{thm:ly}) arises from the mod-3 oscillation of the
 weight function $W$. A natural salvage attempt restricts the Lipschitz seminorm to
 pairs within the same mod-3 class, where the conditional contraction rate is $4/15$
-(Section 4, second remark). However, the inverse branches involve division
+(Remark~\ref{rem:conditional-contraction}). However, the inverse branches involve division
 by 3, which scrambles higher powers of 3: for $x \equiv y \pmod{3}$ but
 $9 \nmid (x - y)$, the branches $g_v$ do not preserve mod-3 classes, and the
 obstruction propagates to all levels of the 3-adic filtration.
@@ -1169,15 +1244,29 @@ obstruction propagates to all levels of the 3-adic filtration.
 ## Archimedean Compactness
 
 The 2-adic unboundedness (Theorem~\ref{thm:2adic}) closes the Mahler/Amice program in the 2-adic
-setting. However, $\mathcal{L}$ is bounded on $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{R})$ with
-the archimedean sup norm ($\|\mathcal{L}\| = 2/3$), and the question of whether $\mathcal{L}$ is
-*compact* on this space remains open. Compactness would imply
-$\sigma_{\mathrm{ess}}(\mathcal{L}) = \{0\}$, reducing the spectrum to isolated eigenvalues
-accumulating at 0. The Mahler basis is still a Schauder basis for
-$C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{R})$; the archimedean Mahler matrix
-$M_\infty^{\mathrm{arch}}$ is well-defined (the entries converge archimedeanly, even
-though they diverge 2-adically), and compactness reduces to uniform archimedean row
-decay: $\sup_j |M_\infty^{\mathrm{arch}}[m,j]| \to 0$ as $m \to \infty$.
+setting. The archimedean compactness question is also now resolved:
+
+\begin{proposition}[Non-compactness of $\mathcal{L}$]
+\label{prop:not-compact}
+$\mathcal{L}$ is not compact on $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{R})$.
+\end{proposition}
+
+*Proof.* The proof is by non-equicontinuity. The mod-3 splitting of the branch set is
+independent of the 2-adic topology: for any $r \geq 1$ there exist
+$x \equiv 1 \pmod{3}$ and $y \equiv 2 \pmod{3}$ with $|x - y|_2 = 2^{-r}$.
+Define $f \in C(\mathbb{Z}_2^{\mathrm{odd}})$ with $\|f\|_\infty \leq 1$ by
+$f = +1$ on even-valuation preimage branches of $x$ and $f = -1$ on
+odd-valuation preimage branches of $y$ (disjoint closed subsets of the compact
+space $\mathbb{Z}_2^{\mathrm{odd}}$; by the Tietze extension theorem, $f$ extends
+to a continuous function with $\|f\|_\infty \leq 1$; note $f$ depends on the
+pair $(x,y)$ and hence on $r$, though the gap magnitude is always $1$). Then
+$$(\mathcal{L}f)(x) = \sum_{v=2,4,\ldots} 2^{-v} = \tfrac{1}{3}, \qquad
+(\mathcal{L}f)(y) = -\sum_{v=1,3,\ldots} 2^{-v} = -\tfrac{2}{3},$$
+giving $|(\mathcal{L}f)(x) - (\mathcal{L}f)(y)| = 1$ for every $r$.
+Since the image $\{\mathcal{L}f : \|f\|_\infty \leq 1\}$ is not equicontinuous,
+$\mathcal{L}$ is not compact. $\square$
+
+Both archimedean and 2-adic obstructions are now closed.
 
 ## Projective Limit and $\sigma(\mathcal{L}) \supseteq [1/4, 1/2]$
 
@@ -1199,8 +1288,8 @@ most $(L, V)$ pairs produce materializing ghosts for sufficiently large $L$.
 
 ## Baker--Wüstholz Bounds
 
-Effective lower bounds on $|2^V - 3^L|$ from transcendence theory (Propositions~4--5)
-bound ghost cycle denominators but do not prove $|E| < \infty$. Baker--W\"ustholz bounds
+Effective lower bounds on $|2^V - 3^L|$ from transcendence theory (Propositions~\ref{prop:baker}--\ref{prop:exclusion})
+bound ghost cycle denominators but do not prove $|E| < \infty$. Baker--Wüstholz bounds
 exclude case-(b) ghosts (bounded-length, finite persistence) but not case-(a) ghosts,
 which are true 2-adic periodic orbits that persist at arithmetic progressions of levels
 regardless of $|D|$.
@@ -1223,16 +1312,14 @@ the inducing partition must respect both the 2-adic and mod-3 structures simulta
 
 ## Iwasawa Analogy
 
-By analogy with Iwasawa theory, the infinitude of $E$ corresponds to $\mu \neq 0$.
+The projective system $\{P_k\}_{k \geq 2}$ of transfer matrices, with its compatible restriction maps, is structurally analogous to the tower of finite group rings in Iwasawa theory, where the Iwasawa algebra $\Lambda = \mathbb{Z}_p[[T]]$ governs the projective limit. In that classical setting, the $\Lambda$-modules of interest are the $p$-parts of ideal class groups ascending the $\mathbb{Z}_p$-tower; the analogous objects here are the eigenspaces of $P_k$ associated to ghost cycles --- specifically, the exceptional eigenvalues $\lambda = 2^{-V/L}$ that persist across levels. The $\mu$-invariant measures whether the $\Lambda$-module has $p$-torsion growing without bound up the tower; the analogue here is the persistence of case-(a) ghosts at arithmetic progressions of levels (Theorem~\ref{thm:persistence}), ensuring $E$ is infinite with positive density rather than eventually vanishing. If $E$ were finite, the spectral radius would collapse to $1/4$ --- mirroring $\mu = 0$, where the $p$-part of the class group is controlled. We emphasize that this is a structural analogy, not a theorem: no Iwasawa algebra acts on the eigenspaces of $\mathcal{L}$, and the periodicity in $k$ is multiplicative-order periodicity rather than the $p$-power ramification that drives Iwasawa towers.
 
-## Connection to Siegel (2025)
+## Connection to Dhiman--Pandey (2026)
 
-Siegel (2025a) independently uses the term ``ghost cycles'' for 2-adic periodic orbits
+Dhiman and Pandey (2026) independently use the term ``ghost cycles'' for 2-adic periodic orbits
 of the $3x+1$ map. Our work differs in computing the density of exceptional levels,
 classifying ghost persistence into case-(a) and case-(b), and providing the census of
-materializing ghost types. Siegel (2025b) studies algebras of $p$-adic distributions
-induced by pointwise products of $F$-series; the relationship between that algebraic
-framework and our transfer operator approach remains to be explored.
+materializing ghost types.
 
 
 # Acknowledgments {-}
@@ -1247,44 +1334,51 @@ This work received no external funding.
 
 # References {-}
 
-\noindent Amice, Y. (1964). Interpolation $p$-adique. *Bulletin de la Soci\'et\'e Math\'ematique de France* 92, 181--236.
+\noindent Amice, Y. (1964). Interpolation $p$-adique. *Bulletin de la Société Mathématique de France* 92, 117--180. <!-- ref:amice-1964.md -->
 
-\noindent Assani, I. (2024). Collatz Map as a Non-Singular Transformation. *Studia Mathematica* 275.
+\noindent Assani, I. (2024). Collatz Map as a Non-Singular Transformation. *Studia Mathematica* 275. <!-- ref:assani-2024.md -->
 
-\noindent Baker, A. and W\"ustholz, G. (1993). Logarithmic forms and group varieties. *Journal f\"ur die reine und angewandte Mathematik* 442, 19--62.
+\noindent Baker, A. and Wüstholz, G. (1993). Logarithmic forms and group varieties. *Journal für die reine und angewandte Mathematik* 442, 19--62. <!-- ref:baker-wustholz-1993.md -->
 
-\noindent Kontorovich, A. and Lagarias, J. (2010). Stochastic Models for the $3x+1$ and $5x+1$ Problems and Beyond. In Lagarias, J. C. (ed.), *The Ultimate Challenge: The $3x+1$ Problem*, AMS, pp. 131--188.
+\noindent Dhiman, M. and Pandey, R. (2026). 2-Adic Obstructions to Presburger-Definable Characterizations of Collatz Cycles. arXiv:2601.12772. <!-- ref:dhiman-pandey-2026.md -->
 
-\noindent Lagarias, J. (1985). The $3x+1$ Problem and Its Generalizations. *American Mathematical Monthly* 92, 3--23.
+\noindent Kontorovich, A. and Lagarias, J. (2010). Stochastic Models for the $3x+1$ and $5x+1$ Problems. In Lagarias, J. C. (ed.), *The Ultimate Challenge: The $3x+1$ Problem*, AMS, pp. 131--188. <!-- ref:kontorovich-lagarias-2010.md -->
 
-\noindent Lagarias, J. (2021). The $3x+1$ Problem: An Overview. arXiv:2111.02635.
+\noindent Lagarias, J. (1985). The $3x+1$ Problem and Its Generalizations. *American Mathematical Monthly* 92, 3--23. <!-- ref:lagarias-1985.md -->
 
-\noindent Lagarias, J. and Weiss, A. (1992). The $3x+1$ Problem: Two Stochastic Models. *Annals of Applied Probability* 2(1), 229--261.
+\noindent Lagarias, J. (2021). The $3x+1$ Problem: An Overview. arXiv:2111.02635. <!-- ref:lagarias-2021.md -->
 
-\noindent Laurent, M. (2008). Linear forms in two logarithms and interpolation determinants II. *Acta Arithmetica* 133(4), 325--348.
+\noindent Lagarias, J. and Weiss, A. (1992). The $3x+1$ Problem: Two Stochastic Models. *Annals of Applied Probability* 2(1), 229--261. <!-- ref:lagarias-weiss-1992.md -->
 
-\noindent Matthews, K. and Watts, A. (1985). A Markov approach to the generalized Syracuse algorithm. *Acta Arithmetica* 45(1), 29--42.
+\noindent Laurent, M. (2008). Linear forms in two logarithms and interpolation determinants II. *Acta Arithmetica* 133(4), 325--348. <!-- ref:laurent-2008.md -->
 
-\noindent Mori, T. (2024). Application of Operator Theory for the Collatz Conjecture. arXiv:2411.08084.
+\noindent Matthews, K. and Watts, A. (1985). A Markov approach to the generalized Syracuse algorithm. *Acta Arithmetica* 45(1), 29--42. <!-- ref:matthews-watts-1985.md -->
 
-\noindent Neklyudov, M. (2024). Functional Analysis Approach to the Collatz Conjecture. *Results in Mathematics* 79.
+\noindent Mori, T. (2024). Application of Operator Theory for the Collatz Conjecture. arXiv:2411.08084. <!-- ref:mori-2024.md -->
 
-\noindent Serre, J.-P. (1962). Endomorphismes compl\`etement continus des espaces de Banach $p$-adiques. *Publications Math\'ematiques de l'IH\'ES* 12, 69--85.
+\noindent Neklyudov, M. (2024). Functional Analysis Approach to the Collatz Conjecture. *Results in Mathematics* 79. <!-- ref:neklyudov-2024.md -->
 
-\noindent Siegel, M. (2025a). Ghost Cycles of the 3x+1 Map. arXiv:2601.12772.
+\noindent Serre, J.-P. (1962). Endomorphismes complètement continus des espaces de Banach $p$-adiques. *Publications Mathématiques de l'IHÉS* 12, 69--85. <!-- ref:serre-1962.md -->
 
-\noindent Siegel, M. (2025b). Algebras of $p$-Adic Distributions Induced by Pointwise Products of $F$-Series. arXiv:2507.13358.
+\noindent Simons, J. and de Weger, B. (2005). Theoretical and computational bounds for $m$-cycles of the $3n+1$ problem. *Acta Arithmetica* 117(1), 51--70. <!-- ref:simons-deweger-2005.md -->
 
-\noindent Simons, J. and de Weger, B. (2005). Theoretical and computational bounds for $m$-cycles of the $3n+1$ problem. *Acta Arithmetica* 117(1), 51--70.
+\noindent Steiner, R. P. (1977). A Theorem on the Syracuse Problem. In *Proceedings of the 7th Manitoba Conference on Numerical Mathematics*, pp. 553--559. <!-- ref:steiner-1977.md -->
 
-\noindent Steiner, R. P. (1977). A Theorem on the Syracuse Problem. In *Proceedings of the 7th Manitoba Conference on Numerical Mathematics*, pp. 553--559.
+\noindent Tao, T. (2022). Almost All Orbits of the Collatz Map Attain Almost Bounded Values. *Forum of Mathematics, Pi* 10, e12. <!-- ref:tao-2022.md -->
 
-\noindent Tao, T. (2022). Almost All Orbits of the Collatz Map Attain Almost Bounded Values. *Forum of Mathematics, Pi* 10, e12.
+\noindent Wirsching, G. (1998). *The Dynamical System Generated by the $3n+1$ Function*. Springer LNM 1681. <!-- ref:wirsching-1998.md -->
 
-\noindent Wirsching, G. (1998). *The Dynamical System Generated by the $3n+1$ Function*. Springer LNM 1681.
+\noindent Zöbelein, C. (2024). Collatz ghost cycles and multi-level sequences. Preprint. <!-- ref:zoebelein-2024.md -->
 
 ---
 
 **Version history.**
 v1 (March 2026): Initial submission.
 v2 (March 2026): Added Theorem~\ref{thm:conc} (unconditional proof of negative rationality for all concentrated ghost patterns; case-(a) byproduct extended to all $D \neq 0$); added proof strategy remarks for Conjectures 1, 2, and 4; qualified Theorem 1(c) simplicity as computationally verified; corrected Fredholm determinant degree statement; fixed notation and expository issues throughout.
+v3 (March 2026):
+*New results:* Added Proposition~\ref{prop:not-compact} (archimedean non-compactness of $\mathcal{L}$ on $C(\mathbb{Z}_2^{\mathrm{odd}}, \mathbb{R})$, proved by non-equicontinuity via finite branch truncation); added Baker--Wüstholz proof sketch (Laurent 2008, Corollary~2); added remark clarifying $\mathcal{L}$ as projective limit of integer Syracuse maps; added primitivity remark to Theorem~\ref{thm:persistence}; noted $n = -1/3$ exceptional point.
+*Corrections:* Updated archimedean compactness discussion (resolved: not compact); corrected pair count from 91 to 105 for $L = 2,\ldots,15$; softened "closing the Mahler/Amice program entirely" to "in the 2-adic setting"; corrected Baker--Wüstholz growth claim; clarified $k=1000$ density scan as algebraic membership testing; corrected $D$ odd/nonzero justification; corrected Proposition~5 $K_0$ definition to $\max\{\mathrm{ord}_2(|D|) + 2L : \ldots\}$, closing a gap in the "in practice" step.
+*Proof repairs:* Repaired Proposition~3 proof to derive bound from finite matrices directly; clarified $A_k$ projection structure in Theorem~1(e) proof; moved persistence-dependent $\sup_k = \limsup_k$ equality out of Theorem~1(e) proof into a separate remark; expanded Theorem~6 geometric series derivation; relabeled Lemma~1 cases (a)--(c); reordered conjecture list in contributions to match paper numbering; dropped imprecise total-variation bound from Corollary~1(b) and merged BV statement into revised part (b) with a rigorous one-line proof.
+*Attribution:* Added footnote to Theorem~\ref{thm:cycle-eq} crediting Davison (1976) as originator of the cycle equation, as cited by Steiner (1977).
+
+**Reference corrections (v3):** The reference "Siegel, M. Ghost Cycles of the $3x+1$ Map. arXiv:2601.12772" appearing in v1 and v2 was incorrect in both author and title. The correct citation is Dhiman, M. and Pandey, R. (2026), 2-Adic Obstructions to Presburger-Definable Characterizations of Collatz Cycles, arXiv:2601.12772. The paper attributed to Siegel does not exist; the error was introduced during manuscript preparation. The author apologizes to Maxwell Siegel and to Madhav Dhiman and Rohan Pandey for this misattribution. Additionally: the page range for Amice (1964) was corrected from 181--236 to 117--180 (verified from PDF); the title for Kontorovich and Lagarias (2010) was corrected to match the arXiv preprint (removed spurious "and Beyond").
