@@ -232,10 +232,90 @@ theorem orbit_all_odd
     rw [hds_eq]
     exact ghostR_odd hv_pos
 
+/-! ## ghostR is strictly positive for nonempty valid lists -/
+
+/-- ghostR of a nonempty list is strictly positive (leading term 3^|vs| ≥ 1). -/
+theorem ghostR_pos {v : ℕ} {vs : List ℕ} : 0 < ghostR (v :: vs) := by
+  unfold ghostR
+  have h3 : (0 : ℤ) < 3 ^ vs.length := by positivity
+  have h2 : (0 : ℤ) ≤ 2 ^ v * ghostR vs := mul_nonneg (by positivity) (ghostR_nonneg vs)
+  linarith
+
+/-- ghostR of any nonempty list is strictly positive. -/
+theorem ghostR_pos' (ds : List ℕ) (hne : ds ≠ []) : 0 < ghostR ds := by
+  obtain ⟨v, vs, rfl⟩ := List.exists_cons_of_ne_nil hne
+  exact ghostR_pos
+
+/-! ## The factored form of R(i) as a standalone identity -/
+
+/-- **Factored orbit identity.**
+    R(i) = 2^{V-S_i} · ghostR(take i) + 3^i · ghostR(drop i)
+    for i < L, given the recurrence and R(0) = ghostR(ds). -/
+theorem orbit_factored_form
+    (ds : List ℕ) (hne : ds ≠ [])
+    (hvalid : ∀ x ∈ ds, 0 < x)
+    (R : ℕ → ℤ) (D : ℤ)
+    (hD : D = 2 ^ ds.sum - 3 ^ ds.length)
+    (hR0 : R 0 = ghostR ds)
+    (hsteps : ∀ i (h : i < ds.length),
+      R (i + 1) * 2 ^ ds.get ⟨i, h⟩ = 3 * R i + D)
+    (i : ℕ) (hiL : i < ds.length) :
+    R i = 2 ^ (ds.sum - (ds.take i).sum) * ghostR (ds.take i)
+        + 3 ^ i * ghostR (ds.drop i) := by
+  -- Same algebra as in orbit_all_odd
+  have hds_split : ds = ds.take i ++ ds.drop i := (List.take_append_drop i ds).symm
+  have hgR := ghostR_append (ds.take i) (ds.drop i)
+  rw [← hds_split] at hgR
+  rw [List.length_drop] at hgR
+  have hi_le : i ≤ ds.length := le_of_lt hiL
+  have hsteps_prefix : ∀ j (h : j < (ds.take i).length),
+      R (j + 1) * 2 ^ (ds.take i).get ⟨j, h⟩ = 3 * R j + D := by
+    intro j hj
+    have hji : j < i := by rwa [List.length_take_of_le hi_le] at hj
+    have hj' : j < ds.length := by omega
+    have : (ds.take i).get ⟨j, hj⟩ = ds.get ⟨j, hj'⟩ := by
+      simp [List.get_eq_getElem, List.getElem_take]
+    rw [this]
+    exact hsteps j hj'
+  have iter := orbit_numerator_iteration D (ds.take i) R hsteps_prefix
+  rw [List.length_take_of_le hi_le] at iter
+  rw [hR0] at iter
+  have hcancel : (3 : ℤ) ^ ds.length + D = 2 ^ ds.sum := by rw [hD]; ring
+  have h3pow : (3 : ℤ) ^ i * 3 ^ (ds.length - i) = 3 ^ ds.length := by
+    rw [← pow_add]; congr 1; omega
+  have hsum_le : (ds.take i).sum ≤ ds.sum := by
+    have : ds.sum = (ds.take i).sum + (ds.drop i).sum := by
+      conv_lhs => rw [hds_split]; rw [List.sum_append]
+    omega
+  have h2pow : (2 : ℤ) ^ ds.sum =
+      2 ^ (ds.take i).sum * 2 ^ (ds.sum - (ds.take i).sum) := by
+    rw [← pow_add]; congr 1; omega
+  suffices h : 2 ^ (ds.take i).sum * R i =
+      2 ^ (ds.take i).sum * (2 ^ (ds.sum - (ds.take i).sum) * ghostR (ds.take i)
+      + 3 ^ i * ghostR (ds.drop i)) by
+    exact mul_left_cancel₀ (by positivity : (2 : ℤ) ^ (ds.take i).sum ≠ 0) h
+  have rhs_expand : 2 ^ (ds.take i).sum *
+      (2 ^ (ds.sum - (ds.take i).sum) * ghostR (ds.take i) +
+       3 ^ i * ghostR (ds.drop i)) =
+      2 ^ ds.sum * ghostR (ds.take i) +
+      3 ^ i * 2 ^ (ds.take i).sum * ghostR (ds.drop i) := by
+    rw [h2pow]; ring
+  rw [rhs_expand]
+  set gT := ghostR (ds.take i)
+  set gD := ghostR (ds.drop i)
+  set S := (ds.take i).sum
+  have lhs : 2 ^ S * R i = R i * 2 ^ S := by ring
+  rw [lhs, iter, hgR]
+  have key : 3 ^ i * 3 ^ (ds.length - i) + D = 2 ^ ds.sum := by
+    linarith [h3pow, hcancel]
+  have expand : 3 ^ i * (3 ^ (ds.length - i) * gT + 2 ^ S * gD) + D * gT =
+      (3 ^ i * 3 ^ (ds.length - i) + D) * gT + 3 ^ i * 2 ^ S * gD := by ring
+  rw [expand, key]
+
 /-! ## Full Theorems 8 and 9 -/
 
 /-- **Theorem 8 (Negative Rationality).** All R_i > 0 when D < 0.
-    Currently sorry — requires the cancellation analysis. -/
+    Both terms in the factored form are non-negative, and at least one is positive. -/
 theorem negative_rationality_general
     (ds : List ℕ) (hne : ds ≠ [])
     (hvalid : ∀ x ∈ ds, 0 < x)
@@ -246,7 +326,27 @@ theorem negative_rationality_general
       R (i + 1) * 2 ^ ds.get ⟨i, h⟩ = 3 * R i + D)
     (i : ℕ) (hi : i ≤ ds.length) :
     0 < R i := by
-  sorry
+  by_cases hiL : i < ds.length
+  · -- Case i < L: use the factored form
+    rw [orbit_factored_form ds hne hvalid R D hD hR0 hsteps i hiL]
+    -- R(i) = 2^{V-S_i} · ghostR(take) + 3^i · ghostR(drop)
+    -- Both terms are non-negative; the second is strictly positive
+    have hdrop_ne : ds.drop i ≠ [] := by
+      intro h; simp [List.length_drop] at h; omega
+    have hterm2 : 0 < 3 ^ i * ghostR (ds.drop i) :=
+      mul_pos (by positivity) (ghostR_pos' _ hdrop_ne)
+    have hterm1 : 0 ≤ 2 ^ (ds.sum - (ds.take i).sum) * ghostR (ds.take i) :=
+      mul_nonneg (by positivity) (ghostR_nonneg _)
+    linarith
+  · -- Case i = L: R(L) = ghostR(ds) > 0
+    have hiL : i = ds.length := by omega
+    subst hiL
+    have iter := orbit_numerator_iteration D ds R hsteps
+    rw [hR0, hD] at iter
+    have hReq : R ds.length = ghostR ds :=
+      mul_left_cancel₀ (by positivity : (2 : ℤ) ^ ds.sum ≠ 0) (by linarith)
+    rw [hReq]
+    exact ghostR_pos' ds hne
 
 /-- **Theorem 9 (Universal Case-a).** v₂(3R_i + D) = v_i for all i.
     Proved from `orbit_all_odd` + `case_a_step`. -/
