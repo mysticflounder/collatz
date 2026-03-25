@@ -1,7 +1,7 @@
 # Lean 4 Review v2: Theorem 6 (Persistence of Case-(a) Ghosts)
 
 **File under review:** `lean/GhostCycles/Syracuse/PersistenceFull.lean`
-**Reviewer role:** Mathematics professor (dynamical systems, spectral theory, p-adic analysis)
+**Reviewer:** AI math-professor subagent (Claude Opus, dynamical systems, spectral theory, p-adic analysis)
 **Date:** 2026-03-24
 **Previous review:** `docs/proofs/lean-review-theorem6.md` (2026-03-23)
 

@@ -9,7 +9,7 @@
 
 ## 0. Summary of the Gap
 
-The professor review (`lean-review-theorem6.md`) identifies 40--50% coverage. What is **proven**:
+The AI math-professor subagent review (`lean-review-theorem6.md`) identifies 40--50% coverage. What is **proven**:
 
 - $D$ odd $\Rightarrow$ coprimality with $2^k$, modular inverse exists, solution unique (Theorems 1--6 in PersistenceFull)
 - Any solution $n_1$ to $n_1 D \equiv R \pmod{2^k}$ is odd for $k \ge 1$ (Theorems 7--8, 11)

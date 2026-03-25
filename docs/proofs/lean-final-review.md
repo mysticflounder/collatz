@@ -1,6 +1,6 @@
 # Lean 4 Formalization: Final Review
 
-**Reviewer:** Professor of Mathematics (dynamical systems, spectral theory, p-adic analysis)
+**Reviewer:** AI math-professor subagent (Claude Opus, dynamical systems, spectral theory, p-adic analysis)
 **Date:** 2026-03-23
 **Scope:** All 10 project Lean source files in `lean/GhostCycles/Syracuse/` plus two root files, against Paper A (`docs/arxiv-paper-a.md`), Theorems 4, 7, 8, 9.
 
