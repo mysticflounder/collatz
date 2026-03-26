@@ -6,26 +6,6 @@ Computational code accompanying the paper:
 > Adam McKenna, March 2026
 > DOI: [10.5281/zenodo.18949342](https://doi.org/10.5281/zenodo.18949342)
 
-## Lean 4 Formalization
-
-The `lean/` directory contains machine-verified proofs of the paper's core algebraic theorems in Lean 4.28.0 + Mathlib. **Zero sorry blocks. Zero axioms.**
-
-| Paper theorem | Lean theorem | What it proves |
-|--------------|-------------|---------------|
-| Theorem 4 | `cycle_equation` | n₁·(2^V - 3^L) = R (exact integer identity) |
-| Theorem 7 | `orbit_numerator_iteration` | L-fold iteration formula for orbit numerators |
-| Theorem 8 | `negative_rationality_general` | All R_i > 0 when D < 0 |
-| Theorem 9 | `universal_case_a_general` | v₂(3R_i + D) = v_i for all compositions |
-
-The formalization discovered a simpler proof of Theorems 8-9 than appears in the paper, using a structural `ghostR_append` decomposition instead of the double-sum expansion.
-
-```bash
-# Verify all proofs (requires Lean 4 via elan)
-cd lean && lake build
-```
-
-See [`lean/README.md`](lean/README.md) for the full theorem map and proof details.
-
 ## Setup
 
 **Requirements:** Python 3.11+, with `numpy`, `scipy`, `matplotlib`, `gmpy2`.

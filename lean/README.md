@@ -22,36 +22,11 @@ If `lake build` succeeds with no errors, every theorem is machine-verified.
 | Paper theorem | Lean file | Lean name | Status |
 |--------------|-----------|-----------|--------|
 | **Theorem 4** (Cycle equation) | `Syracuse/CycleEquation.lean` | `cycle_equation` | Proved (exact identity, stronger than paper's congruence) |
-| **Theorem 6** (Persistence) | `Syracuse/PersistenceFull.lean` | `persistence_theorem6` | Proved (oddness + valuations + closure) |
 | **Theorem 7** (Orbit formula) | `Syracuse/OrbitFormula.lean` | `orbit_numerator_iteration` | Proved (iteration form) |
 | **Theorem 8** (Negative rationality) | `Syracuse/GeneralOrbit.lean` | `negative_rationality_general` | Proved |
 | **Theorem 9** (Universal Case-a) | `Syracuse/GeneralOrbit.lean` | `universal_case_a_general` | Proved |
 
-### Theorem 6 — Persistence of case-(a) ghosts (24 theorems)
-
-| Result | Lean file | Lean name |
-|--------|-----------|-----------|
-| D odd → coprime to 2 | `Syracuse/PersistenceFull.lean` | `odd_isCoprime_two` |
-| D odd → coprime to 2^k | `Syracuse/PersistenceFull.lean` | `odd_isCoprime_two_pow` |
-| Modular solution exists | `Syracuse/PersistenceFull.lean` | `coprime_mod_solution_exists` |
-| Modular solution unique | `Syracuse/PersistenceFull.lean` | `coprime_mod_solution_unique` |
-| Ghost solution exists | `Syracuse/PersistenceFull.lean` | `ghost_solution_exists` |
-| Ghost solution unique | `Syracuse/PersistenceFull.lean` | `ghost_solution_unique` |
-| Modular solution is odd (mod 2) | `Syracuse/PersistenceFull.lean` | `ghost_solution_odd_mod2` |
-| Modular solution is odd (mod 2^k) | `Syracuse/PersistenceFull.lean` | `ghost_solution_odd` |
-| Solution refinement | `Syracuse/PersistenceFull.lean` | `ghost_solution_refines` |
-| Euler-Lagrange: ∃ p > 0, \|D\| ∣ (2^p − 1) | `Syracuse/PersistenceFull.lean` | `exists_period` |
-| Valuation bridge: D(3n+1) ≡ 3R+D | `Syracuse/PersistenceFull.lean` | `modular_valuation_bridge` |
-| Valuation transfer (divisibility) | `Syracuse/PersistenceFull.lean` | `valuation_transfer_dvd` |
-| Valuation transfer (non-divisibility) | `Syracuse/PersistenceFull.lean` | `valuation_transfer_not_dvd` |
-| Modular valuation stability | `Syracuse/PersistenceFull.lean` | `modular_valuation_stable` |
-| **Full persistence (Theorem 6)** | `Syracuse/PersistenceFull.lean` | `persistence_theorem6` |
-| Materialization predicate | `Syracuse/PersistenceFull.lean` | `GhostMaterializes` |
-| Ghost materializes at all large k | `Syracuse/PersistenceFull.lean` | `ghost_materializes_all_large` |
-| Materialization is monotone | `Syracuse/PersistenceFull.lean` | `ghost_materializes_monotone` |
-| Periodicity corollary | `Syracuse/PersistenceFull.lean` | `ghost_materializes_periodic` |
-
-### Supporting results (Theorems 4, 7, 8, 9)
+### Supporting results
 
 | Result | Lean file | Lean name |
 |--------|-----------|-----------|
@@ -82,6 +57,7 @@ If `lake build` succeeds with no errors, every theorem is machine-verified.
 | Theorem 1 (Spectral properties) | Requires Banach space spectral theory not in Mathlib |
 | Theorem 2 (Lasota-Yorke obstruction) | Requires Lipschitz spaces on Z₂ |
 | Theorem 3 (2-adic unboundedness) | Requires Q₂-valued function spaces |
+| Theorem 6 (Persistence, full periodicity) | Requires 2-adic periodicity of D⁻¹ |
 | Propositions 4-5 (Baker bounds) | Requires formalized transcendence theory |
 | Proposition 6 (Non-compactness) | Requires equicontinuity theory |
 
@@ -95,8 +71,6 @@ The formalization discovered a **simpler proof** of Theorems 8-9 than appears in
 4. **Parity**: even + odd = odd (since `ghostR(drop)` is odd by `ghostR_odd`)
 
 This eliminates the closed-form double-sum entirely and derives oddness from the structural decomposition.
-
-Theorem 6 (persistence) uses a **valuation bridge** to transfer results from the rational orbit to modular orbits: the identity `D·(3n+1) - (3R+D) = 3·(nD - R)` lets us prove that modular orbit elements inherit exact valuations from the rational orbit numerators, since D is odd and coprime to all powers of 2.
 
 ## Paper
 

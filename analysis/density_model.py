@@ -326,7 +326,7 @@ def density_summary():
 def main():
     density_summary()
     empirical_scan(KNOWN_GHOSTS, k_max=1000)
-    search_v_l_plus_1(l_min=9, l_max=12)
+    search_v_l_plus_1(l_min=9, l_max=20)
 
 
 if __name__ == "__main__":

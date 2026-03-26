@@ -24,13 +24,18 @@ abstract: |
   arithmetic progressions of levels, making the exceptional set $E$ infinite with density
   $\geq 4\%$. A census identifies 88+ materializing ghost types through cycle length
   $L = 12$, organized into families by excess $e = V - L$, with record spectral radius
-  $\rho \geq 2^{-16/15} \approx 0.4774$. We propose four replacement conjectures.
-  Conjecture~\ref{conj:negative-rationality} (negative rationality) asserts that all orbit elements of $D < 0$ ghost
-  types are negative rationals --- verified through $L = 12$ for 5,996 cases and proved
-  unconditionally for all concentrated patterns via an explicit closed-form formula ---
-  providing strong evidence that the entire high-spectral-radius regime ($\rho > 1/3$,
-  equivalently $D < 0$) consists of purely negative 2-adic orbits with no
-  positive-integer elements, as Conjecture~\ref{conj:negative-rationality} asserts.
+  $\rho \geq 2^{-18/17} \approx 0.4800$. We propose two replacement conjectures
+  (density of $E$ and spectral radius) and prove two others as theorems.
+  Theorem~\ref{conj:negative-rationality} (Negative Rationality) establishes that for every
+  composition of $V$ into $L$ positive parts with $D < 0$, all orbit numerators are positive,
+  so every orbit element is a negative rational --- proved unconditionally via a general
+  closed-form formula (Theorem~\ref{thm:orbit-formula}) in which every term is manifestly
+  positive. Theorem~\ref{conj:universal-caseA} (Universal Case-(a)) establishes that every
+  such composition defines a true periodic orbit of the Syracuse map on
+  $\mathbb{Z}_2^{\mathrm{odd}}$ --- proved by showing the closed-form numerators are always
+  odd and satisfy the recurrence as an algebraic identity. Together these theorems show
+  that the entire high-spectral-radius regime ($\rho > 1/4$, equivalently $D < 0$)
+  consists of purely negative 2-adic orbits with no positive-integer elements.
   All computations are reproducible from the accompanying open-source repository.
 keywords:
   - "Collatz conjecture"
@@ -107,13 +112,16 @@ elements in all computed cases, together with a persistence theorem for case-(a)
 (6) a census of 88+ materializing ghost types (distinct $v$-patterns across 18 denominator
 values) through cycle length $L = 12$, organized into families by excess $e = V - L$;
 (7) density $\delta(E) \geq 4\%$ unconditionally and spectral radius
-$\rho(\mathcal{L}) \geq 2^{-16/15} \approx 0.4774$ from known ghosts;
-(8) four replacement conjectures for the density of $E$, the spectral radius of $\mathcal{L}$,
-negative rationality of ghost orbits, and the universal case-(a) property; and
-(9) an unconditional proof (Theorem~\ref{thm:conc}) that all concentrated ghost types
-$(1,\ldots,1,e+1)$ with $D < 0$ have purely negative rational orbit elements,
-establishing Conjecture~\ref{conj:negative-rationality} for this family and the universal case-(a) property for
-concentrated patterns as a byproduct.
+$\rho(\mathcal{L}) \geq 2^{-18/17} \approx 0.4800$ from known ghosts;
+(8) two replacement conjectures for the density of $E$ and the spectral radius of $\mathcal{L}$;
+(9) an unconditional proof of Negative Rationality (Theorem~\ref{conj:negative-rationality})
+for all ghost types (all compositions) with $D < 0$, via a general closed-form orbit
+formula (Theorem~\ref{thm:orbit-formula}) in which every term is manifestly positive ---
+subsuming Theorem~\ref{thm:conc} (concentrated patterns) as a special case; and
+(10) an unconditional proof of Universal Case-(a) (Theorem~\ref{conj:universal-caseA},
+proved as Theorem~\ref{thm:universal-caseA-proof} in Section~9) for all compositions
+and all $D$: the closed-form numerators satisfy the orbit recurrence as an algebraic
+identity and are always odd, giving $v_2(3R_i + D) = v_i$ exactly.
 
 The framework extends to the parametric family $S(n) = (xn+y)/2^{v_2(xn+y)}$; see
 the companion paper for the 2-adic local constancy of transfer matrices in the
@@ -151,8 +159,9 @@ ghost cycles as 2-adic periodic orbits, including the cycle equation, the case-(
 classification, and the persistence theorem together with Baker--Wüstholz bounds.
 Section 8 presents the census of materializing ghost types organized by family.
 Section 9 gives the density and spectral radius results together with
-replacement conjectures, and an unconditional proof of negative rationality for
-concentrated patterns (Theorem~\ref{thm:conc}). Section 10 presents eigenvalue spectra. Section 11 describes
+replacement conjectures, the general orbit formula (Theorem~\ref{thm:orbit-formula}),
+and unconditional proofs of Negative Rationality (Theorem~\ref{conj:negative-rationality})
+and Universal Case-(a) (Theorem~\ref{thm:universal-caseA-proof}) for all compositions. Section 10 presents eigenvalue spectra. Section 11 describes
 computational methodology. Section 12 discusses the results and directions for future work.
 
 
@@ -381,10 +390,10 @@ isolated eigenvalues that do not accumulate. However, Sections 6--9 show $E$ is
 infinite with density $\geq 4\%$. Case-(a) ghosts persist at arithmetic progressions of
 levels, and the $V = L+1$ ghost family produces spectral radii
 $\rho = 2^{-(L+1)/L} \to 1/2$. Current bounds:
-$2^{-16/15} \leq \rho(\mathcal{L}) \leq 1/2$,
-where the lower bound comes from the $L=15$, $V=16$ ghost (the $V=L+1$ family table
+$2^{-18/17} \leq \rho(\mathcal{L}) \leq 1/2$,
+where the lower bound comes from the $L=17$, $V=18$ ghost (the $V=L+1$ family table
 in Section~8), which materializes and persists, contributing
-$\rho_k \geq 2^{-16/15}$ at infinitely many levels $k$ by Theorem~\ref{thm:spectral}(e).
+$\rho_k \geq 2^{-18/17}$ at infinitely many levels $k$ by Theorem~\ref{thm:spectral}(e).
 \end{remark}
 
 
@@ -662,7 +671,7 @@ bit by bit as $k$ increases, converging to the rational limit (Figure~\ref{fig:d
 \label{fig:digit_stab}
 \end{figure}
 
-\begin{conjecture}[Universal case-(a)]
+\begin{theorem}[Universal Case-(a)]
 \label{conj:universal-caseA}
 For all positive integers $L \geq 2$ and $L+1 \leq V \leq 2L-1$ (the range where
 $\rho = 2^{-V/L} > 1/4$), and for every
@@ -671,28 +680,29 @@ $\tilde{n}_1 = R/(2^V - 3^L)$ satisfies $v_2(3\tilde{n}_i + 1) = v_i$ for all
 $i = 1, \ldots, L$. Equivalently, every such composition defines a true periodic
 orbit of the Syracuse map on $\mathbb{Z}_2^{\mathrm{odd}}$; there are no case-(b)
 ghost types with $\rho > 1/4$.
-\end{conjecture}
+\end{theorem}
 
-This conjecture has been verified for all $\sum_{L=2}^{15}(L-1) = 105$ pairs $(L, V)$
-with $L = 2, \ldots, 15$ and $L+1 \leq V \leq 2L-1$:
-exhaustively (all compositions) for $L \leq 12$ (up to ${\sim}800{,}000$ compositions per pair),
-and by $10^6$ random samples per pair for $L = 13$--$15$.
-An extended survey through $L = 20$ ($10^6$ samples per pair, 85 million total) finds zero
-failures. Moreover, the case-(a) property holds even for $V \geq 2L$ (where
-$D > 0$), tested exhaustively through $L = 12$ at $V = 2L$ and $V = 2L+1$ only
-(not a full search over all $V \geq 2L$):
-the sign of $D$ does not affect the universal case-(a) property.
+This theorem is proved in Section~9 as Theorem~\ref{thm:universal-caseA-proof}.
+In fact, the proof establishes the case-(a) property for all $D = 2^V - 3^L$
+(not only $D < 0$), since the algebraic identity and parity argument do not
+depend on the sign of $D$.
 
-\begin{remark}[Towards a proof]
-A proof would need to show that $v_2(3R_i + D) = v_i$ for all $i$ and all compositions,
-where the $R_i$ satisfy the orbit recurrence $R_{i+1} = (3R_i + D)/2^{v_i}$.
-The case-(a) condition is equivalent to each such quotient being odd;
-proving this uniformly across all compositions appears to require fine control on
-$R_i \pmod{2^{v_i+1}}$ that Baker-type bounds do not directly supply.
-For concentrated patterns $(1,\ldots,1,e+1)$, this is now established unconditionally
-by Theorem~\ref{thm:conc} (Section~9), which derives an explicit closed form for $R_i$
-and verifies the parity conditions directly. Extending this argument to non-concentrated
-compositions remains open.
+Prior to proof, the theorem was verified computationally for all
+$\sum_{L=2}^{15}(L-1) = 105$ pairs $(L, V)$ with $L = 2, \ldots, 15$ and
+$L+1 \leq V \leq 2L-1$: exhaustively (all compositions) for $L \leq 12$
+(up to ${\sim}800{,}000$ compositions per pair), and by $10^6$ random samples
+per pair for $L = 13$--$15$. An extended survey through $L = 20$ ($10^6$ samples
+per pair, 85 million total) found zero failures.
+
+\begin{remark}[Proof method]
+The proof (Theorem~\ref{thm:universal-caseA-proof}, Section~9) defines the orbit
+numerators $R_i^*$ directly via the closed form of Theorem~\ref{thm:orbit-formula}
+--- without assuming the recurrence --- and establishes two facts by pure algebra:
+(1)~$3R_i^* + D = 2^{v_i} R_{i+1}^*$ (the recurrence holds as an identity), and
+(2)~$R_i^*$ is odd for all $i$ (because exactly one term in the closed form has
+2-exponent zero, namely $3^{L-1}$, and all others are even). Together these give
+$v_2(3R_i^* + D) = v_i + v_2(R_{i+1}^*) = v_i$, proving the case-(a) condition
+non-circularly.
 \end{remark}
 
 ## Persistence of Case-(a) Ghosts
@@ -890,11 +900,15 @@ searched cycle lengths.
 | 13  | 1,577,939              | 58,140                    | 7.1     | 12  | 4,472     | 0.4740 |
 | 14  | 4,750,201              | 294,712                   | 18      | $\geq 4$ | 8,087 | 0.4759 |
 | 15  | 14,283,371             | 1,187,496                 | 36      | $\geq 2$ | 29,459| 0.4774 |
+| 16  | 42,915,649             | 3,065,403                 | 46.8    | 40       | 173,360 | 0.4788 |
+| 17  | 128,878,019            | 16,081,068                | 123     | $\geq 1$ | 84,884| 0.4800 |
 
-: The $V = L+1$ ghost family for $L = 5, \ldots, 15$. All $v$-patterns are algebraically
-case-(a). Entries $L = 5$--$13$ are from complete period searches; $L = 14$--$15$ are
-partial ($r$ is a lower bound). The $\rho$ column shows $2^{-(L+1)/L}$ for each $L$,
-regardless of whether the ghost materializes.
+: The $V = L+1$ ghost family for $L = 5, \ldots, 17$. All $v$-patterns are algebraically
+case-(a). Entries $L = 5$--$13$, $16$ are from complete period searches; $L = 14$--$15$, $17$
+are partial ($r$ is a lower bound). $L = 16$: $p = \mathrm{lcm}(\mathrm{ord}_2(7), \mathrm{ord}_2(6130807)) = 3{,}065{,}403$,
+full-period search gives $r = 40$. $L = 17$: $p = \mathrm{lcm}(\mathrm{ord}_2(563), \mathrm{ord}_2(228913)) = 16{,}081{,}068$.
+The $\rho$ column shows $2^{-(L+1)/L}$ for each $L$, regardless of whether the ghost
+materializes.
 
 The ghosts at $L = 9$ and $L = 11$ do not materialize at any level within their full
 period, despite being algebraically case-(a). A heuristic explains this: materialization
@@ -907,12 +921,19 @@ criterion distinguishing appearing from non-appearing cases has been found; the
 phenomenon appears governed by the equidistribution of powers of 2 modulo
 $|D| = 3^L - 2^{L+1}$.
 
-The nine appearing ghosts ($L = 5, 6, 7, 8, 10, 12, 13, 14, 15$) establish a proved
-lower bound $\limsup \rho_k \geq 2^{-16/15} \approx 0.4774$. Non-materialization at
+The eleven appearing ghosts ($L = 5, 6, 7, 8, 10, 12, 13, 14, 15, 16, 17$) establish a proved
+lower bound $\limsup \rho_k \geq 2^{-18/17} \approx 0.4800$. Non-materialization at
 $L = 9$ and $L = 11$ appears probabilistic rather than algebraic (as the heuristic
-above explains), not a structural obstruction. That ghosts appear at the majority of
-tested cycle lengths, with non-appearance explainable by equidistribution heuristics,
-supports Conjecture~\ref{conj:spectral-radius} below: $\limsup \rho_k = 1/2$.
+above explains), not a structural obstruction. Algebraic structure reinforces this:
+for even $L = 2m$, every odd prime factor $q$ of $|D_{2m}| = 3^{2m} - 2^{2m+1}$
+satisfies $q \equiv \pm 1 \pmod{8}$ (proved via the norm form
+$|D_{2m}| = N_{\mathbb{Q}(\sqrt{2})/\mathbb{Q}}(3^m - 2^m\sqrt{2})$), which forces the
+group index $[\mathbb{(Z}/q\mathbb{Z})^\times : \langle 2 \rangle] \geq 2$ and keeps
+the expected materialization count bounded away from zero. All five tested even values
+$L = 6, 8, 10, 12, 14$ materialize, consistent with this structural advantage.
+That ghosts appear at the majority of tested cycle lengths, with non-appearance
+explainable by equidistribution heuristics, supports
+Conjecture~\ref{conj:spectral-radius} below: $\limsup \rho_k = 1/2$.
 
 ## Higher Excess Families
 
@@ -995,7 +1016,7 @@ visible.}
 \label{fig:ghost_timeline}
 \end{figure}
 
-## Conjecture 2 (Density of $E$)
+## Density of $E$
 
 \begin{conjecture}[Density of $E$]
 \label{conj:density}
@@ -1034,7 +1055,7 @@ The $D = -601$ ghost alone gives $\delta(E) \geq 1/25 = 4\%$ unconditionally.
 \begin{remark}[Towards a proof]
 The main obstacle is converting the lower bound into an exact density.
 Two routes are available: (1) full inclusion-exclusion over all ghost types,
-requiring identification of every materializing family (currently bounded through $L = 15$);
+requiring identification of every materializing family (currently bounded through $L = 16$);
 or (2) an equidistribution result showing that ghost memberships are asymptotically
 independent, which would make the product formula exact. The second route reduces to
 equidistribution of $2^k \pmod{|D|}$ for each ghost type --- a classical result in
@@ -1042,90 +1063,146 @@ multiplicative order theory that holds individually for each $D$, but whose unif
 across all ghost types simultaneously remains open.
 \end{remark}
 
-## Conjecture 3 (Spectral Radius)
+## Spectral Radius
 
 \begin{conjecture}[Spectral Radius]
 \label{conj:spectral-radius}
 The spectral radius of the transfer matrices satisfies
 $$\limsup_{k \to \infty} \rho_k = \max\left(\frac{1}{4}, \; \sup_{\mathcal{G}} 2^{-V_{\mathcal{G}}/L_{\mathcal{G}}}\right),$$
 where the supremum is over all case-(a) ghost types. The maximum with $1/4$ accounts
-for the fixed point $\{1\}$. From the known ghosts, $\limsup \rho_k \geq 2^{-16/15} \approx 0.4774$
-(from $D = -14283371$, $L = 15$, $V = 16$). The $V = L + 1$ ghost family gives
+for the fixed point $\{1\}$. From the known ghosts, $\limsup \rho_k \geq 2^{-18/17} \approx 0.4800$
+(from $D = -128878019$, $L = 17$, $V = 18$). The $V = L + 1$ ghost family gives
 $\rho = 2^{-(L+1)/L} \to 1/2$ as $L \to \infty$; computational evidence (ghosts
-appearing at $L = 5, 6, 7, 8, 10, 12, 13, 14, 15$) suggests $\limsup \rho_k = 1/2$.
+appearing at $L = 5, 6, 7, 8, 10, 12, 13, 14, 15, 16, 17$) suggests $\limsup \rho_k = 1/2$.
 More generally, any family with fixed excess $e = V - L$ has
 $\rho = 2^{-1-e/L} \to 1/2$ as $L \to \infty$, so the spectral radius question
 does not depend solely on the $V = L+1$ family.
 \end{conjecture}
 
-The current proved bounds are $2^{-16/15} \leq \rho(\mathcal{L}) \leq 1/2$.
+The current proved bounds are $2^{-18/17} \leq \rho(\mathcal{L}) \leq 1/2$.
 
-## Conjecture 4 (Negative Rationality)
+## General Orbit Formula and Negative Rationality
 
-\begin{conjecture}[Negative Rationality]
-\label{conj:negative-rationality}
-For every case-(a) ghost type with $D < 0$, all orbit elements $\tilde{n}_i = R_i/D$
-are negative rationals (equivalently, $R_i > 0$ for all $i$).
-\end{conjecture}
+We begin with a closed-form formula for the orbit numerators, valid for arbitrary
+compositions.
 
-This conjecture has been verified computationally for all 5,996 canonical case-(a)
-ghost types with $D < 0$ across 66 $(L, V)$ pairs through $L = 12$. For concentrated
-patterns it is now a theorem:
-
-\begin{theorem}[Negative Rationality for Concentrated Patterns]
-\label{thm:conc}
-Let $L \geq 2$, $e \geq 1$, and $D = 2^{L+e} - 3^L < 0$. For the concentrated
-ghost type $(L, V, (1,\ldots,1,e+1))$ with $V = L+e$, the orbit numerators are
-given by the closed form
-$$R_i = 2^{L-i+1}(2^e - 1)\cdot 3^{i-1} + (3^L - 2^{L+e}), \quad i = 1, \ldots, L.$$
-Both terms are strictly positive, so $R_i > 0$ for all $i$. Since $D < 0$, all orbit elements
-$\tilde{n}_i = R_i/D$ are negative rationals. As a byproduct, concentrated patterns
-are always case-(a). (The case-(a) argument uses only the oddness of $R_i$ and $v_2$
-conditions, which are independent of the sign of $D$; hence case-(a) holds for all
-concentrated patterns with $e \geq 1$, not only those with $D < 0$.)
+\begin{theorem}[General orbit formula]
+\label{thm:orbit-formula}
+For any composition $(v_1, \ldots, v_L)$ of $V$ into $L$ positive parts with
+$D = 2^V - 3^L$, and partial sums $S_j = v_1 + \cdots + v_j$ ($S_0 = 0$), the
+orbit numerators are
+$$R_i = \sum_{j=0}^{i-2} 2^{V + S_j - S_{i-1}} \cdot 3^{i-2-j} + \sum_{j=i-1}^{L-1} 3^{L+i-2-j} \cdot 2^{S_j - S_{i-1}}$$
+for $i = 1, \ldots, L$. The first sum (Term~I) is empty when $i = 1$.
 \end{theorem}
 
 \begin{proof}
-The orbit recurrence $R_{i+1} = (3R_i + D)/2$ for $i = 1,\ldots,L-1$ is a
-first-order linear recurrence. Setting $Q_i = 2^{i-1}R_i$ gives
-$Q_{i+1} = 3Q_i + 2^{i-1}D$, which has the general solution
-$Q_i = C\cdot 3^{i-1} - D\cdot 2^{i-1}$.
-With $R_1 = \sum_{j=0}^{L-1} 3^{L-1-j}2^j = 3^L - 2^L$ (geometric series),
-the initial condition gives $C = 2^L(2^e - 1)$, yielding the stated formula.
-Orbit closure $(3R_L + D)/2^{e+1} = R_1$ is verified directly.
-Positivity: the first term is positive since $e \geq 1$; the second since $D < 0$
-implies $3^L > 2^{L+e}$. Case-(a) requires $v_2(3R_i + D) = v_i$ exactly. For $i < L$: $3R_i + D = 2R_{i+1}$
-by the recurrence, so $v_2(3R_i + D) = 1 + v_2(R_{i+1})$; we need $R_{i+1}$ odd.
-For $i = L$: $3R_L + D = 2^{e+1}(3^L - 2^L)$ (verified directly), giving
-$v_2 = e+1 = v_L$. Oddness of $R_i$ for $i \leq L$: the second term $3^L - 2^{L+e}$ is always odd
-(odd minus even). For $i < L$: the first term $2^{L-i+1}(2^e-1)\cdot 3^{i-1}$
-has $v_2 = L-i+1 \geq 2$, so it is even; even + odd = odd.
-For $i = L$: the first term is $2(2^e-1)\cdot 3^{L-1}$, which is $2\times\mathrm{odd}$;
-so $R_L = 2\cdot\mathrm{odd} + \mathrm{odd} = \mathrm{odd}$.
+Define $Q_i = 2^{S_{i-1}} R_i$. The recurrence $R_{i+1} = (3R_i + D)/2^{v_i}$
+gives $Q_{i+1} = 3Q_i + D \cdot 2^{S_{i-1}}$, a first-order linear recurrence
+with solution $Q_i = 3^{i-1} R_1 + D \sum_{k=0}^{i-2} 3^{i-2-k} \cdot 2^{S_k}$.
+Substituting $R_1 = \sum_{j=0}^{L-1} 3^{L-1-j} \cdot 2^{S_j}$ and
+$D = 2^V - 3^L$, the $3^L$ terms cancel over the overlapping index range
+$j = 0, \ldots, i-2$, leaving
+$Q_i = \sum_{j=0}^{i-2} 2^{V+S_j} \cdot 3^{i-2-j} + \sum_{j=i-1}^{L-1} 3^{L+i-2-j} \cdot 2^{S_j}$.
+Dividing by $2^{S_{i-1}}$ yields the stated formula. (See also
+\texttt{docs/proofs/conjecture3-proof-attempt.md} for the full derivation
+with inductive verification and worked examples.)
 \end{proof}
 
-The full conjecture (all $D < 0$ ghost types, not just concentrated patterns)
-remains open for non-concentrated compositions; a proof strategy is outlined
-in the Discussion (Section~12).
+\begin{theorem}[Negative Rationality]
+\label{conj:negative-rationality}
+For every case-(a) ghost type with $D = 2^V - 3^L < 0$, every composition
+$(v_1, \ldots, v_L)$ of $V$ into $L$ positive parts, and every $i = 1, \ldots, L$:
+$R_i > 0$. All orbit elements $\tilde{n}_i = R_i/D$ are negative rationals.
+\end{theorem}
+
+\begin{proof}
+By Theorem~\ref{thm:orbit-formula}, every summand in $R_i$ is a product of
+non-negative powers of 2 and~3, hence positive. Specifically: in Term~I
+($j = 0, \ldots, i-2$), the 2-exponent $V + S_j - S_{i-1} \geq V - S_{i-1}
+= v_i + \cdots + v_L \geq 1$; in Term~II ($j = i-1, \ldots, L-1$), the
+2-exponent $S_j - S_{i-1} \geq 0$ (partial sums are non-decreasing) and the
+3-exponent $L+i-2-j \geq i-1 \geq 0$. Therefore $R_i \geq 1$ for all $i$.
+Since $D < 0$, $\tilde{n}_i = R_i/D < 0$.
+\end{proof}
+
+Theorem~\ref{conj:negative-rationality} has also been verified computationally for all
+5,996 canonical case-(a) ghost types with $D < 0$ across 66 $(L, V)$ pairs through
+$L = 12$.
+
+The following result, proved in v2, is the special case of
+Theorem~\ref{thm:orbit-formula} for concentrated patterns $(1,\ldots,1,e+1)$.
+
+\begin{corollary}[Negative Rationality for Concentrated Patterns]
+\label{thm:conc}
+Let $L \geq 2$, $e \geq 1$, and $D = 2^{L+e} - 3^L < 0$. For the concentrated
+ghost type $(L, V, (1,\ldots,1,e+1))$ with $V = L+e$, the orbit numerators are
+given by
+$$R_i = 2^{L-i+1}(2^e - 1)\cdot 3^{i-1} + (3^L - 2^{L+e}), \quad i = 1, \ldots, L.$$
+Both terms are strictly positive, so $R_i > 0$ for all $i$.
+\end{corollary}
+
+\begin{proof}
+Substitute $S_j = j$ for $j \leq L-1$ and $S_L = V = L+e$ into
+Theorem~\ref{thm:orbit-formula} and evaluate the geometric sums. The result
+matches the formula above (verified in
+\texttt{docs/proofs/conjecture3-proof-attempt.md}, Section~3).
+\end{proof}
+
+## Universal Case-(a)
+
+\begin{theorem}[Universal Case-(a)]
+\label{thm:universal-caseA-proof}
+For every $L \geq 2$, every $V$ with $D = 2^V - 3^L \neq 0$, and every
+composition $(v_1, \ldots, v_L)$ of $V$ into $L$ positive parts:
+$$v_2(3R_i + D) = v_i \quad \text{for all } i = 1, \ldots, L.$$
+Equivalently, every composition defines a valid case-(a) periodic orbit of the
+Syracuse map on $\mathbb{Z}_2^{\mathrm{odd}}$.
+\end{theorem}
+
+\begin{proof}
+Define $R_i^*$ by the closed form of Theorem~\ref{thm:orbit-formula}
+(as a definition, independent of any recurrence). We establish three facts.
+
+\textbf{(1) Algebraic identity.} A direct expansion of both sides shows
+$3R_i^* + D = 2^{v_i} \cdot R_{i+1}^*$ for all $i = 1, \ldots, L$
+(with $R_{L+1}^* = R_1^*$). The key step: isolating the $j = i-1$ term of
+Term~II in $3R_i^*$ produces $3^L$, which cancels the $-3^L$ from $D$; the
+remaining terms match $2^{v_i} R_{i+1}^*$ term by term.
+
+\textbf{(2) Parity.} $R_i^*$ is odd for all $i$. Among all summands, exactly
+one has 2-exponent zero: the $j = i-1$ term of Term~II, equal to
+$3^{L-1} \cdot 2^0 = 3^{L-1}$, which is odd. Every other summand has
+2-exponent $\geq 1$ (in Term~I, because $V + S_j - S_{i-1} \geq 1$; in
+Term~II with $j > i-1$, because $S_j - S_{i-1} \geq v_i \geq 1$).
+Hence $R_i^* \equiv 3^{L-1} \equiv 1 \pmod{2}$.
+
+\textbf{(3) Conclusion.} From (1) and (2):
+$v_2(3R_i^* + D) = v_2(2^{v_i} \cdot R_{i+1}^*) = v_i + v_2(R_{i+1}^*) = v_i + 0 = v_i$.
+
+The argument is non-circular: $R_i^*$ is defined by the closed form, and the
+recurrence is proved as a consequence. The proof holds for all $D = 2^V - 3^L$,
+including $D > 0$. (See \texttt{docs/proofs/conjecture4-from-theorem-a.md}
+for the complete derivation.)
+\end{proof}
 
 \begin{remark}
 If a 2-adic periodic orbit $\tilde{n}_1, \ldots, \tilde{n}_L$ has
 $\tilde{n}_i = R_i / D$ with all $R_i / D$ positive integers, these integers form
 a true Collatz cycle (since the valuation conditions and the Syracuse map agree on
 $\mathbb{Z}_{> 0} \subset \mathbb{Z}_2$). Conversely, any positive-integer Collatz
-cycle is a case-(a) 2-adic orbit with positive rational elements. Conjecture~\ref{conj:negative-rationality}
-asserts that all $D < 0$ ghost orbits are purely negative, ruling out positive or
+cycle is a case-(a) 2-adic orbit with positive rational elements. Theorem~\ref{conj:negative-rationality}
+proves that all $D < 0$ ghost orbits are purely negative, ruling out positive or
 integer orbit elements from this family. A positive-integer Collatz cycle would
 require a case-(a) orbit with $D > 0$ (since $R_1 > 0$ is a sum of positive terms, and
 for $D > 0$ the recurrence $R_{i+1} = (3R_i + D)/2^{v_i}$ preserves positivity, so
 positivity of $\tilde{n}_i = R_i/D$ forces $D > 0$); such cycles lie outside the scope of
-Conjecture~\ref{conj:negative-rationality}. The computational results of Steiner (1977) and Simons--de Weger (2005)
+Theorem~\ref{conj:negative-rationality}. The computational results of Steiner (1977) and Simons--de Weger (2005)
 exclude positive-integer cycles up to length 68 via Baker-type estimates, directly
-addressing the $D > 0$ case. Conjecture~\ref{conj:negative-rationality} does not address divergent trajectories.
+addressing the $D > 0$ case. Theorem~\ref{conj:negative-rationality} does not address divergent trajectories.
 \end{remark}
 
-Conjecture~\ref{conj:universal-caseA} (Universal Case-(a)) was stated in Section 7, where the case-(a)/(b)
-classification is introduced.
+Theorem~\ref{conj:universal-caseA} (Universal Case-(a)) was stated in Section 7 and
+proved in Section~9 as Theorem~\ref{thm:universal-caseA-proof}.
 
 
 # Eigenvalue Spectra
@@ -1275,8 +1352,9 @@ directly, bypassing the need for quasi-compactness. Case-(a) ghosts persist acro
 levels (Theorem~\ref{thm:persistence}), so exceptional eigenvalues accumulate. The $V = L+1$ ghost family
 produces case-(a) ghosts with $\rho = 2^{-(L+1)/L} \to 1/2$ at the majority of tested
 cycle lengths $L \leq 15$, suggesting $\rho(\mathcal{L}) = 1/2$ and hence \emph{no spectral gap} on
-$C(\mathbb{Z}_2^{\mathrm{odd}})$. If the universal case-(a) property (Conjecture~\ref{conj:universal-caseA})
-holds for all $L$, and if for each $(L, V)$ with $V < 2L$ at least one ghost type
+$C(\mathbb{Z}_2^{\mathrm{odd}})$. Since the universal case-(a) property is now proved
+(Theorem~\ref{conj:universal-caseA}), the remaining question is materialization:
+if for each $(L, V)$ with $V < 2L$ at least one ghost type
 materializes (i.e., appears as a modular cycle at some level $k$), then
 $\sigma(\mathcal{L}) \supseteq [1/4, 1/2]$, since the set
 $\{2^{-V/L} : L \geq 2, L+1 \leq V \leq 2L-1\}$ is dense in $[1/4, 1/2]$.
@@ -1294,15 +1372,14 @@ exclude case-(b) ghosts (bounded-length, finite persistence) but not case-(a) gh
 which are true 2-adic periodic orbits that persist at arithmetic progressions of levels
 regardless of $|D|$.
 
-Theorem~\ref{thm:conc} (Section~9) proves Conjecture~\ref{conj:negative-rationality} unconditionally for all
-concentrated patterns, with no Baker bounds required: the closed form
-$R_i = 2^{L-i+1}(2^e-1)\cdot 3^{i-1} + (3^L - 2^{L+e})$ has both terms
-strictly positive, making the result immediate. For non-concentrated patterns,
-the analogous recurrence has non-constant step sizes and the resulting expression
-for $R_i$ involves terms of potentially mixed sign. Extending Theorem~\ref{thm:conc}
-to all compositions would require new control on cancellations in these sums;
-Baker-type bounds in the spirit of Steiner (1977) and Simons--de Weger (2005)
-remain a candidate approach for that case.
+Theorem~\ref{conj:negative-rationality} (Section~9) proves Negative Rationality
+unconditionally for all compositions, with no Baker bounds required: the general
+closed form (Theorem~\ref{thm:orbit-formula}) has every term manifestly positive.
+The concentrated-pattern formula of Theorem~\ref{thm:conc} (proved in v2) is
+recovered as a special case. Theorem~\ref{thm:universal-caseA-proof} (Section~9)
+likewise proves Universal Case-(a) for all compositions and all $D$, using only the
+algebraic structure of the closed form. Neither result requires Baker-type bounds;
+the proofs are entirely elementary.
 
 ## Thermodynamic Formalism
 
@@ -1382,3 +1459,7 @@ v3 (March 2026):
 *Attribution:* Added footnote to Theorem~\ref{thm:cycle-eq} crediting Davison (1976) as originator of the cycle equation, as cited by Steiner (1977).
 
 **Reference corrections (v3):** The reference "Siegel, M. Ghost Cycles of the $3x+1$ Map. arXiv:2601.12772" appearing in v1 and v2 was incorrect in both author and title. The correct citation is Dhiman, M. and Pandey, R. (2026), 2-Adic Obstructions to Presburger-Definable Characterizations of Collatz Cycles, arXiv:2601.12772. The paper attributed to Siegel does not exist; the error was introduced during manuscript preparation. The author apologizes to Maxwell Siegel and to Madhav Dhiman and Rohan Pandey for this misattribution. Additionally: the page range for Amice (1964) was corrected from 181--236 to 117--180 (verified from PDF); the title for Kontorovich and Lagarias (2010) was corrected to match the arXiv preprint (removed spurious "and Beyond").
+
+v4 (March 2026):
+*New results:* Added Theorem~\ref{thm:orbit-formula} (general closed-form orbit formula for arbitrary compositions); upgraded Negative Rationality from conjecture to Theorem~\ref{conj:negative-rationality} (proved unconditionally for all compositions with $D < 0$ via manifestly positive closed form); upgraded Universal Case-(a) from conjecture to Theorem~\ref{conj:universal-caseA}, proved as Theorem~\ref{thm:universal-caseA-proof} (algebraic identity + parity argument, valid for all $D$, non-circular). The paper now has two replacement conjectures (density, spectral radius) instead of four; the other two are theorems.
+*Structural changes:* Theorem~\ref{thm:conc} (concentrated patterns, v2) is now a corollary of Theorem~\ref{thm:orbit-formula}; old labels preserved for cross-reference compatibility. Discussion section updated to reflect proved status of Negative Rationality and Universal Case-(a).
