@@ -1,0 +1,13 @@
+[project]
+name = "collatz-conjecture"
+slug = "collatz"
+
+[paths]
+db          = "data/proof-blueprint.db"
+lean_lib    = "lean"
+
+[obligations]
+root_slug = "root.collatz"
+
+[publish]
+# target_symbol = "Mod.top_level_theorem"  # what verify-publish gates

@@ -1,0 +1,8 @@
+layer = [
+    { slug = "boundary", title = "Goal and upstream bridge", ordinal = 0 },
+    { slug = "normalize", title = "Normalize the problem", ordinal = 1 },
+    { slug = "accelerated", title = "Move to accelerated odd map", ordinal = 2 },
+    { slug = "cycle", title = "Cycle branch — no non-trivial cycle", ordinal = 3 },
+    { slug = "divergence", title = "Divergence branch — coverage + descent", ordinal = 4 },
+    { slug = "solver", title = "Solver-facing obstruction layer", ordinal = 5 },
+]

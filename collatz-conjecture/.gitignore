@@ -1,0 +1,27 @@
+# SQLite ephemerals
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Proof-blueprint DB is a derived build artifact: the durable source of truth
+# is `intent/` (8 stable-sorted TOML files committed at the repo root).
+# Regenerate the DB locally with `proof-blueprint bootstrap` on a fresh clone
+# or new git worktree.
+data/proof-blueprint.db
+
+# Lake build artifacts
+lean/.lake/
+lean/build/
+lean/lake-manifest.json
+
+# Tooling caches
+.fastembed_cache/
+.serena/
+.superpowers/
+.nthdegree/
+
+# Claude Code worktrees (ephemeral)
+.claude/worktrees/
+
+# Local env
+.env

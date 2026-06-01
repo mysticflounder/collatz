@@ -1,0 +1,19 @@
+[[intent]]
+obligation = "cycle.L6.n_ne_5.route_a"
+abandoned = true
+blocked = false
+status_note = "See dead_end cycle.L6.n_ne_5.route_a.mod_m_obstruction"
+updated_at = "2026-05-22T04:10:15+00:00"
+
+[[intent]]
+obligation = "cycle.L6.n_ne_5.route_b"
+abandoned = true
+blocked = false
+status_note = "See dead_end cycle.L6.n_ne_5.route_b.diophantine_form"
+updated_at = "2026-05-22T04:10:15+00:00"
+
+[[intent]]
+obligation = "solver.piqd_contract"
+abandoned = false
+blocked = true
+updated_at = "2026-05-22T04:10:15+00:00"

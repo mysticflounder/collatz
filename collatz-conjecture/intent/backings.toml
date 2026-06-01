@@ -1,0 +1,104 @@
+[[backing]]
+obligation = "cycle.L6"
+symbol = "CycleExclusionL6.isAcceleratedOddCycle_six_q_eq_one"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.R_lt_7D"
+symbol = "CycleExclusionL6.R_lt_7D_L6"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.V10"
+symbol = "CycleExclusionL6.no_cycle_L6_V10"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.V11"
+symbol = "CycleExclusionL6.no_cycle_L6_V11"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.V12"
+symbol = "CycleExclusionL6.cycle_L6_V12"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.V13"
+symbol = "CycleExclusionL6.cycle_L6_V13"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.assembly"
+symbol = "CycleExclusionL6.no_nontrivial_six_cycle"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.ghostR"
+symbol = "CycleExclusionL6.ghostR_L6"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.large_V"
+symbol = "CycleExclusionL6.no_cycle_L6_large_V"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.n_ne_3"
+symbol = "CycleExclusionL6.n_ne_3_L6"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.n_ne_5"
+symbol = "CycleExclusionL6.n_ne_5_L6"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.n_ne_5.route_c"
+symbol = "CycleExclusionL6.n_ne_5_L6_route_c"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L6.n_odd"
+symbol = "CycleExclusionL6.n_odd_L6"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L7_plus.Dneg"
+symbol = "isAcceleratedOddCycle_Dneg_q_eq_one"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.L7_plus.Dpos_modulo_Eliahou"
+symbol = "isAcceleratedOddCycle_Dpos_modulo_Eliahou"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.prefix-barrier"
+symbol = "GapStrengthHypothesis"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.prefix-barrier"
+symbol = "cycle_minimum_prefix_barrier"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.prefix-barrier"
+symbol = "nat_lt_B_of_slow_growth_under_hypothesis"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.prefix-barrier"
+symbol = "nat_lt_of_slow_growth_gap_strong"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.prefix-barrier"
+symbol = "offset_le_slow_growth"
+created_at = "2026-05-22T04:10:15+00:00"
+
+[[backing]]
+obligation = "cycle.prefix-barrier"
+symbol = "offset_le_slow_growth_general"
+created_at = "2026-05-22T04:10:15+00:00"

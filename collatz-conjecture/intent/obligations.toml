@@ -1,0 +1,460 @@
+[[obligation]]
+slug = "accel.equiv"
+layer = "accelerated"
+title = "Classical-odd ↔ accelerated-odd conjecture"
+statement = "CollatzConjectureOnOdd ↔ AcceleratedOddConjecture."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "accel.oddPart_norm"
+layer = "accelerated"
+title = "Odd-part 2-adic normalization"
+statement = "Every positive n = 2^(oddPartSteps n) * oddPart n, with the matching divisibility characterization."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "accel.reachable"
+layer = "accelerated"
+title = "Accelerated iterates realized by classical orbits"
+statement = "Every accelerated iterate is reachable by a finite classical orbit segment."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "bridge.statement"
+layer = "boundary"
+title = "Definition matches upstream `collatz_conjecture`"
+statement = "Our CollatzConjecture is the universally-quantified form of the upstream statement."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "bridge.step_eq"
+layer = "boundary"
+title = "Pointwise step equality with upstream"
+statement = "`collatzStep n = CollatzConjecture.collatzStep n` for all n; lifted to Function.iterate."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "cycle.L4"
+layer = "cycle"
+title = "No non-trivial cycle of accelerated length 4"
+statement = "Every IsAcceleratedOddCycle 4 q has q = 1."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "cycle.L5"
+layer = "cycle"
+title = "No non-trivial cycle of accelerated length 5"
+statement = "Every IsAcceleratedOddCycle 5 q has q = 1."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "cycle.L6"
+layer = "cycle"
+title = "No non-trivial cycle of accelerated length 6"
+statement = "Every IsAcceleratedOddCycle 6 q has q = 1."
+approach = "Mirror L4/L5 pattern but with a q=5 wrinkle. Scaffolding done (ghostR_L6, R_lt_7D_L6, n_odd_L6, n_ne_3_L6). Missing: (1) n_ne_5_L6 lemma — large-V branch needs to exclude q=5, since R < 7D ⇒ q < 7 and q odd ∧ q ≠ 3 leaves q ∈ {1, 5}. Tighter R < 5D is provably impossible (closed-form gives R ≤ 243 + 211·2^(V−5) but 5D = 160·2^(V−5) − 3645, and 211 > 160). (2) no_cycle_L6_large_V for V ≥ 14, combining n_odd_L6, n_ne_3_L6, n_ne_5_L6, R_lt_7D_L6. (3) Small-V interval_cases for V ∈ {10, 11, 12, 13} (since 3⁶ < 2^V requires V ≥ 10, not V ≥ 11 as previously noted). (4) no_nontrivial_six_cycle glue. (5) isAcceleratedOddCycle_six_q_eq_one final theorem. Three candidate routes for n_ne_5_L6: (a) modular argument (mod 3/5/8/9 each give constraints but not exclusion — needs combined or higher-modulus argument); (b) accelerated-orbit reasoning (q=5 → 1 in one accelerated step, so cannot return in 6); (c) range-check carve-out treating q=5 as bounded finite case."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-14 16:11:22"
+
+[[obligation]]
+slug = "cycle.L6.R_lt_7D"
+layer = "cycle"
+title = "R < 7·D ratio bound for L=6"
+statement = "For V ≥ 14, R < 7·(2^V − 729)"
+created_at = "2026-05-12 22:09:24"
+updated_at = "2026-05-12 22:09:24"
+
+[[obligation]]
+slug = "cycle.L6.V10"
+layer = "cycle"
+title = "No L=6 solution at V=10"
+statement = "No solution to the L=6 cycle equation has V = 10."
+created_at = "2026-05-12 22:09:24"
+updated_at = "2026-05-13 04:52:56"
+
+[[obligation]]
+slug = "cycle.L6.V11"
+layer = "cycle"
+title = "No L=6 solution at V=11"
+statement = "No solution to the L=6 cycle equation has V = 11."
+created_at = "2026-05-12 22:09:25"
+updated_at = "2026-05-13 15:51:17"
+
+[[obligation]]
+slug = "cycle.L6.V12"
+layer = "cycle"
+title = "No L=6 solution at V=12"
+statement = "No solution to the L=6 cycle equation has V = 12."
+created_at = "2026-05-12 22:09:25"
+updated_at = "2026-05-13 16:29:40"
+
+[[obligation]]
+slug = "cycle.L6.V13"
+layer = "cycle"
+title = "q=1 for L=6 solutions at V=13"
+statement = "Every solution to the L=6 cycle equation with V = 13 has q = 1."
+created_at = "2026-05-12 22:09:25"
+updated_at = "2026-05-13 21:54:40"
+
+[[obligation]]
+slug = "cycle.L6.assembly"
+layer = "cycle"
+title = "No nontrivial L=6 cycle (assembly)"
+statement = "no_nontrivial_six_cycle: every solution to the L=6 cycle equation has q = 1."
+created_at = "2026-05-12 22:09:25"
+updated_at = "2026-05-13 22:16:49"
+
+[[obligation]]
+slug = "cycle.L6.ghostR"
+layer = "cycle"
+title = "Closed form: ghostR_L6"
+statement = "Closed form: R(a,b,c,d,e,f) = 243 + 81·2^a + 27·2^(a+b) + 27·2^(a+b+c) + 9·2^(a+b+c+d) + 3·2^(a+b+c+d) + 2^(a+b+c+d+e)"
+created_at = "2026-05-12 22:09:17"
+updated_at = "2026-05-12 22:09:17"
+
+[[obligation]]
+slug = "cycle.L6.large_V"
+layer = "cycle"
+title = "For V ≥ 14, q=1 for L=6 solutions"
+statement = "For V ≥ 14, every solution to the L=6 cycle equation has q = 1."
+created_at = "2026-05-12 22:09:24"
+updated_at = "2026-05-13 02:33:30"
+
+[[obligation]]
+slug = "cycle.L6.n_ne_3"
+layer = "cycle"
+title = "q ≠ 3 for L=6 solutions"
+statement = "q ≠ 3 for any L=6 cycle solution."
+created_at = "2026-05-12 22:09:24"
+updated_at = "2026-05-12 22:09:24"
+
+[[obligation]]
+slug = "cycle.L6.n_ne_5"
+layer = "cycle"
+title = "q ≠ 5 for L=6 solutions"
+statement = "q ≠ 5 for any L=6 cycle solution."
+approach = "Three candidate routes: (a) higher-modulus arithmetic; (b) accelerated-orbit reasoning (5 reaches 1 in one accelerated step); (c) range-check carve-out."
+created_at = "2026-05-12 22:09:24"
+updated_at = "2026-05-13 02:27:27"
+
+[[obligation]]
+slug = "cycle.L6.n_ne_5.route_a"
+layer = "cycle"
+title = "q ≠ 5 via mod-m arithmetic"
+statement = "Route (a) for cycle.L6.n_ne_5: there exists m such that 5·(2^V − 729) ≢ R(v₁,…,v₆) (mod m) for all admissible (v₁,…,v₆), forcing n ≠ 5."
+approach = "Search m ∈ {7, 9, 13, 27, 19, 31, 37, …} where the multiplicative order of 2 mod m and the residues of 729 and the R-coefficients give disjoint reachable sets between LHS and RHS. Typical candidates: m=9 (since 729 ≡ 0 mod 9 and the R coefficients have specific 3-adic structure) or m=7 (where ord(2)=3 keeps the reachable LHS small)."
+created_at = "2026-05-12 22:34:34"
+updated_at = "2026-05-13 02:27:27"
+
+[[obligation]]
+slug = "cycle.L6.n_ne_5.route_b"
+layer = "cycle"
+title = "q ≠ 5 via orbit reduction"
+statement = "Route (b) for cycle.L6.n_ne_5: any q=5 length-6 accelerated cycle induces a q=1 accelerated cycle of smaller (or equal) length, contradicting the trivial-cycle classification in SmallCycles."
+approach = "Show that 5 = (3·1 + 1)/2^2, i.e. 5 sits one accelerated odd-step above 1. Lift this to the cycle: a q=5 fixed point of the L=6 accelerated map composes with one further accelerated step into a q=1 fixed point of an L=k cycle for some k ≤ 6, which can only be the trivial (n=1) cycle. Cross-reference SmallCycles for the q=1 classification."
+created_at = "2026-05-12 22:34:34"
+updated_at = "2026-05-13 02:27:27"
+
+[[obligation]]
+slug = "cycle.L6.n_ne_5.route_c"
+layer = "cycle"
+title = "q ≠ 5 via finite range-check"
+statement = "Route (c) for cycle.L6.n_ne_5: 5·(2^V − 729) = R(v₁,…,v₆) admits only finitely many (V, v₁,…,v₆) candidates after using R_lt_7D, n_odd, n_ne_3 and the lower R-bound; explicit enumeration excludes them all."
+approach = "From R_lt_7D and the lower bound R > 5·D (the '211 > 160' coefficient calculation), V is forced into a finite window. For each V in that window, enumerate all (v₁,…,v₆) with v_i ≥ 1 summing to V and check 5·(2^V − 729) ≠ R. Lean-side: use Decidable.decide on a Finset enumeration."
+created_at = "2026-05-12 22:34:34"
+updated_at = "2026-05-13 02:27:27"
+
+[[obligation]]
+slug = "cycle.L6.n_odd"
+layer = "cycle"
+title = "Solutions are odd for L=6"
+statement = "Solutions q to the L=6 cycle equation are odd."
+created_at = "2026-05-12 22:09:24"
+updated_at = "2026-05-12 22:09:24"
+
+[[obligation]]
+slug = "cycle.L7_plus"
+layer = "cycle"
+title = "No non-trivial cycle of accelerated length L ≥ 7"
+statement = "Every IsAcceleratedOddCycle k q with k ≥ 7 has q = 1."
+approach = "Split by sign of D := 2^V - 3^L (V = acceleratedTotalV k q): two children cycle.L7_plus.Dneg (D < 0) and cycle.L7_plus.Dpos (D > 0). D = 0 is impossible for L ≥ 2 (log_2 3 irrational, per docs/proofs/baker-dplus-assessment.md §9.4), so the sign split is total. The two regimes are structurally different problems — see docs/proofs/baker-dplus-assessment.md §9.3 for the comparison — so they get separate obligations. Method choice for each child is open."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-14 15:25:36"
+
+[[obligation]]
+slug = "cycle.L7_plus.Dneg"
+layer = "cycle"
+title = "No accelerated cycle with D = 2^V - 3^L < 0 (L ≥ 7)"
+statement = "For an IsAcceleratedOddCycle k q with k ≥ 7 and 2^V < 3^L (V := acceleratedTotalV k q), q = 1."
+approach = "Vacuous regime on ℕ. For any non-empty admissible cycle of natural numbers, `ParityWords.pow_three_lt_pow_two_of_cycle` (CycleExclusion.lean:52) forces 3^L < 2^V (i.e. D > 0) from positivity of `offset` plus the cycle equation. So the hypothesis 2^V < 3^L is unsatisfiable for any IsAcceleratedOddCycle k q, and the conclusion q = 1 follows by exfalso. No appeal to Conjecture 3 / ghost-cycle machinery required — that work lives in the 2-adic setting where the offset_pos constraint isn't in force."
+created_at = "2026-05-13 22:50:56"
+updated_at = "2026-05-14 16:11:22"
+
+[[obligation]]
+slug = "cycle.L7_plus.Dpos"
+layer = "cycle"
+title = "No accelerated cycle with D = 2^V - 3^L > 0 (L ≥ 7)"
+statement = "For an IsAcceleratedOddCycle k q with k ≥ 7 and 2^V > 3^L, q = 1."
+approach = "D > 0 regime: this is the classical Collatz cycle problem (per docs/proofs/baker-dplus-assessment.md §9.4). Known results from the literature: Steiner (1977) ruled out 1-cycles; Simons-de Weger (2005) extended this to excess m := V - L ≤ 68 (covering L ≲ 116); Eliahou (1993) extended it further to L ≤ 17,087,915 via continued-fraction analysis of log_2 3. The residue L > 17,087,915 is open in the literature — it is the cycle component of the classical Collatz conjecture. Method choice for closing this obligation in Lean (formalize the published arguments, cite externally, or pursue a new approach) is open."
+created_at = "2026-05-13 22:51:04"
+updated_at = "2026-05-14 15:25:36"
+
+[[obligation]]
+slug = "cycle.L7_plus.Dpos_large_k"
+layer = "cycle"
+title = "No accelerated cycle with D>0 and k >= 17,087,915 (residual large-k case)"
+statement = "For an IsAcceleratedOddCycle k q with 2^V > 3^L, V = acceleratedTotalV k q, and k >= 17,087,915: q = 1."
+approach = "This is the residual of the classical Collatz no-non-trivial-cycle conjecture after the Eliahou (1993) bound is taken as given. Eliahou ruled out k < 17,087,915 via continued-fraction analysis of log_2 3 plus a finite computation per excess m = V - k; the regime k >= 17,087,915 is open in the literature. Method choice (formalize Eliahou's argument and push further, develop new analytic methods, or import a future result as a second conditional) is open."
+created_at = "2026-05-14 15:25:47"
+updated_at = "2026-05-15 02:25:37"
+
+[[obligation]]
+slug = "cycle.L7_plus.Dpos_modulo_Eliahou"
+layer = "cycle"
+title = "No accelerated cycle with 7 ≤ k < 17,087,915 (modulo Eliahou 1993)"
+statement = "Conditional on the hypothesis EliahouCycleBound (any non-trivial accelerated odd cycle has k ≥ 17,087,915), every IsAcceleratedOddCycle k q with 7 ≤ k < 17,087,915 has q = 1. Direction is independent of the sign of D = 2^V − 3^L."
+approach = "Direct conditional theorem: introduce EliahouCycleBound : Prop as a hypothesis stating Eliahou's 1993 result in our vocabulary. The bridge is trivial — if 7 ≤ k < 17,087,915, then EliahouCycleBound applied contrapositively to a hypothetical q ≠ 1 cycle gives k ≥ 17,087,915, contradicting the upper bound. Cites Eliahou 1993 (lit.eliahou.1993). Conventions for literature-conditional theorems are documented in docs/lean-proof-strategy.md §Literature imports."
+created_at = "2026-05-14 03:20:07"
+updated_at = "2026-05-14 16:11:22"
+
+[[obligation]]
+slug = "cycle.all_L"
+layer = "cycle"
+title = "No non-trivial cycle of any accelerated length"
+statement = "Every IsAcceleratedOddCycle k q has q = 1."
+approach = "Aggregates cycle.L4 + cycle.L5 + cycle.L6 + cycle.L7_plus. Glue layer; trivial once components land."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-14 15:25:36"
+
+[[obligation]]
+slug = "cycle.equation"
+layer = "cycle"
+title = "Cycle equation and gap inequality"
+statement = "Any non-trivial accelerated cycle satisfies (2^V − 3^L)·n = R(v) with 3^L < 2^V."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "cycle.no_div_branch"
+layer = "cycle"
+title = "Bridge: accelerated cycle exclusion ⇒ NoCollatzEventualCycleCounterexamples"
+statement = "From `∀ k q, IsAcceleratedOddCycle k q → q = 1`, conclude no classical cycle counterexamples."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "cycle.period_ge_6"
+layer = "cycle"
+title = "Cycle counterexample has accelerated period ≥ 6"
+statement = "Any classical cycle counterexample produces (q,k) with k ≥ 6."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "cycle.prefix-barrier"
+layer = "cycle"
+title = "Prefix-barrier inequality for cycle minima"
+statement = "For an accelerated cycle with minimum element n and any prefix length j ≤ k, (acceleratedDenominator j n - 3 ^ j) * n ≤ offset (acceleratedTrace j n). Equivalently: (2^S_j - 3^j) * n ≤ B_j for every prefix partial sum S_j and prefix offset B_j."
+approach = "Direct consequence of the affine identity acceleratedDenominator j n * acceleratedOddIter j n = acceleratedNumerator j n = 3^j * n + offset, combined with the cycle-minimum hypothesis n ≤ acceleratedOddIter j n. Pure Nat arithmetic — no Baker, no transcendence theory. Generalises to arbitrary n bounded above by its accelerated orbit."
+created_at = "2026-05-14 19:17:23"
+updated_at = "2026-05-14 19:22:19"
+
+[[obligation]]
+slug = "cycle.toplevel"
+layer = "cycle"
+title = "NoCollatzEventualCycleCounterexamples"
+statement = "No positive Collatz orbit (other than 1) eventually enters a non-trivial cycle."
+approach = "Reduces via cycle.no_div_branch (bridge) to cycle.all_L (uniform exclusion across L). Bridge is in place; the open part is cycle.all_L."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-14 15:25:36"
+
+[[obligation]]
+slug = "div.affine_form"
+layer = "divergence"
+title = "Affine closed-form for accelerated prefix blocks"
+statement = "Each admissible parity-word block has trajectory (2^V·n − offset)/3^L."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "div.coverage"
+layer = "divergence"
+title = "Coverage: every odd n>1 admits a first-gap prefix"
+statement = "For every positive odd n>1 there is an accelerated prefix exhibiting 3^L < 2^V."
+approach = "Empirical / scratch work in collatz/inverse_automaton.py and collatz/frontier_diagnostics.py. Plan: prove that the inverse-automaton sweep covers all residue classes, then close the residual finite set via SmallReachability.lean."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "div.descent_iff"
+layer = "divergence"
+title = "Descent ⇔ affineNumerator < affineDenominator · n"
+statement = "Iff characterization that lets us reason about descent via the affine data alone."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "div.descent_obligation"
+layer = "divergence"
+title = "Descent on every selected first-gap prefix"
+statement = "For every selected prefix, the affine non-descent obstruction is empty."
+approach = "Reduces via div.gap_descent + threshold reformulations to solver.residue_empty (Layer 5)."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "div.firstgap_package"
+layer = "divergence"
+title = "First-multiplier-gap split"
+statement = "Specialized prefix strategy using the shortest prefix where 3^L < 2^V."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "div.gap_descent"
+layer = "divergence"
+title = "Multiplier gap + threshold ⇒ affine descent"
+statement = "If 3^L < 2^V and n > offset/gap, the block descends."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "div.non_descent_bound"
+layer = "divergence"
+title = "Non-descent forces offset ≥ gap·n"
+statement = "Under a multiplier gap, non-descent forces the offset to absorb gap·n."
+approach = "This is the obstruction inequality the solver tries to falsify."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "div.prefix_strategy"
+layer = "divergence"
+title = "Prefix-strategy reduction package"
+statement = "Coverage by selected prefixes + descent on every selected prefix ⇒ CollatzConjecture."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "div.toplevel"
+layer = "divergence"
+title = "NoCollatzDivergentCounterexamples"
+statement = "No positive Collatz orbit avoids 1 without eventually cycling."
+approach = "Reduces via div.firstgap_package to (div.coverage + div.descent_obligation)."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "norm.cycle_div_split"
+layer = "normalize"
+title = "Cycle vs divergence split"
+statement = "Counterexamples decompose into eventually-cyclic and divergent cases."
+approach = "Load-bearing: lets the cycle and divergence branches close independently."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "norm.no_counterex"
+layer = "normalize"
+title = "Equivalence to no positive counterexample"
+statement = "CollatzConjecture ↔ no positive orbit avoids 1."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "norm.odd"
+layer = "normalize"
+title = "Equivalence to positive-odd-input case"
+statement = "CollatzConjecture ↔ CollatzConjectureOnOdd."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "norm.oddPart"
+layer = "normalize"
+title = "Reduction to odd-part reachability"
+statement = "CollatzConjecture ↔ ∀ n>0, CollatzReachesOne (oddPart n)."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "norm.stopping"
+layer = "normalize"
+title = "Equivalence to finite stopping times"
+statement = "CollatzConjecture ↔ every positive natural has a finite stopping time."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "root.collatz"
+layer = "boundary"
+title = "CollatzConjecture (top-level goal)"
+statement = "Every positive natural number eventually reaches 1 under the classical Collatz step."
+approach = "Discharged by cycle.toplevel + div.toplevel via CollatzConjecture_of_no_cycles_and_no_divergence (norm.cycle_div_split)."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "solver.modular_inverse"
+layer = "solver"
+title = "Denominator inverse witnesses mod 3^k"
+statement = "Mathlib-backed proof that the denominator-inverse witnesses required by `solver.normalized` exist."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "solver.normalized"
+layer = "solver"
+title = "Normalized mod-3^k residue form"
+statement = "Solver-facing form: normalized residue + interval, using denominator inverse witnesses."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "solver.piqd_contract"
+layer = "solver"
+title = "Collatz-specific affine-threshold job contract for piqd/piqc"
+statement = "An adapter that takes (L, V, offset, denominator, residue) from NormalizedResidue.lean and emits a SAT job consumable by piqd-encoder."
+approach = "Current piqd-encoder is specialized to PadicShiftInput / GapZeroE677. Plan: define a Collatz job schema, wire it through collatz/piqd_sweep.py, and produce a reproducible certificate format."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "solver.quotient"
+layer = "solver"
+title = "Quotient-interval form"
+statement = "Rule out the interval (offset + 3^k)/denominator < q ≤ offset/gap."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "solver.residue"
+layer = "solver"
+title = "Forced odd residue class form"
+statement = "Rule out the forced odd residue class inside the quotient interval."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "solver.residue_empty"
+layer = "solver"
+title = "Residue obstruction is empty on every selected prefix"
+statement = "No surviving normalized residue class for any first-gap prefix."
+approach = "External SAT/SMT certification via the piqd/piqc stack, once solver.piqd_contract lands. Certificates checked-in under data/."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"
+
+[[obligation]]
+slug = "solver.threshold"
+layer = "solver"
+title = "Threshold-form local obligation"
+statement = "Local descent ⇔ ruling out the inequality n ≤ offset/gap."
+created_at = "2026-05-11 18:09:00"
+updated_at = "2026-05-11 20:30:04"

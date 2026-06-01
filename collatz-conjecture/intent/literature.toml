@@ -1,0 +1,119 @@
+[[literature]]
+slug = "applegate-lagarias-1995"
+title = "Density bounds for the 3x+1 problem I. Tree-search method"
+citation = "applegate-lagarias-1995"
+url = "https://doi.org/10.2307/2153342"
+body = "Forward admissibility of parity sequences via semigroup structure. Relevant to lead external.applegate-lagarias-semigroup.\n\n_Authors:_ Applegate, D.; Lagarias, J. C.\n_Year:_ 1995\n_Venue:_ Mathematics of Computation"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "bernstein-lagarias-1996"
+title = "The 3x+1 conjugacy map"
+citation = "bernstein-lagarias-1996"
+url = "https://doi.org/10.4153/CJM-1996-061-6"
+body = "The 2-adic conjugacy of the Collatz map. Directly relevant to Paper B's framing of Z_2 as the natural parameter domain. Paper B's lit review mentions Lagarias 1985 but not this follow-up, which is the actual source of the 2-adic conjugacy.\n\n_Authors:_ Bernstein, D. J.; Lagarias, J. C.\n_Year:_ 1996\n_Venue:_ Canadian Journal of Mathematics"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "conway-1972"
+title = "Unpredictable iterations"
+citation = "conway-1972"
+body = "Earliest tabulation observation of mod-2^k structure in 3n+1 iteration. Cited in Paper B for FRACTRAN/undecidability (unrelated). Should also be cited for the historical origin of the residue-class observation.\n\n_Authors:_ Conway, J. H.\n_Year:_ 1972\n_Venue:_ Proceedings of the Number Theory Conference (Boulder)"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "eliahou-1993"
+title = "The 3x+1 problem: new lower bounds on nontrivial cycle lengths"
+citation = "eliahou-1993"
+url = "https://doi.org/10.1016/0012-365X(93)90052-U"
+body = "Cycle-length lower bounds via the parity-vector / mod-2^k structure of accelerated Collatz orbits. Uses exactly the machinery underlying Paper B's Theorem 1. Not cited in Paper B's lit review (blocker B1).\n\n_Authors:_ Eliahou, S.\n_Year:_ 1993\n_Venue:_ Discrete Mathematics"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "korec-1992"
+title = "Small quotients in the 3x+1 problem"
+citation = "korec-1992"
+body = "Residue-class behavior of the Collatz map mod 2^k; small-quotient structure on 2-adic congruence classes. Foundational for 2-adic analysis of Collatz. Not cited in Paper B's lit review (blocker B1).\n\n_Authors:_ Korec, I.\n_Year:_ 1992\n_Venue:_ Mathematica Slovaca"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "korec-1994"
+title = "A density estimate for the 3x+1 problem"
+citation = "korec-1994"
+body = "Korec's density estimate using mod-2^k structure. Companion to korec-1992; together they form the canonical 2-adic conjugacy / residue-class line of work. Not cited in Paper B.\n\n_Authors:_ Korec, I.\n_Year:_ 1994\n_Venue:_ Mathematica Slovaca"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "lagarias-1985"
+title = "The 3x+1 problem and its generalizations"
+citation = "lagarias-1985"
+url = "https://doi.org/10.2307/2322189"
+body = "The canonical Collatz survey. Cited in Paper B's lit review for qx+1 generalizations but the 2-adic conjugacy / Bernstein-Lagarias 1996 material is only mentioned in one bullet (line 20) and not engaged with (blocker B1).\n\n_Authors:_ Lagarias, J. C.\n_Year:_ 1985\n_Venue:_ American Mathematical Monthly"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "lagarias-weiss-1992"
+title = "The 3x+1 problem: two stochastic models"
+citation = "lagarias-weiss-1992"
+url = "https://doi.org/10.1214/aoap/1177005780"
+body = "Stochastic model with geometric(1/2) increments. Source for P(v_2 = j) = 1/2^j used throughout Paper A (see doc-task paper-a.v-distribution-proposition).\n\n_Authors:_ Lagarias, J. C.; Weiss, A.\n_Year:_ 1992\n_Venue:_ Annals of Applied Probability"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "lit.eliahou.1993"
+title = "The 3x+1 problem: new lower bounds on nontrivial cycle lengths"
+citation = "Eliahou1993"
+url = "https://doi.org/10.1016/0012-365X(93)90052-U"
+body = "Lower bound on nontrivial Collatz cycle length: any nontrivial cycle has at least 17,087,915 distinct elements (i.e., accelerated cycle length k ≥ 17,087,915). Cited by Hateley 2026 [3], Zoebelein 2024 [2].\n\n_Authors:_ Eliahou, Shalom\n_Year:_ 1993\n_Venue:_ Discrete Mathematics"
+created_at = "2026-05-14 03:19:59"
+
+[[literature]]
+slug = "moller-1978"
+title = "Über Hasses Verallgemeinerung des Syracuse-Algorithmus (Kakutanis Problem)"
+citation = "moller-1978"
+body = "Generalization of Terras's parity-vector approach to Hasse's qx+r generalization. Establishes mod-2^k periodicity of the Syracuse map in greater generality. Not cited in Paper B's lit review (blocker B1).\n\n_Authors:_ Möller, H.\n_Year:_ 1978\n_Venue:_ Acta Arithmetica"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "paper-a"
+title = "Ghost Cycles of the Collatz Map"
+citation = "mckenna-2026-paper-a"
+body = "Ghost-cycle census and case-(a)/case-(b) classification for accelerated Collatz cycles. Pre-submission status: needs Theorem 4 persistence proof closure (tracked as lead paper.a-theorem-4-proof-closure, depends on obligation cycle.all_L) plus ~8h editorial fixes captured as doc-tasks. Per arxiv-strategy.md, Paper C operator theory will be merged into this paper (doc-task: paper.c-absorption).\n\n_Authors:_ McKenna, A.\n_Year:_ 2026\n_Venue:_ arXiv (in preparation)"
+created_at = "2026-05-12 02:34:38"
+
+[[literature]]
+slug = "paper-b"
+title = "2-Adic Local Constancy of the Collatz Transfer Matrix and a Sharp Modulus M = k + V"
+citation = "mckenna-2026-paper-b"
+body = "Theorem 1 + Proposition 4: x ↦ P_k(x,y) locally constant on Z_2^{odd} with tight modulus M = k + V(k,x,y). Corollaries: Fredholm determinant locally constant, spectral radius locally constant, finitely many matrices per k. \n\nNOT publish-ready as currently framed (math-skeptic audit 2026-05-11, docs/reviews/swarm-2026-05-11/paper-b-skeptic-2026-05-11.md): the qualitative local-constancy half is folklore (Terras 1976, Korec 1992/1994, Eliahou 1993, Möller 1978, Wirsching 1998) and the literature review cites none of those four canonical sources. The strongest residual novelty is the sharp modulus M = k + V with explicit Collatz worst-case j_m = (4^m - 1)/3 — a 4–6 page note, not a paper as currently structured. Editorial fixes alone will not close this; a literature pass is required first.\n\n_Authors:_ McKenna, A.\n_Year:_ 2026\n_Venue:_ arXiv (in preparation; target: Experimental Mathematics)"
+created_at = "2026-05-12 02:34:38"
+
+[[literature]]
+slug = "paper-c"
+title = "Collatz Transfer Operator (working title; to be absorbed into Paper A)"
+citation = "mckenna-2026-paper-c"
+body = "Operator-theoretic results (Lemmas 1–3, Theorems 1–2) on transfer-operator norm, spectral radius bounds, and the Lasota-Yorke obstruction. Disqualified for standalone arXiv: Theorem 3 has a falsified hypothesis (E is infinite per Paper A) and every section uses manual \\setcounter, violating CLAUDE.md. Per arxiv-strategy (2026-03-09), operator theory (§2–7) is being merged into Paper A; Theorem 3 will be deleted or demoted to a historical remark.\n\n_Authors:_ McKenna, A.\n_Year:_ 2026\n_Venue:_ internal draft (not for standalone submission)"
+created_at = "2026-05-12 02:34:38"
+
+[[literature]]
+slug = "tao-2022"
+title = "Almost all orbits of the Collatz map attain almost bounded values"
+citation = "tao-2022"
+url = "https://doi.org/10.1017/fmp.2022.8"
+body = "Tao's almost-all-orbits result. Modern reference for the P(v_2 = j) = 1/2^j heuristic used in Paper A.\n\n_Authors:_ Tao, T.\n_Year:_ 2022\n_Venue:_ Forum of Mathematics, Pi"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "terras-1976"
+title = "A stopping time problem on the positive integers"
+citation = "terras-1976"
+body = "Original parity-vector formulation: the first k Syracuse steps are determined by n mod 2^k. Canonical source for the qualitative half of Paper B's Theorem 1. Paper B's lit review does NOT cite this work — must be cited to support novelty boundary (blocker B2 in paper-b-skeptic-2026-05-11.md).\n\n_Authors:_ Terras, R.\n_Year:_ 1976\n_Venue:_ Acta Arithmetica"
+created_at = "2026-05-12 02:36:37"
+
+[[literature]]
+slug = "wirsching-1998"
+title = "The Dynamical System Generated by the 3n+1 Function"
+citation = "wirsching-1998"
+url = "https://doi.org/10.1007/BFb0095985"
+body = "Standard monograph on the Collatz dynamical system. Chapters 2–4 contain substantial 2-adic / parity-sequence material. Paper B's lit review claims Wirsching 'uses 3-adic structure (mod powers of 3), not 2-adic (mod 2^k)' — this is incorrect as a global characterization (blocker B4 in skeptic audit).\n\n_Authors:_ Wirsching, G. J.\n_Year:_ 1998\n_Venue:_ Lecture Notes in Mathematics"
+created_at = "2026-05-12 02:36:37"

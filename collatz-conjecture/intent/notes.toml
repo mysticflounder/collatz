@@ -1,0 +1,454 @@
+[[note]]
+kind = "discovery"
+obligation = "cycle.L6"
+title = "L=6 ratio bound R < 5D is impossible"
+body = "The closed-form ghostR_L6 gives R ≤ 243 + 211·2^(V−5). The bound R < 5D = 160·2^(V−5) − 3645 would require 211 < 160, which is false. So at L=6 we cannot tighten beyond R < 7D, which leaves q ∈ {1, 5} after odd ∧ q ≠ 3 exclusions. An explicit n_ne_5_L6 lemma is required for cycle.L6 closure."
+created_at = "2026-05-12 22:01:10"
+
+[[note]]
+kind = "discovery"
+obligation = "cycle.L7_plus.Dpos_large_k"
+title = "Method 1 + Eliahou empirically closes Dpos_large_k for L ≤ 17; analytical UB extends to L ≤ 400"
+body = "Empirical kill-criterion experiment (scripts/method1_kill_criterion.py) over L ∈ [7, 17], V near V_min. Result: every v-word with 2^V > 3^L is either closed by Method 1 directly (tightest(r*) < 17,087,915) or is a slow-growth survivor with m_full ≪ 17,087,915 (max 108 at L=17, V=27). Survivors exist as a structural family: the min-offset rotation has S_j ≤ j·log_2 3 for all internal j, making the prefix-barrier inequality vacuous. But survivor m_full is bounded by offset_min/gap ≤ L · 3^{L-1} / gap, which stays below 17,087,915 for L ≤ 400 (computational check, no enumeration). Reverses earlier intuition that Method 1 has an irreducible blind spot — the blind spot exists but is post-Eliahou-irrelevant. Path to formalization: (1) Lean lemma offset_min ≤ L · 3^{L-1} for slow-growth survivors (elementary); (2) explicit gap lower bound from irrationality measure of log_2 3 (load-bearing analytical work); (3) compose with cycle_minimum_prefix_barrier. See docs/reports/2026-05-14-method1-survivor-bound.md for full data and rigor classification."
+created_at = "2026-05-15 02:25:37"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus"
+title = "Compute L=16 V=L+1 materialization via CRT decomposition"
+body = "Period p = ord₂(3^{16} - 2^{17}) is 3.1×10^6, making brute-force prohibitive. Use Chinese Remainder Theorem: factor |D|, compute ord₂ mod each prime power, combine via CRT, count residue classes satisfying materialization condition. Verify whether any of 16 v-pattern rotations materialize.\n\n_Rationale:_ L≥16 is crucial for deciding whether ρ(L)=1/2 is true globally or fails beyond some L_max. Current evidence (8 successes, 2 failures for L∈{6,...,15}) is inconclusive at large L. CRT approach is vastly faster than brute force; reveals whether large-L ghosts are tractable.\n\n_Cost:_ weeks\n\n_Sources:_ docs/v-equals-l-plus-1-analysis.md\n\n_v1 slug:_ cycle.l-16-algebraic-search"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus"
+title = "Compute M(k,x,y) growth rate for general (x,y)"
+body = "Theorem 1 shows M = k+V with V = max{v₂(xj+y) : j odd, j<2^k}. For x=3,y=1 empirically M≈2k; spec: compute V(k) for x∈{3,5,7,...,21}, y=1, k∈[3,30], fit c(x)·k + O(1). Determines whether M is universal or x-dependent.\n\n_Rationale:_ Opens Q1 of Paper B Discussion; determines modulus tightness and practical parameter reduction (Corollary 3 claim).\n\n_Cost:_ days\n\n_Sources:_ docs/paper-b-discussion-design.md\n\n_v1 slug:_ external.compute-m-growth-rate"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus"
+title = "Determine spectral radius via V=L+1 ghost search to L≥16"
+body = "The V=L+1 case is tractable: exactly L v-patterns per (L,V), not exponential. For each L in range(9,21+), enumerate patterns, compute D=2^V−3^L, construct rational orbit, check case-(a) valuation conditions. Tabulate ρ=2^{-V/L} for each case-(a) found. Key: determine whether case-(a) ghosts with V=L+1 appear for all L (ρ(L)→1/2, no spectral gap) or stop beyond some L_0 (first non-trivial upper bound on ρ).\n\n_Rationale:_ This is THE decision point for spectral framework viability. Current record-holder ghosts (D=-6049, ρ=2^{-9/8}) have V/L approaching 1 from above. If ρ(L)→1/2, there is NO spectral gap on C(ℤ₂^odd). If they stop, establishes small but real gap. Either outcome answers Conjecture B2 definitively.\n\n_Cost:_ weeks\n\n_Sources:_ docs/next-steps-2026-03-07.md\ndocs/v-equals-l-plus-1-analysis.md\n\n_v1 slug:_ cycle.v-equal-l-plus-1-search"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus"
+title = "Elementary uniform bound on cycle length without Baker-Wüstholz"
+body = "Prove and formalize that for all compositions d_1, ..., d_L with V = Σd_i ≥ 2L and all L ≥ 2, the ghost cycle numerator satisfies ghostR(d_1,...,d_L) < (2L-1)(2^V - 3^L). This is the key bottleneck-remover for no-cycle proofs, requiring only elementary arithmetic (monotonicity of exponentials, basic inequalities), feasible in 200-400 lines of Lean.\n\n_Rationale:_ Baker-Wüstholz and Laurent-Mignotte-Nesterenko bounds are overkill for fixed-L proofs. Elementary comparison already shows n < 2L-1 for V ≥ 2L. This unifies L=2,...,6 proofs (done ad hoc) and enables clean extension to L=7,8. Computational advantage: reduces each L proof to candidate elimination + small exhaustive check.\n\n_Cost:_ weeks\n\n_Sources:_ docs/baker-simplification-analysis.md\n\n_v1 slug:_ cycle.baker-uniform-bound"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus"
+title = "Investigate L=19 non-materialization mystery"
+body = "L=19 exhaustive search to k=100,000 found r=0, contradicting E[first_k]≈9k heuristic. Local compatibility satisfied trivially. Suspected integer consistency obstruction distinct from arithmetic impossibility (L=9,11). Mechanism unknown. Diagnostics: recheck all 19 v-patterns, analyze correction weights, sanity-check formulas.\n\n_Rationale:_ Understanding L=19 failure advances materialization theory. Could reveal new non-materialization criterion. Impacts Conjecture 1 (density formula) if behavior is distinct.\n\n_Cost:_ days\n\n_Sources:_ docs/conjectures.md\ndocs/working-notes.md\n\n_v1 slug:_ external.investigate-l-19-anomaly"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus"
+title = "First-gap minimum obstruction (Method 2)"
+body = "Combine the divergence-track 'first-gap prefix' machinery (every odd n>1 admits a prefix where 3^j n + offset < 2^S_j n) with the cycle hypothesis: if the cycle minimum m exists, the first-gap prefix at m forces a strict descent, contradicting the cycle property unless m hits a forbidden congruence class. Convert each forbidden class into a cycle obstruction.\n\n_Rationale:_ Reuses div.coverage infrastructure already in the blueprint. Synthesizes divergence-track and cycle-track arguments — novel cross-cutting angle.\n\n_Cost:_ weeks\n\n_Sources:_ docs/plans/2026-05-14-cycle-analytical-methods-brainstorm.md\n\n_v1 slug:_ cycle.first-gap-minimum-obstruction"
+created_at = "2026-05-14 19:15:05"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus"
+title = "Rotation-invariant obstruction class (Method 17)"
+body = "Any cycle property must be invariant under the L cyclic rotations of the v-word. Quotient the obstruction space by Z/L action: each genuine obstruction lifts to a rotation-invariant function on words. Test: does the strongest obstruction among the L rotations always belong to the same rotation class, or do different rotations dominate for different words? If invariant, derive a closed-form rotation-averaged bound — strictly stronger than any single rotation's bound.\n\n_Rationale:_ Symmetry argument. Either tightens existing per-rotation obstructions by averaging, or surfaces a previously-invisible obstruction class that depends only on the cyclic word.\n\n_Cost:_ weeks\n\n_Sources:_ docs/plans/2026-05-14-cycle-analytical-methods-brainstorm.md\n\n_v1 slug:_ cycle.rotation-invariant-obstruction"
+created_at = "2026-05-14 19:15:17"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus"
+title = "Cyclic offset divisibility (Method 18)"
+body = "The cycle offset B(w) for the full word w satisfies 2^V - 3^L | offset(rotation) * (cycle-element-multiplier) for each rotation. Compile the L divisibility constraints into a system; show that for L >= 7 and Dpos_large_k regime, the system is over-determined and has no integer solution outside a finite computable set, which can then be checked directly.\n\n_Rationale:_ Algebraic. Converts the cyclic structure into a linear system over Z/(2^V - 3^L). Pure modular arithmetic — fully formalizable.\n\n_Cost:_ weeks\n\n_Sources:_ docs/plans/2026-05-14-cycle-analytical-methods-brainstorm.md\n\n_v1 slug:_ cycle.cyclic-offset-divisibility"
+created_at = "2026-05-14 19:15:20"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus"
+title = "Local-to-global 2-adic valuation (Method 19)"
+body = "Each step of the accelerated Collatz map prescribes a 2-adic valuation v_i. Sum the local valuations to get the total V; the cycle requires global consistency (sum v_i = V and the resulting accelerated map closes the orbit). Treat (v_1,...,v_L) as local data on the cyclic graph and look for an obstruction theorem: some local-data sequences cannot extend to global cycle data because of a Cech-style cohomology obstruction in Z_2.\n\n_Rationale:_ Speculative-ambitious. If the cohomological framing works, it would explain WHY most v-words don't materialize — they fail a topological obstruction, not a numerical one. Even partial success seeds a new structural theorem.\n\n_Cost:_ research-grade-open\n\n_Sources:_ docs/plans/2026-05-14-cycle-analytical-methods-brainstorm.md\n\n_v1 slug:_ cycle.local-to-global-valuation"
+created_at = "2026-05-14 19:15:25"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus.Dpos_large_k"
+title = "Minimum-rotation prefix barrier (Method 1)"
+body = "For an L-cycle with minimum value m at position 0, every prefix partial sum S_j of the v-word satisfies (2^S_j - 3^j) * m <= B_j (admissibility offset). When 2^S_j > 3^j (positive-D word), this constrains m from above prefix-by-prefix. Scan all rotations and over the v-word multiset to derive a closed-form upper bound on the minimum cycle element, contradicting Dpos_large_k where k forces m extremely large.\n\n_Rationale:_ Elementary, no Baker, attacks cycle.L7_plus.Dpos_large_k directly. Each rotation gives a fresh constraint; the strongest rotation chooses the prefix where 2^S_j - 3^j is largest positive. Mechanism candidate for cycle.baker-uniform-bound.\n\n_Cost:_ weeks\n\n_Sources:_ docs/plans/2026-05-14-cycle-analytical-methods-brainstorm.md\n\n_v1 slug:_ cycle.minimum-rotation-prefix-barrier"
+created_at = "2026-05-14 19:14:58"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.L7_plus.Dpos_large_k"
+title = "Extremal offset under adjacent swap (Method 6)"
+body = "For two v-words w and w' differing by an adjacent swap (v_j, v_{j+1}) ↔ (v_{j+1}, v_j), the offsets B(w), B(w') differ by an explicit polynomial in 3,2 and the local prefix sum. Show the offset is extremal at a unique sorted/anti-sorted permutation — pinning down the worst-case offset for a given v-multiset and yielding a uniform bound on m as a function of (L, V) only, not the specific word.\n\n_Rationale:_ Candidate mechanism for cycle.baker-uniform-bound. Reduces the search from L! word orderings to one extremal word per multiset, making the large-k case tractable elementarily.\n\n_Cost:_ weeks\n\n_Sources:_ docs/plans/2026-05-14-cycle-analytical-methods-brainstorm.md\n\n_v1 slug:_ cycle.extremal-offset-adjacent-swap"
+created_at = "2026-05-14 19:15:07"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.all_L"
+title = "Complete Theorem 4 persistence argument for Paper A"
+body = "Tighten proof writeup: (i) restate periodicity in terms of purely periodic 2-adic expansion of R/D rather than D^{-1}; (ii) replace misleading 'depends on k mod p' phrasing with precise bit-level periodicity equivalent; (iii) promote case-(b) finite persistence from remark to explicit lemma with visibility-threshold bound k <= max_i v_2(3 n_i + 1). Theorem 4 already PROVED in substance per pass2 review; this is writeup tightening only.\n\n_Rationale:_ Publication-blocking for Paper A. Likely fixable (bounds probably hold with tighter analysis), but must be rigorous before arxiv.\n\n_Cost:_ days\n\n_Sources:_ docs/paper-a-review-pass1.md\n\n_v1 slug:_ paper.a-theorem-4-proof-closure"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.all_L"
+title = "Complete enumeration of case-(a) compositions for L≤12"
+body = "For all (L,V) with 2≤L≤12 and L+1≤V≤2L-1, enumerate all compositions of V into L positive parts (fast for L≤10, slower for L=11,12 but manageable). For each, check case-(a) condition. For case-(a), record (D, tilde{n}_1, p=ord₂(|D|), r, ρ, first k). Does every ghost have v-pattern (1,...,1,V-L+1) up to rotation, or do other patterns appear? Is universal-case-(a) truly universal?\n\n_Rationale:_ Classifier reported all compositions are case-(a) but scope unclear. This survey clarifies whether pattern family is special (only concentrated patterns materialize) or all compositions produce ghosts (appearing at different k levels). Also determines which (L,V,v-pattern) triples produce 2-adic ghosts and is necessary for accurate density modeling.\n\n_Cost:_ weeks\n\n_Sources:_ docs/next-steps-2026-03-07.md\n\n_v1 slug:_ cycle.extended-ghost-census-l-12"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.all_L"
+title = "Compute Cramér rate for Geom(2) null hypothesis"
+body = "Compute exact Cramér rate I(1.585) for Geom(2) lower tail; compare to empirical rate ~0.145 (from -log(0.003)/40). If match within factor 2, amplification dead (Geom(2) explains persistence, no arithmetic excess). If mismatch >2x, extend search to L∈{60,80,100} to test whether excess grows with L. This is the only experiment deciding amplification's fate.\n\n_Rationale:_ This is FLAG FOR IMPLEMENTER (Q4) in amplification-feasibility. High priority for decision-making on whether to pursue rigidity program or close amplification route entirely.\n\n_Cost:_ days\n\n_Sources:_ docs/amplification-feasibility-2026-04-19.md\n\n_v1 slug:_ external.cramer-rate-null-hypothesis"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.all_L"
+title = "Compute density contribution by ghost spectral radius"
+body = "Among 157,909 types, compute density contribution Δ(ρ₀) from those with ρ≥ρ₀, for ρ₀ ∈ [0.25, 0.50]. Key finding (opposite of thermodynamic expectations): D=-601 (low |D|, short period 25, ρ≈0.466) dominates density; high-ρ types have long periods, negligible contribution. Computes N(ρ₀) scaling: power law, log, or other?\n\n_Rationale:_ Well-defined, computable, reveals density structure independent of fractal geometry. Testable hypothesis: density dominated by arithmetically simple ghosts, not high-spectral-radius ones. Separates ghost enumeration from density understanding.\n\n_Cost:_ days\n\n_Sources:_ docs/fractal-dimensions-analysis.md\n\n_v1 slug:_ spectral.density-contribution-spectrum"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.all_L"
+title = "Explain why only concentrated v-patterns materialize ghosts"
+body = "Of 157,909 canonical ghost types, 13 materialize; all 13 are concentrated (1,...,1,e+1). Zero non-concentrated materializations despite identical p and V (hence same p/2^V heuristic). Either: (i) specific 2-adic alignment of concentrated R/D makes v-conditions easier; (ii) non-concentrated patterns have r≈p/2^V≪1 but search was insufficient; (iii) hidden structural symmetry. Is this computational artifact or mathematical necessity?\n\n_Rationale:_ Striking empirical fact with strategic payoff. If non-concentrated do materialize, census is far incomplete. If not, structure is deep. Mechanism matters: if alignment, it's a theorem; if undersampling, needs deeper search; if artifact, shifts density estimates.\n\n_Cost:_ days\n\n_Sources:_ docs/computational-results-assessment.md\n\n_v1 slug:_ spectral.concentrated-pattern-anomaly"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.all_L"
+title = "Forward admissibility from Applegate-Lagarias semigroup structure"
+body = "Re-read Applegate-Lagarias 2006 characterization of multiplicative semigroup {(2k+1)/(3k+2) : k≥0} ∪ {2} with emphasis on forward admissibility: which positive rationals with 3∤b arise as forward orbits of positive integers? Backward structure is well-characterized; forward structure is not. Could be hook for rigidity program.\n\n_Rationale:_ Tao uses 2-adic uniformity as input; one source of non-uniformity is if persistent orbits concentrate in specific arithmetic progressions. Semigroup might characterize this.\n\n_Cost:_ days\n\n_Sources:_ docs/tao-2019-review-2026-04-19.md\ndocs/amplification-feasibility-2026-04-19.md\n\n_v1 slug:_ external.applegate-lagarias-semigroup"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.all_L"
+title = "Prove uniform negativity of concentrated-pattern ghost elements"
+body = "For every concentrated v-pattern (1,...,1,e+1) and every cycle length L with D=2^V−3^L<0, prove all residues R_i>0, implying all orbit elements negative rationals. Conjecture 3; Theorem 6 proves it for focused case e=1 families; extend to all e. Approach via recurrence: R_{i+1} = 3R_i + 2^{v_i}D + 1 (mod D); show forces R_i>0 uniformly.\n\n_Rationale:_ Tractable and yields genuine theorem with real content. Concentrated-pattern structure gives explicit formulas; recurrence is linear. Separates ghost spectrum (negative-rational, D<0) from positive integers (D>0), valuable for structural clarity. Alternatively, Baker bounds on |3^a - 2^b| could extend cycle-length exclusions beyond L≤68.\n\n_Cost:_ weeks\n\n_Sources:_ docs/conjectures.md\ndocs/adelic-directions-review.md\n\n_v1 slug:_ external.uniform-negativity-concentrated"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.all_L"
+title = "Word-certificate schema (Method 10)"
+body = "Define a structured 'cycle-exclusion certificate' for each v-word: a list of typed obstructions ({prefix-barrier-i, sorted-extremal-offset, modular-residue-c, first-gap-class-g, ghost-base-balance-r}) that, taken together, rule out any cycle realizing that word. Build a Python generator that produces certificates for every admissible v-word up to a target (L, V) and records first_failure_reason for words that cannot be certified — pointing future research at the residual unresolved word-shapes.\n\n_Rationale:_ General infrastructure — mirrors piqd_sweep style but for cycles. Each new analytical method (Methods 1, 2, 6, 17, 18, 19) plugs in as an additional obstruction type. Produces empirical evidence about which word-shapes are stubborn.\n\n_Cost:_ weeks\n\n_Sources:_ docs/plans/2026-05-14-cycle-analytical-methods-brainstorm.md\n\n_v1 slug:_ cycle.word-certificate-schema"
+created_at = "2026-05-14 19:15:12"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.equation"
+title = "Resolve L=9,11 non-materialization mystery"
+body = "Conjecture 4 claims all compositions are algebraically case-(a). Yet L=9, L=11 in the V=L+1 family fail to materialize at any level in their full period. (i) Confirm that all L rotations of (1,...,1,2) are case-(a) for L=9,11 by exact rational orbit computation. (ii) Determine if any rotation materializes by full period search. (iii) Test whether heuristic r ≈ p/2^L (predicting r≈0.4 for L=11, r≈2 for L=9) reflects genuine equidistribution or a flaw in the model.\n\n_Rationale:_ Separates concepts: case-(a) (2-adic orbit valid) vs. materialization (modular truncation at finite k produces orbit). If both are true for L=9,11 yet r=0, resolves how can valid orbit never appear (answer: number-theoretic luck by Poisson fluctuation). If some rotation fails case-(a), breaks Conjecture 4 and requires investigation.\n\n_Cost:_ weeks\n\n_Sources:_ docs/v-equals-l-plus-1-analysis.md\ndocs/collatz-ghost-cycles.md\n\n_v1 slug:_ cycle.l-9-11-materialization-resolution"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "cycle.equation"
+title = "Universal case-(a) conjecture: all compositions are algebraically case-(a)"
+body = "Conjecture 4 claims all compositions (v_1,...,v_L) of V into L positive parts satisfy case-(a) condition v₂(3ñ_i + 1) = v_i exactly (never >). Verified computationally for L ≤ 15 and 10^6 random samples for L=13–15, but no algebraic proof. Either (i) prove this for all L via 2-adic valuation properties and induction on binary structure of R_i, or (ii) find explicit counterexample at some larger L.\n\n_Rationale:_ Cleanest structural statement about ghost cycles; proof would separate genuine algebraic obstruction from number-theoretic luck. Eliminates case-(b) from spectrum, unifying density formula for ALL ghost types. If true, materialization reduces purely to equidistribution of {R·2^{k_0} mod |D|}.\n\n_Cost:_ weeks\n\n_Sources:_ docs/collatz-ghost-cycles.md\ndocs/v-equals-l-plus-1-analysis.md\n\n_v1 slug:_ cycle.universal-case-a"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+obligation = "solver.piqd_contract"
+title = "Mahler basis matrix computation for transfer operator nuclearity"
+body = "Compute the infinite-dimensional Mahler matrix representation M_∞ of the transfer operator L on the binomial basis {binom(x,n)}_n on ℤ₂, checking whether M decays fast enough to be nuclear (trace-class). If yes, L is quasi-compact on the Amice space A_r (r > 1), yielding complete spectral classification and bypassing the Lasota-Yorke obstruction entirely.\n\n_Rationale:_ This is the single highest-return computational experiment. The Mahler basis respects algebraic (ring) structure, not metric, so mod-3 obstruction reformulates as concrete matrix decay—testable and immediate. If nuclear, essential spectrum is 0; if not, non-nuclearity reveals where decay fails and guides next structural layer.\n\n_Cost:_ days\n\n_Sources:_ docs/novel-structures-analysis.md\ndocs/proof-strategy-discussion.md\ndocs/adelic-directions-review.md\n\n_v1 status:_ abandoned\n\n_v1 slug:_ cycle.mahler-nuclearity"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+title = "Compute 3-adic valuations of Mahler matrix entries"
+body = "For existing M_k (k=4..12), compute v₃(M_k[m,j]) for each entry in lowest terms. Compare row-wise and column-wise behavior with known 2-adic properties. Predict: numerators divisible by 3^k (iterated division by 3 in branches); v₃(M_k[m,j]) ≥ -k. Quick diagnostic revealing non-trivial 3-adic structure.\n\n_Rationale:_ Cheap experiment (hours) revealing whether 3-adic angle is worth pursuing. Does NOT imply nuclearity (product formula makes v₃ automatic bookkeeping), but detects unexpected structure. Value is diagnostic, not path-forward.\n\n_Cost:_ days\n\n_Sources:_ docs/adelic-directions-review.md\n\n_v1 slug:_ external.v-3-diagnostic-experiment"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+title = "Induced operator with return-time tail estimates"
+body = "Construct inducing scheme on returns with v≥2. Define induced map Ŝ: A→A (A = {n: return to v≥2 occurs}) and induced transfer operator L̂. Investigate whether L̂ has spectral gap (ρ(L̂)<1) or at least produces better bounds than ρ(L)∈[2^{-13/12}, 1/2]. Analyze return-time distribution τ(n) and tail estimates P(τ>k).\n\n_Rationale:_ Standard technique in ergodic theory (Young towers, Sarig) that can sometimes convert slow mixing (ρ≈1) to fast mixing (spectral gap). The v=1 branch (weight 1/2) contributes most to ρ(L)≈1/2; conditioning away might help. Even if full gap not achieved, tail estimates could narrow bounds.\n\n_Cost:_ weeks\n\n_Sources:_ docs/novel-structures-analysis.md\ndocs/ribet-style-reduction.md\n\n_v1 slug:_ external.induced-operator-tail-analysis"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+title = "Is L compact on C(ℤ₂^odd, ℝ)? Archimedean compactness"
+body = "Determine whether the transfer operator L is compact (archimedean Banach space sense) on continuous real-valued functions. Compactness implies σ_ess(L) = {0}, yielding complete spectral classification (all eigenvalues isolated, finite multiplicity). Three concrete approaches: (a) archimedean row decay of M_∞^arch; (b) Arzela-Ascoli equicontinuity; (c) finite-rank approximation ∥L - L_k∥ → 0.\n\n_Rationale:_ Critical structural question beyond Lasota-Yorke. Not directly Collatz-relevant but resolves essential spectrum and would clarify the operator's dynamics. Previously under-emphasized in recent strategy; flagged as critically omitted from brainstorming.\n\n_Cost:_ weeks\n\n_Sources:_ docs/proofs/mahler-2adic-unboundedness.md\ndocs/adelic-directions-review.md\ndocs/ribet-style-reduction.md\ndocs/path-forward.md\n\n_v1 status:_ abandoned\n\n_v1 slug:_ cycle.archimedean-compactness"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+title = "Literature review: clarify Wirsching/Lagarias novelty boundary"
+body = "docs/criticisms.md flags what did Wirsching prove about transfer matrices? Phase transition at x=4? Spectral radius? as HIGH severity. Must establish whether (i) transfer matrices on residue classes, (ii) x=4 phase transition, (iii) spectral radius computation, (iv) parametric family T(n)=(xn+y)/2^v are known or novel. Critical for publication credibility.\n\n_Rationale:_ Credibility depends on honest novelty claim. Currently unfulfilled; publication strategy proceeding without clearing this.\n\n_Cost:_ weeks\n\n_Sources:_ docs/criticisms.md\ndocs/narrative-strategy.md\n\n_v1 slug:_ literature.wirsching-lagarias-scope"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+title = "Natural extension via anisotropic Banach spaces (p-adic setting)"
+body = "Construct extended space tracking n ∈ ℤ₂^{odd} (contraction direction) and mod-3 history σ ∈ Σ (expansion direction). Define anisotropic norm with high regularity in contracting direction, distributional character in expanding direction. Prove Lasota-Yorke inequality on anisotropic space. Would adapt Blank-Keller-Liverani machinery to non-archimedean p-adic setting.\n\n_Rationale:_ Theoretically ambitious but well-motivated. Collatz exhibits precisely the non-uniformly hyperbolic structure (2-adic contraction by 2^{-v}, 3-adic expansion by 3) that anisotropic spaces address. Success would be major theoretical contribution beyond Collatz.\n\n_Cost:_ research-grade-open\n\n_Sources:_ docs/novel-structures-analysis.md\n\n_v1 slug:_ external.natural-extension-anisotropic"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+title = "Test ghost base-point balance mod 8/32 (dual of Chang Theorem 4.2)"
+body = "Chang proved map balance on ℤ/2^K ℤ for forward orbits: |C_3 - C_7| ≤ 1. Test whether ghost base-points in fingerprint DB exhibit same property for each (L,V) bucket: does distribution of ghost m across residue classes mod 8 satisfy |C_3^{ghost} - C_7^{ghost}| ≤ 1?\n\n_Rationale:_ If true, new structural lemma dual to Chang, publishable in category-(b) paper. DB contains 1.83M ghost records; right venue for query.\n\n_Cost:_ days\n\n_Sources:_ docs/chang-papers-2026-04-19.md\n\n_v1 slug:_ external.chang-ghost-balance-test"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "lead"
+title = "Verify Proposition 4 (y-local constancy) and Corollary 5 (joint)"
+body = "docs/paper-b-discussion-design.md proposes Proposition 4 (y-local constancy with proof sketch) and Corollary 5 (joint (x,y) constancy). Paper B should formally prove and integrate if not already in manuscript. Strengthens paper by showing full parametric dependence.\n\n_Rationale:_ Turns observation into published corollary; completes parametric story.\n\n_Cost:_ days\n\n_Sources:_ docs/paper-b-discussion-design.md\n\n_v1 slug:_ external.proposition-4-y-constancy"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "adelic.biadic-metric-coupling"
+title = "Biadic / multi-prime product and coupled metrics (ℤ₂×ℤ₃, full adeles, etc.)"
+body = "Work on ℤ₂^{odd}×ℤ₃ with product metric or coupled (2,3)-adic metrics; full adele ring 𝔸_f; hybrid (2,3)-adic with non-product coupling. All fail at Layer 3: exact anti-contraction (factor 3 expansion in 3-adic vs. factor 1/3 weight) is rigid arithmetic identity. Product metric: Lipschitz from branch v is 2^{-v}·max(2^{-v}, 3) = 3·2^{-v}, summing to 1 or 2 (no contraction). Coupled metric: needs incompatible α constraints. Product formula on full adeles is tautological (automatic for M_k entries ∈ ℚ*); provides no new operator-norm bound.\n\n_Reason:_ The Layer 3 obstruction is proved. No power-law metric weighting overcomes exact arithmetic anti-contraction. Siegel's (p,q)-adic framework explores related objects but with different operator.\n\n_Sources:_ docs/novel-structures-analysis.md\ndocs/adelic-directions-review.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "adelic.full-adele-ring"
+title = "Full adelic framework: L on 𝔸 with product formula"
+body = "Embed transfer operator on 𝔸 = ℝ × ∏'_p ℚ_p hoping product formula balances 2-adic contraction vs. 3-adic expansion. Product formula tautological for rational matrix entries (automatic ∏_v |x|_v = 1). 2-adic largeness compensated archimedeanly (by denominator ~ 2^k), not through global adelic balance. Collatz map not well-defined on ℝ (2-adic valuation undefined). Tate's thesis analogy fails (requires multiplicative structure; Collatz is affine +1).\n\n_Reason:_ The product formula provides no new operator-norm bounds. Archimedean place is inaccessible to map. No published work constructs Lasota-Yorke on adelic function space for Collatz.\n\n_Sources:_ docs/adelic-directions-review.md\ndocs/novel-structures-analysis.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "adelic.motivic-cohomology"
+title = "Motivic cohomology and dynamical zeta function"
+body = "Develop motivic cohomology for Syracuse map via étale analogy, using Lefschetz trace formula to constrain spectrum of ζ_S(z) = 1/det(I−zL). No known cohomology theory constrains periodic orbits this way. Syracuse acts on totally disconnected ℤ₂^{odd} with trivial singular cohomology. Weil conjectures work via étale cohomology detecting points on varieties (positive counting). Dynamical zeta function is sign-sensitive (opposite of Weil positivity). Building new cohomology would be major undertaking with no guarantee.\n\n_Reason:_ No theoretical foundation. Positivity phenomena from Weil conjectures have no dynamical analogue.\n\n_Sources:_ docs/novel-structures-analysis.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "adelic.ncg-k-theory"
+title = "Non-commutative geometry (Cuntz algebras, K-theory, cyclic cohomology)"
+body = "Reformulate Collatz using Cuntz-Pimsner algebras or Exel crossed products. Apply K-theory and cyclic cohomology to constrain spectrum. K-theory and cyclic cohomology are topological invariants detecting topology of dynamics (attractors, Euler characteristics), not arithmetic structure (sign of rationals, mod-3 residues). Collatz content is fundamentally arithmetic: proving rational cycle elements are non-positive (archimedean property, invisible to p-adic topology).\n\n_Reason:_ Topological K-theory cannot capture arithmetic constraints. Mori (arXiv:2411.08084) reformulates Collatz in Cuntz algebra terms but provides no new proof tools.\n\n_Sources:_ docs/novel-structures-analysis.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "adelic.p-adic-hodge-theory"
+title = "P-adic Hodge theory and (φ, Γ)-modules"
+body = "Express transfer operator as (φ, Γ)-module (filtered φ-module with Galois action). Syracuse map is not φ-module: Frobenius φ is ring homomorphism (x → x^p), while Collatz is x → (3x+1)/2^{v_2(3x+1)} (neither ring hom nor power map). The +1 breaks multiplicativity. (φ, Γ)-modules are finite-dimensional; transfer operator is infinite-dimensional and nonlinear.\n\n_Reason:_ Structural mismatch. Classification theorems of p-adic Hodge theory do not extend to infinite-dimensional setting.\n\n_Sources:_ docs/novel-structures-analysis.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "adelic.perfectoid-tilted-collatz"
+title = "Perfectoid spaces / tilted Collatz in characteristic p"
+body = "Apply Scholze's tilting equivalence to reduce Collatz from characteristic 0 to characteristic p, where Frobenius supposedly makes +1 less damaging. No concrete formulation exists. Collatz map lives on ℤ₂^{odd}, not perfectoid. Extension requires Frobenius compatibility, which +1 violates (additive, not multiplicative). Characteristic p reduction is degenerate (all odd ≡ 1 mod 2; mod 3 map trivial). Frobenius is ring homomorphism; Collatz is not in any characteristic.\n\n_Reason:_ Pure analogy without mathematical content. No coherent formulation exists that preserves the structure of the problem.\n\n_Sources:_ docs/adelic-directions-review.md\ndocs/novel-structures-analysis.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "cycle.L6.n_ne_5.route_a.mod_m_obstruction"
+obligation = "cycle.L6"
+title = "Route A (mod-m congruence wall) cannot exclude n=5 for L=6"
+body = "Route A attempted to derive a contradiction by reducing q(2^V - 729) = ghostR mod some small modulus (m=7, 13, ...) when n=5. Empirical Python search over V≤80, m≤256 showed ghostR mod m hits every residue class as (a,b,c,d,e,f) range over positives, so no single-modulus obstruction exists. Route C (2-adic obstruction chain: factor 2^a from RHS via pow_add, climb mod 2^k) succeeded with a fundamentally different proof shape. Route A is abandoned.\n\n_Reason:_ Structural"
+created_at = "2026-05-13 02:23:03"
+
+[[note]]
+kind = "dead_end"
+slug = "cycle.L6.n_ne_5.route_b.diophantine_form"
+obligation = "cycle.L6"
+title = "Route B (Diophantine-form rewrite) cannot exclude n=5 for L=6"
+body = "Route B attempted to rewrite q(2^V - 729) = ghostR into a known parametric Diophantine form (e.g. S-unit equation, Mihailescu/Catalan-style, or Bennett-Skinner-Bruin). The form does not match: ghostR is a 6-variable exponential sum 243 + 81·2^a + 27·2^{a+b} + ... + 2^{a+b+c+d+e}, not an S-unit equation in finitely many primes with controlled coefficients. The Diophantine-form route is category-mismatched. Route C (2-adic obstruction chain) succeeded instead. Route B is abandoned.\n\n_Reason:_ Structural"
+created_at = "2026-05-13 02:23:03"
+
+[[note]]
+kind = "dead_end"
+slug = "cycle.archimedean-compactness-lead"
+title = "Is L compact on C(ℤ₂^odd, ℝ)? Archimedean compactness"
+body = "Determine whether the transfer operator L is compact (archimedean Banach space sense) on continuous real-valued functions. Compactness implies σ_ess(L) = {0}, yielding complete spectral classification (all eigenvalues isolated, finite multiplicity). Three concrete approaches: (a) archimedean row decay of M_∞^arch; (b) Arzela-Ascoli equicontinuity; (c) finite-rank approximation ∥L - L_k∥ → 0.\n\n_Reason:_ Superseded by spectral.archimedean-compactness-non-compact (docs/spectral-limits-analysis.md): L is proved non-compact on C(ℤ₂^odd, ℝ) via direct equicontinuity failure at mod-3 boundaries. Swarm SYNTHESIS (2026-05-11) recommended this as #2 priority without engaging with the closed-status entry — same registry-cross-check gap that bit cycle.mahler-nuclearity. Both of the swarm's top two leads turn out to be contradicted by proven obstructions already documented in the project's own docs but not previously ingested into dead_ends. The fix is registry hygiene: every proven obstruction goes into dead_ends so future lead surveys can cross-check.\n\n_Sources:_ docs/proofs/mahler-2adic-unboundedness.md\ndocs/adelic-directions-review.md\ndocs/ribet-style-reduction.md\ndocs/path-forward.md"
+created_at = "2026-05-12 15:01:07"
+
+[[note]]
+kind = "dead_end"
+slug = "cycle.baker-Dplus-non-integrality"
+title = "Baker bounds to rule out positive-integer Collatz cycles (D > 0 regime)"
+body = "Use Baker/Baker-Wüstholz lower bounds on D = 2^V − 3^L > 0 to force D ∤ R_1 (and hence D ∤ R_i for all i in the orbit), ruling out positive-integer Collatz cycles via the cycle-equation n_1 · D = R_1 with positive denominator.\n\n_Reason:_ CLOSED via logical equivalence (docs/proofs/baker-dplus-assessment.md §7.1 + §9, 2026-03-19). The condition 'D ∤ R_1 for all L ≥ 2 and all compositions with D > 0' is LOGICALLY EQUIVALENT to 'no nontrivial positive-integer Collatz cycle exists' (proof in §7.1). Baker's theorem gives an archimedean lower bound on |D| but the non-integrality condition D ∤ R_1 is an arithmetic/divisibility statement orthogonal to archimedean size — no known transcendence or Diophantine-approximation result can bridge this gap (§5.4, §9.1). The D > 0 side reduces to the classical Collatz cycle problem (Steiner 1977, Simons-de Weger 2005, Eliahou 1993); Baker + exhaustive computation covers excess m = V − L up to 68 (L ≲ 116), but no analytical proof exists. The ghost-cycle framework provides genuine novelty only on the D < 0 side (Conjecture 3).\n\n_Sources:_ docs/proofs/baker-dplus-assessment.md\ndocs/proofs/baker-wustholz-analysis.md\ndocs/proofs/conjecture3-proof-attempt.md"
+created_at = "2026-05-12 17:29:35"
+
+[[note]]
+kind = "dead_end"
+slug = "cycle.baker-bounds-for-E-finiteness"
+title = "Baker-Wüstholz transcendence bounds to prove E (exceptional set) is finite"
+body = "Use effective Baker-type lower bounds on |2^V − 3^L| (linear forms in logarithms) to prove that the exceptional set E = {k ≥ 2 : P_k has more than one cycle} is finite — thereby restoring the original Conjecture 1 that ρ(L) → 1/4.\n\n_Reason:_ CLOSED (docs/proofs/baker-wustholz-analysis.md, 2026-03-05). Baker bounds yield: (a) effective ||2^V − 3^L| > max(2^V, 3^L)·exp(−25(log V)^2) (Theorem A); (b) for FIXED (L, V, v-pattern) only finitely many k admit a ghost (Theorem C, k ≤ ord_2(|D|)); (c) for fixed L_0, no ghost of length L ≤ L_0 exists at k > K_0(L_0) (Theorem D; K_0(5)=269, K_0(10)≈10^5). But proving E finite REQUIRES bounding cycle length L as a function of level k, and 'no known result from transcendence theory provides such a bound' (§Summary item 5). The factual falsification — E is infinite (proved by computation in docs/proofs/baker-code-audit.md §6) — closes this avenue completely. Superseded by the new conjecture ρ(L) = 1/2 (not 1/4).\n\n_Sources:_ docs/proofs/baker-wustholz-analysis.md\ndocs/proofs/baker-code-audit.md\ndocs/proofs/post-falsification-assessment.md"
+created_at = "2026-05-12 17:29:35"
+
+[[note]]
+kind = "dead_end"
+slug = "cycle.baker-hybrid-prefix-barrier"
+obligation = "cycle.L7_plus"
+title = "Baker–Wüstholz + prefix barrier hybrid"
+body = "Brainstormed angle (Method 7 in docs/plans/2026-05-14-cycle-analytical-methods-brainstorm.md): use Baker–Wüstholz linear-forms-in-logs bounds together with the prefix-barrier inequality to tighten cycle exclusion. This duplicates the territory already archived as dead-ends cycle.baker-Dplus-non-integrality and cycle.baker-bounds-for-E-finiteness — Baker bounds were investigated thoroughly for the D > 0 cycle regime and the exceptional set, and were judged research-grade-open for the unconditional case. Re-pitching a Baker-hybrid each time the brainstorm comes around wastes cycles. The viable elementary substitute (uniform bound without Baker) is tracked under the active lead cycle.baker-uniform-bound and its candidate mechanism cycle.extremal-offset-adjacent-swap.\n\n_Reason:_ Baker-Wüstholz approaches to the unconditional cycle problem are already archived as cycle.baker-Dplus-non-integrality and cycle.baker-bounds-for-E-finiteness. Future brainstorms hitting Method 7 should be rerouted to the active elementary leads, not re-opened as Baker hybrids.\n\n_Sources:_ docs/plans/2026-05-14-cycle-analytical-methods-brainstorm.md"
+created_at = "2026-05-14 19:15:35"
+
+[[note]]
+kind = "dead_end"
+slug = "cycle.mahler-nuclearity-2adic"
+obligation = "solver.piqd_contract"
+title = "Mahler basis matrix computation for transfer operator nuclearity"
+body = "Compute the infinite-dimensional Mahler matrix representation M_∞ of the transfer operator L on the binomial basis {binom(x,n)}_n on ℤ₂, checking whether M decays fast enough to be nuclear (trace-class). If yes, L is quasi-compact on the Amice space A_r (r > 1), yielding complete spectral classification and bypassing the Lasota-Yorke obstruction entirely.\n\n_Reason:_ Superseded by spectral.mahler-2adic-unboundedness (docs/proofs/mahler-2adic-unboundedness.md, 2026-03-10): L is 2-adically unbounded on C(ℤ₂^odd, ℚ₂), so the entire 2-adic Mahler/Amice nuclearity program is structurally impossible. Swarm SYNTHESIS (2026-05-11) recommended this as #1 priority without engaging with the obstruction doc in the same repo — a registry-cross-check gap, now fixed by ingesting the obstruction as a dead-end.\n\n_Sources:_ docs/novel-structures-analysis.md\ndocs/proof-strategy-discussion.md\ndocs/adelic-directions-review.md"
+created_at = "2026-05-12 06:00:36"
+
+[[note]]
+kind = "dead_end"
+slug = "cycle.torus-ghost-cycles"
+title = "Torus model for ghost cycle analysis (Janik collaboration)"
+body = "Embed the ghost-cycle equation 2^V·n = 3^L·n + R into a torus ℝ^L/ℤ^L parameterization, hoping ergodicity / equidistribution on the torus yields an obstruction to positive-integer cycles.\n\n_Reason:_ Concluded not worth pursuing (Janik collaboration; project memory + docs/dead-ends.md §'Prior dead ends'). The torus embedding does not separate positive-integer cycles from negative-rational ghosts; same domain-mismatch as the broader spectral program (the parameter D = 2^V − 3^L is the obstruction and torus arithmetic does not constrain its sign).\n\n_Sources:_ docs/dead-ends.md"
+created_at = "2026-05-12 06:00:19"
+
+[[note]]
+kind = "dead_end"
+slug = "external.amplification-arithmetic-excess"
+obligation = "cycle.all_L"
+title = "Speculative arithmetic-rigidity excess without mechanism"
+body = "Empirical persistence at L=40: 0.30% on [10^6, 10^9]. Geom(2) null hypothesis predicts ~3×10^{-4} to within precision. No empirical signal of excess persistence; no identified mechanism. Amplification assumed arithmetic-rigidity phenomenon (positive density persistent orbits uniformly in x) would materialize. No empirical support; Geom(2) heuristic argues against. Cramér-rate check (lead external.cramer-rate-null-hypothesis) will confirm or overturn.\n\n_Reason:_ Factual: no signal of excess. Heuristic Geom(2) explains all. Without positive evidence or mechanism, pursuing amplification is unfounded.\n\n_Sources:_ docs/amplification-feasibility-2026-04-19.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "external.amplification-residue-lifting"
+obligation = "cycle.all_L"
+title = "Amplification via length-L non-descent families (residue lifting)"
+body = "Core mechanism in path-forward-gpt §2.3: lifting single persistent orbit by residue modulus 2^V produces positive-density family of persistent orbits. Produces only length-L non-descenders (Tao allows density ~0 for any L). For amplification, must prove length-L non-descenders persist forever—which is Collatz itself or substantial fragment. Residue lifting gives family of size 2^{-V} ~ 10^{-18} (typical V~60), Tao's Fourier decay rate admits this. Combinatorial count (~2^{0.95L} persistent out of ~2^{1.585L} classes) is tautological; recovers persistence rate. Aggregation does not help.\n\n_Reason:_ The mechanism is mathematically sound but produces family Tao's theorem explicitly allows. Circular: to amplify, must embed full Collatz into amplification lemma. No standalone lemma exists.\n\n_Sources:_ docs/amplification-feasibility-2026-04-19.md\ndocs/tao-2019-review-2026-04-19.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "external.spectral-program-collatz-proof"
+obligation = "cycle.all_L"
+title = "Transfer operator on ℤ₂^{odd} as route to Collatz proof (2-adic Lasota-Yorke approach)"
+body = "Transfer operator ℒ on C(ℤ₂^{odd}) with norm ||ℒ||=2/3, spectral radius ρ(L) ∈ [2^{-13/12}, 1/2] was hoped to constrain positive-integer Collatz via Lasota-Yorke contraction. But ℒ does not preserve Lip₁ or Hölder (mod-3 weight oscillation), and no spectral property implies non-existence of positive cycles.\n\n_Reason:_ dead-ends.md (2026-04-19) explicitly rules out. Mathematics real (2-adic periodic orbit theory, ghost cycles, obstruction theorems), but connection to Collatz severed. Project pivoted to category-(b) papers documenting obstruction and ghost cycles themselves.\n\n_Sources:_ docs/paper-c-pre-submission-audit-2026-04-19.md\ndocs/dead-ends.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "paper.original-conjecture-1-density-zero"
+obligation = "cycle.all_L"
+title = "Original Conjecture 1: E has density zero, ρ approaches 1/4"
+body = "Claimed δ(E) = 0 and ρ_k(3,1) → 1/4 as k→∞. Falsified 2026-03-05: Baker-Wüstholz proved E INFINITE (case-(a) ghosts persist at progressions); Borel-Cantelli failed. Density δ(E) ≥ 10% (reformulated Conjecture 1 now live, different claim).\n\n_Reason:_ Factual falsification. Ghost reappearances are periodic (deterministic), not random (independence assumption failed).\n\n_Sources:_ docs/conjectures.md\ndocs/working-notes.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "paper.original-conjecture-3-fredholm-polynomial"
+obligation = "solver.piqd_contract"
+title = "Original Conjecture 3: Fredholm coefficients are polynomials"
+body = "Claimed c_j(x) are polynomials. Direct computation falsified. Non-polynomiality now a theorem (Corollary 4, Paper B): locally constant periodic function cannot be polynomial.\n\n_Reason:_ Attempting to fit polynomials is category error. Correct topology is 2-adic, not complex.\n\n_Sources:_ docs/conjectures.md\ndocs/paper-b-2adic-local-constancy.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "proofs.brauer-manin-l19-non-materialization"
+title = "Brauer-Manin obstruction framework for L=19 ghost non-materialization"
+body = "Cast the L=19 e=1 ghost's non-materialization (empirically r=0, despite local compatibility at both prime factors of |D_19| = 23 × 50,487,517) as a Brauer-Manin obstruction in the sense of arithmetic geometry — a cohomological local-to-global failure on a Q-variety attached to the materialization equation.\n\n_Reason:_ NEGATIVE (docs/proofs/brauer-manin-obstruction-analysis.md, 2026-03-21). The materialization equation cannot be cast as rational points on a smooth Q-variety: variables c_j are boolean, k ranges over a finite set, Q(k) is not polynomial in k, and the equation lives over the finite ring ℤ/|D|ℤ. There is no Brauer group in this setting — CRT decomposes modulo prime factors of |D|, not over completions of Q. The actual L=19 obstruction is an INTEGER LIFTING obstruction (combinatorial feasibility over a finite ring), not a cohomological local-global failure. Closest valid frameworks: subset sums in cyclic groups + covering-congruence obstructions, NOT arithmetic geometry.\n\n_Sources:_ docs/proofs/brauer-manin-obstruction-analysis.md\ndocs/proofs/materialization-obstruction.md\ndocs/proofs/l19-carry-decomposition.md\ndocs/paper-c-materialization.md"
+created_at = "2026-05-12 17:29:35"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.archimedean-compactness-non-compact"
+title = "Archimedean compactness of L on C(ℤ₂^odd, ℝ)"
+body = "Hope: L: C(ℤ₂^odd, ℝ) → C(ℤ₂^odd, ℝ) is compact (equivalently, the archimedean Mahler matrix M_∞^arch has uniform row decay), giving σ_ess(L) = {0} and a clean spectral classification independent of any 2-adic Banach space structure. This was the viable alternative once 2-adic Mahler/Amice was ruled out (per §8 of mahler-2adic-unboundedness.md).\n\n_Reason:_ PROVED NON-COMPACT (docs/spectral-limits-analysis.md, theorem at line 71; ~2026-03-12 per dead-ends.md cross-reference). Direct argument: construct a sequence in the unit ball whose images under L fail equicontinuity (mod-3 weight discontinuity at every level). Image {Lf} is not equicontinuous, so by Arzelà-Ascoli L is not compact. Corroborated independently by analysis/mahler_arch_compactness.py: archimedean row L1 norms of C^{-1}P_k C grow ~10^83 at m=0 to ~10^260 at m=127 for k=8 (the change-of-basis is poorly conditioned, so the computation is suggestive rather than decisive — but the direct proof makes it definitive). Consequence: the Ruelle-zeta program, induced-operator program, and any compactness-based spectral classification are CLOSED for this operator on C(ℤ₂^odd, ℝ). The Lasota-Yorke obstruction was the symptom; non-compactness is the underlying disease.\n\n_Sources:_ docs/spectral-limits-analysis.md\nanalysis/mahler_arch_compactness.py\ndocs/proofs/mahler-2adic-unboundedness.md"
+created_at = "2026-05-12 15:01:00"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.borel-cantelli-finiteness"
+obligation = "cycle.all_L"
+title = "Borel-Cantelli prediction that E is finite"
+body = "Heuristic (2026-03-05): ghost probability decays as 1/|D| ~ 1/3^L; summing with Borel-Cantelli should give E finite or density zero. Falsified 2026-03-06: Baker-Wüstholz proved E INFINITE. Case-(a) ghosts are genuine 2-adic periodic orbits reappearing at arithmetic progressions k≡k_0 (mod ord₂(|D|)). Example: D=-601 (L=6, V=7, p=25) reappears k∈{12,37,62,...}. Density ≥4% and likely ≥12%. Independence assumption in Borel-Cantelli is false; ghost reappearances are deterministic.\n\n_Reason:_ The factual premise was wrong. Case-(a) ghosts are periodic orbits, not transient errors. The heuristic reasoning was sound but empirical input (independence, exponential decay) failed.\n\n_Sources:_ docs/proof-strategy-discussion.md\ndocs/dead-ends.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.fractal-dimension-approaches"
+obligation = "cycle.all_L"
+title = "Hausdorff dimension, thermodynamic formalism, IFS attractor, packing exponent for E"
+body = "Four candidate fractal invariants all yield negative/trivial results. E has full dimension 1 in ℤ₂ (odd periods define vacuous modular conditions). Bowen-Ruelle fails (Lasota-Yorke failure prevents H₀ weights). IFS attractor is full space (no fractal). Negative verdict on fractal geometry per se.\n\n_Reason:_ The metric is wrong for E. E lives in parameter space (integer k), not phase space (ℤ₂^{odd}). 2-adic metric cannot see arithmetic progressions with odd modulus (vacuous modular conditions). Profinite completion ∏_p ℤ_p would work but outside scope. Thermodynamic formalism cannot apply: Syracuse not uniformly expanding, Lasota-Yorke fails, invariant set is full space (no fractal attractor).\n\n_Sources:_ docs/fractal-dimensions-analysis.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.inducing-approach"
+title = "Young-tower / inducing approach for Lasota-Yorke on induced operator"
+body = "Induce the transfer operator L to a smaller set A ⊂ ℤ₂^odd (e.g. A = {n ≡ 1 mod 4}) and study the induced operator L_A, hoping that the first-return map's structure produces a Lasota-Yorke inequality on a Banach space where the original L did not. Standard Young-tower technique from smooth dynamics.\n\n_Reason:_ CLOSED (docs/proofs/function-space-assessment.md §3, 2026-03-19; docs/spectral-limits-analysis.md Result 1; computational test at k=12 with |A|=1024). The induced weight W_I has Lipschitz ratio growing as 2^r exponentially in the 2-adic scale — max oscillation does not decay. The Lasota-Yorke obstruction SURVIVES inducing. Root cause: the inverse branches g_v(n) = (2^v n − 1)/3 involve division by 3, which scrambles the mod-3 class at each step (transfer-operator-spectral-theory.md §8.3). No choice of inducing set avoids intermediate steps through all mod-3 classes; the mod-3 oscillation is intrinsic, not an artifact of where one induces.\n\n_Sources:_ docs/proofs/function-space-assessment.md\ndocs/spectral-limits-analysis.md\ndocs/proofs/transfer-operator-spectral-theory.md"
+created_at = "2026-05-12 17:29:35"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.joint-mod-filtration"
+obligation = "cycle.all_L"
+title = "Joint mod-2^k / mod-3^j filtration for spectrum identity"
+body = "Propose L respects joint filtration F_{k,j}, making spectral-limit arguments feasible. Fails: filtration is NOT L-invariant. Instead L: F_{k,j} → F_{k-1,j+1} (exact index shift). After k iterations, 2-adic information exhausted (F_{0,j+k}), leaving only 3-adic structure. The only L-invariant direction is purely 3-adic (F_{0,*}), which lacks 2-adic structure. Nonzero eigenvalues come from opposite structural sides. Moreover, mod-3 is not continuous on ℤ₂^{odd} (every ball contains all three residue classes), so L does not map C(ℤ₂^{odd}) → C under integer preimages. Operator is ill-defined on stated space.\n\n_Reason:_ The filtration structure is fundamentally wrong. Not a gap to fix; structural misalignment. Resurrection requires: (1) new space where 2-adic and mod-3 both continuous, or (2) rigorous measure-theoretic interpretation (unproven).\n\n_Sources:_ docs/dead-ends.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.lasota-yorke-lip-1"
+obligation = "solver.piqd_contract"
+title = "Lasota-Yorke inequality on Lip₁(ℤ₂^{odd}, 2-adic metric)"
+body = "Attempt to show L preserves Lip₁, i.e., |Lf|_Lip ≤ (1/4)|f|_Lip + B||f||_∞, giving essential spectrum ≤1/4 via Ionescu-Tulcea–Marinescu theorem. Fails: 2-adic contraction by 2^{-v} is exact, but weight 2^{-v} creates net contraction 2^{-2v}. However, every branch has EXACT anti-contraction in 3-adic metric (|g_v(x)−g_v(y)|₃ = 3|x−y|₃). Weight 2^{-v} has no effect on 3-adic expansion (3 is unit in ℤ₂). Moreover, mod-3 is discontinuous in 2-adic topology (every ball contains all three residue classes). So W(n)∈{0,1/3,2/3} is not even continuous in C(ℤ₂^{odd}).\n\n_Reason:_ The obstruction is algebraic/topological, not technical. Lasota-Yorke fails because operator does not map C to C under integer-preimage convention. Under 2-adic-preimage (all v≥1 contribute), ||L||=1 and W=1 (trivial). Either way, failure is fundamental. Any resurrection requires: (1) new ambient space where 2-adic and mod-3 are both continuous (e.g., C(ℤ₂^{odd}×ℤ₃)), or (2) Mahler/Iwasawa/thermodynamic reformulation (unproven research directions).\n\n_Sources:_ docs/proof-strategy-discussion.md\ndocs/dead-ends.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.mahler-2adic-unboundedness"
+title = "2-adic Mahler/Amice nuclearity program for the transfer operator"
+body = "Compute the infinite-dimensional Mahler matrix M_∞ of the transfer operator L on the binomial basis {binom(x,n)}_n over ℤ₂, hoping it decays fast enough to be nuclear (trace-class) on the Amice space A_r (r > 1) — yielding quasi-compactness and bypassing the Lasota-Yorke obstruction.\n\n_Reason:_ PROVED IMPOSSIBLE (docs/proofs/mahler-2adic-unboundedness.md, 2026-03-10). The finite-level transfer matrices satisfy ||P_k||_{2-adic} = 2^{k+O(1)} → ∞, and the Mahler entries M_k[m,j] diverge in the 2-adic topology as k → ∞ (the v_2 valuations shift by exactly -Δk between levels — a clean exact obstruction, not a quantitative decay-rate question). Therefore L is unbounded on C(ℤ₂^odd, ℚ₂) with the 2-adic sup norm; it cannot exist as a bounded operator on ANY 2-adic Banach space of continuous functions. Mahler/Amice nuclearity in the 2-adic category is structurally ruled out.\n\n_Sources:_ docs/proofs/mahler-2adic-unboundedness.md\ndocs/proofs/mahler-weighted-analysis.md\nanalysis/mahler_row_decay.py\nanalysis/mahler_convergence.py\nanalysis/mahler_norm_test.py"
+created_at = "2026-05-12 06:00:19"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.minus-one-organizing-principle"
+title = "-1 ∈ ℤ₂ as organizing principle for 2-adic Collatz analysis"
+body = "Treat the 2-adic point -1 ∈ ℤ₂ (which is a fixed point of the Syracuse map's accelerated form, in the sense that 3·(-1)+1 = -2 → -1 after one division by 2) as the natural origin / organizing structural point for the operator-theoretic analysis.\n\n_Reason:_ Structural observation, not exploitable as a proof lever (docs/dead-ends.md §'Prior dead ends'; docs/minus-one-organizing-principle.md). The observation that -1 is a 2-adic fixed point is true but does not produce a spectral / dynamical invariant that distinguishes positive integers from negative-rational ghosts.\n\n_Sources:_ docs/dead-ends.md\ndocs/minus-one-organizing-principle.md"
+created_at = "2026-05-12 06:00:19"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.negative-rationality-filter"
+title = "Filter ghost eigenfunctions by negative-rational support"
+body = "Exploit the proved fact that ghost-cycle orbit elements are negative rationals (for concentrated patterns; conjectured in general) by restricting the transfer operator to a function space that distinguishes negative-rational support from positive-integer support — hoping to filter out ghost eigenvalues from the spectrum and recover a clean spectral picture for positive-integer Collatz dynamics.\n\n_Reason:_ CLOSED — conceptual obstruction, not computation-dependent (docs/proofs/function-space-assessment.md §2.6, 2026-03-19). (1) Ghost eigenfunctions are locally constant on ℤ₂^odd and share the same regularity as the trivial eigenfunction from {1}; no regularity-based filter distinguishes them. (2) Support-based filters either fail to be L-invariant or reduce to the trivial space. (3) Restricting to the positive integers IS L-invariant but tautologically restates the Collatz conjecture — no spectral-theoretic leverage. The 2-adic topology does not distinguish positive integers from negative rationals (both are dense in ℤ₂^odd), so any function space defined by 2-adic structure must contain functions that 'see' both.\n\n_Sources:_ docs/proofs/function-space-assessment.md\ndocs/proofs/conjecture3-proof-attempt.md\ndocs/proofs/conjecture4-concentrated-patterns.md"
+created_at = "2026-05-12 17:29:35"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.ribet-style-reduction"
+obligation = "cycle.all_L"
+title = "Ribet-style reduction: spectral property implies Collatz via reduction"
+body = "Propose spectral invariant of L (gap, compactness, Fredholm determinant zeros) implying structural constraint on positive-integer cycles. Fails: domain mismatch permanent. C(ℤ₂^{odd}) naturally contains both positive integers and negative-rational ghost orbits. Theorems B, C prove every D<0 ghost is negative-rational; positive-integer cycles need D>0 (disjoint regime). No spectral property distinguishes them because operator averages over full 2-adic space. This is STRUCTURAL (insensitive to sign/integrality), not technical. No Banach-space refinement escapes it without abandoning current ambient space.\n\n_Reason:_ The domain mismatch is permanent. Transfer operator on ℤ₂^{odd} studies 2-adic periodic orbits; Collatz asks about positive-integer orbits (measure-zero dense subset). No spectral property of ambient operator can extract positive-integer-specific information. This is not insufficiency; it is orthogonality.\n\n_Sources:_ docs/dead-ends.md\ndocs/viability-assessment-2026-04-19.md\ndocs/ribet-style-reduction.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.shifted-coordinate"
+title = "Shifted coordinate m=n+1/3 as spectral shortcut"
+body = "Conjugated map ℒ̃(m) = 3m/2^{v₂(m)} + 1/3, not purely multiplicative. Transfer operator remains affine-branch (ĝ_v(m) = 2^v(3m−1)/9). Neither Lasota-Yorke obstruction nor 2-adic unboundedness is escaped; both isometrically invariant under σ. Mellin transform diagonalizes approximate operator only, collapsing to 2×2 matrix from mod-3 branching. Ghost cycles don't simplify; cycle equation is trivial rewriting.\n\n_Reason:_ Shifted coordinate is notational convenience (connects to Benford's law, random walk literature) but opens no new doors. Obstructions are coordinate-invariant. Literature (Wirsching, Berg-Meinardus, Chamberland, Lagarias-Soundararajan) has extracted statistical content; no new spectral leverage remains.\n\n_Sources:_ docs/shifted-coordinate-analysis.md"
+created_at = "2026-05-12 01:21:56"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.singularity-at-minus-one-third"
+title = "Exploit the singularity at -1/3 ∈ ℤ₂^odd to sharpen spectral bounds"
+body = "The Syracuse map S(n) = (3n+1)/2^{v_2(3n+1)} has a unique 2-adic singularity at n = -1/3 (where 3n+1 = 0 and S is undefined). Attempt to use local dynamics near this singularity to sharpen the spectral-radius bound ρ(L) ≤ 1/2 or obtain a sharper Lasota-Yorke inequality.\n\n_Reason:_ Singularity is dynamically harmless and cannot be exploited (docs/proofs/singularity-analysis.md). The Lasota-Yorke obstruction is GLOBAL — it arises from mod-3 oscillation at every point — not local at -1/3. (L·f)(-1/3) = 0 is topologically significant (accumulation point of preimage tree) but produces no new spectral information. Non-archimedean Fatou/Julia analogues and Iwasawa-theoretic interpretations are structurally interesting but do not sharpen any bound.\n\n_Sources:_ docs/proofs/singularity-analysis.md"
+created_at = "2026-05-12 06:00:19"
+
+[[note]]
+kind = "dead_end"
+slug = "spectral.transfer-operator-on-C-Z2odd"
+title = "Transfer operator L bounded on C(ℤ₂^odd) per Paper C's Convention A/B"
+body = "Paper C / merged-paper claim: L on C(ℤ₂^odd) is a bounded operator with ||L|| = 2/3 and spectrum equal to closure of ⋃_k σ(P_k). Uses preimage convention 'sum over v with 3 | (n·2^v − 1)'.\n\n_Reason:_ Ruled out (docs/dead-ends.md §'Transfer operator L on C(ℤ₂^odd)', 2026-04-20; verified in analysis/verify_operator_setup.py at k=3). Three independent problems: (1) the preimage convention is ambiguous — Convention A (integer preimages) makes L·1 = W discontinuous on ℤ₂ since mod-3 is not 2-adically continuous, so L: C → C is ill-defined; Convention B (2-adic preimages) gives ||L|| = 1 not 2/3. (2) P_k is a forward functional-graph matrix, not a restriction of L; verified mismatch in 12/13 nonzero entries at k=3. (3) Under B, L·1 = 1 so 1 ∈ σ(L) with eigenfunction 1, but σ(P_k) ⊆ {0, 1/4} for non-exceptional k — the claimed spectral equality fails. Theorem 3(e) of the archived paper is wrong.\n\n_Sources:_ docs/dead-ends.md\ndocs/archive/collatz-transfer-operator.md\ndocs/archive/collatz-transfer-matrices-operators.md\ndocs/spectral-limits-analysis.md\ndocs/reviews/paper-c-pre-submission-audit-2026-04-19.md\nanalysis/verify_operator_setup.py"
+created_at = "2026-05-12 06:00:19"
